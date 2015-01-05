@@ -30,6 +30,7 @@ class Pos extends MX_Controller {
 	  	{
 			redirect('module=auth&view=login');
 	  	}
+
 		
 		$this->load->library('form_validation');
 		$this->load->model('pos_model');
@@ -417,70 +418,10 @@ class Pos extends MX_Controller {
    }
    
    function price($code = NULL)
+
+   		
+
    {
-	   if($this->input->get('code')) { $code = $this->input->get('code'); }
-		   $products = $this->pos_model->getProductByCode($code);
-		   
-		  $price = "88";
-		  $name = "99";
-		  $code = "100";
-		   
-		   $data = array('price'=> $price, 'name' => $name, 'code' => $code);
-		   echo json_encode($data);
-		   
-   }
-   
-   function poscategories($category_id = NULL) {
-	   
-	   if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } else { $category_id = DCAT; }
-	   if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
-	   
-        $categories = $this->pos_model->getAllCategories();
-		$count = 1;
-		$cats = "";
-
-		
-		foreach($categories as $category) {
-	
-			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category->id."' class=\"gray\">
-			".$category->name."</button></li>";
-			$count++;
-			
-		}
-
-		/***********************
-		 API FOR FRONTACCOUNTING
-		************************/
-		include_once "fabridge.php";
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; // http://www.my_fa_domain.com/modules/api/category.inc
-		$record = isset($_GET['r']) ? $_GET['r'] : '';
-		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$category = fa_bridge($method, $action, $record, $filter, $data);
-		/***********************
-		************************/
-
-		//////////////////////////////////////
-		/*for ($count=0; $count < count($category); $count++) { 
-                 
-			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category[$count]['category_id']."' class=\"gray\">
-			".$category[$count]['description']."</button></li>";
-			
-
-        }*/
-		//////////////////////////////////////	
-		
-	if($this->input->get('per_page')) {
-
-		echo $cats ;
-	} else {
-		return $cats;
-	}
-    
-		
-   }
-   
-   function ajaxproducts( $category_id = NULL) {
 
 
    		/***********************
@@ -494,13 +435,104 @@ class Pos extends MX_Controller {
 		$inventory = fa_bridge($method, $action, $record, $filter, $data);
 		/***********************
 		************************/
-	   
-	   
+
+
+
+	   if($this->input->get('code')) { $code = $this->input->get('code'); }
+		   //$products = $this->pos_model->getProductByCode($code);
+
+	   for ($count=1; $count < 3; $count++) { 
+                 
+			
+		  $price = $inventory[$count]['material_cost'];
+		  $name = $inventory[$count]['description'];
+		  $code = $inventory[$count]['description'];
+
+        }
+		   
+		  
+
+		   
+		   $data = array('price'=> $price, 'name' => $name, 'code' => $code);
+		   echo json_encode($data);
+		   
+   }
+   
+   function poscategories($category_id = NULL) {
 	   
 	   if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } else { $category_id = DCAT; }
 	   if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
 	   
-	$this->load->library("pagination");
+        //$categories = $this->pos_model->getAllCategories();
+		//$count = 1;
+		$cats = "";
+
+		
+		/*foreach($categories as $category) {
+	
+			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category->id."' class=\"gray\">
+			".$category->name."</button></li>";
+			$count++;
+			
+		}*/
+
+		/***********************
+		 API FOR FRONTACCOUNTING
+		************************/
+		include_once "fabridge.php";
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; // http://www.my_fa_domain.com/modules/api/category.inc
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$category = fa_bridge($method, $action, $record, $filter, $data); 
+		/***********************
+		************************/
+
+		//////////////////////////////////////
+		for ($count=0; $count < count($category); $count++) { 
+                 
+			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category[$count]['category_id']."' class=\"gray\">
+			".$category[$count]['description']."</button></li>";
+			
+
+        }
+		//////////////////////////////////////	
+		
+	if($this->input->get('per_page')) {
+
+		echo $cats ;
+	} else {
+		return $cats;
+	}
+    
+		
+   }
+   
+   function ajaxproducts() {
+
+   		if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } 
+   		//else { $category_id = DCAT; }
+	    if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
+	     echo $category_id.'<br>';
+	     //echo $page; 
+
+   		/***********************
+		 API FOR FRONTACCOUNTING
+		************************/
+		include_once "fabridge.php";
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+		$action = isset($_GET['a']) ? $_GET['a'] : '/inventory/:category_id/'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+		$record = isset($_GET['r']) ? $_GET['r'] : $category_id;
+		$filter = isset($_GET['f']) ? $_GET['f'] : true;
+		$inventory = fa_bridge($method, $action, $record, $filter, $data);
+		//print_r($inventory);
+
+		/***********************
+		************************/
+
+	   
+	   
+	    /*$this->load->library("pagination");
 	  
 	    $config = array();
         $config["base_url"] = base_url() . "index.php?module=pos&view=ajaxproducts";
@@ -514,7 +546,8 @@ class Pos extends MX_Controller {
 
         $this->pagination->initialize($config);
 		$wh_id=$this->session->userdata('default_warehouse');
-        $products = $this->pos_model->fetch_products($category_id, $config["per_page"], $page, $wh_id);
+        $products = $this->pos_model->fetch_products($category_id, $config["per_page"], $page, $wh_id); */
+       // echo "<pre>"; print_r($products); echo "</pre>";
 		$pro = 1;
 		$prods = "<div>";
 		foreach($products as $product) {
