@@ -1,3 +1,6 @@
+<?php 
+//print_r($rows);
+?>
 <!doctype html>
 <html>
 <head>
