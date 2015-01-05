@@ -1,3 +1,4 @@
 /sma/config/config.php
 /sma/config/database.php
+/sma/modules/products/views/fabridge.php
 .gitignore~
