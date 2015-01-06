@@ -72,8 +72,10 @@ $(function() {
     $options = array();
         foreach ($warehouses as $warehouse) {
         $options[$warehouse['loc_code']] =  $warehouse['location_name'];
+        
      }
-		echo form_dropdown('warehouse', $options,  'class="span4 tip chzn-select" data-placeholder="'.$this->lang->line("select").' '.$this->lang->line("warehouse").'" title="'.$this->lang->line("default_warehouse_tip").'" required="required" data-error="'.$this->lang->line("warehouse").' '.$this->lang->line("is_required").'"'); ?>
+     
+		echo form_dropdown('warehouse', $options,$warehouse['default_warehouse'],  'class="span4 tip chzn-select" data-placeholder="'.$this->lang->line("select").' '.$this->lang->line("warehouse").'" title="'.$this->lang->line("default_warehouse_tip").'" required="required" data-error="'.$this->lang->line("warehouse").' '.$this->lang->line("is_required").'"'); ?>
   </div>
   <!-- -->
 </div>

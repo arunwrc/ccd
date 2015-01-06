@@ -639,6 +639,9 @@ class Auth extends MX_Controller {
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
+		//echo "<pre>";
+		print_r($data['user']);
+		//echo "</pre>"; 
 		/***********************
 		************************/
 		
