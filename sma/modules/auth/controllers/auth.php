@@ -640,7 +640,41 @@ class Auth extends MX_Controller {
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
 		//echo "<pre>";
-		print_r($data['user']);
+		//print_r($data['user']);
+
+		///Values pass through API to FA
+		$datavalue = array(
+		'salesman_name'=> $data['user']->username,
+		'salesman_phone'=> $data['user']->phone,
+		'salesman_fax'=> '465461321',
+		'salesman_email'=> $data['user']->email,
+		'provision'=> '2',
+		'break_pt'=> '1',
+		'provision2'=> '3',
+		'warehouse_code'=> $data['user']->default_warehouse,
+		'inactive'=> $data['user']->active
+		); print_r($datavalue);
+		///Values pass through API to FA
+
+		
+		/*$username=$data['user']->username;
+		$phone=$data['user']->phone;
+		$fax='';
+		$email=$data['user']->email;
+		$provsion='';
+		$break_point='';
+		$provision2='';
+		$warehouse_code=$data['user']->default_warehouse;
+		$active_status=$data['user']->active;*/
+		
+
+		$method = isset($_GET['m']) ? $_GET['m'] : 'p'; // g, p, t, d => GET, POST, PUT, DELETE
+		$action = isset($_GET['a']) ? $_GET['a'] : 'salesman'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$output = fa_bridge($method, $action, $record, $filter, $datavalue);
+		print_r($output); 
+		//$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
 		//echo "</pre>"; 
 		/***********************
 		************************/
