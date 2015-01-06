@@ -628,8 +628,23 @@ class Auth extends MX_Controller {
 		
 		$data['user'] = $this->ion_auth_model->getUserByID($id);
 		$data['group'] = $this->ion_auth_model->getUserGroupByUserID($id);
+
+
+		/***********************
+		 API FOR FRONTACCOUNTING
+		************************/
+		include_once "fabridge.php";
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+		$action = isset($_GET['a']) ? $_GET['a'] : 'locations'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
+		/***********************
+		************************/
 		
-		$data['warehouses'] = $this->ion_auth_model->getAllWarehouses(); //newly added
+
+
+
 		$data['warehouse_id'] = $this->ion_auth_model->getWarehouseByID($id);  //newly added
 		$meta['page_title'] = $this->lang->line("update_user");
 		$data['id'] = $id;

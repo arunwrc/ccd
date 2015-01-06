@@ -69,13 +69,12 @@ $(function() {
   <label class="control-label" for="warehouse"><?php echo $this->lang->line("warehouse"); ?></label>
   <div class="controls">
     <?php 
-	//$data['warehouses'] = $this->settings_model->getAllWarehouses(); 
-	  foreach($warehouses as $warehouse){
-    		$wh[$warehouse->id] = $warehouse->name;
-		}
-		echo form_dropdown('warehouse', $wh, $settings->default_warehouse, 'class="span4 tip chzn-select" data-placeholder="'.$this->lang->line("select").' '.$this->lang->line("warehouse").'" title="'.$this->lang->line("default_warehouse_tip").'" required="required" data-error="'.$this->lang->line("warehouse").' '.$this->lang->line("is_required").'"'); ?>
-
-</div>
+    $options = array();
+        foreach ($warehouses as $warehouse) {
+        $options[$warehouse['loc_code']] =  $warehouse['location_name'];
+     }
+		echo form_dropdown('warehouse', $options,  'class="span4 tip chzn-select" data-placeholder="'.$this->lang->line("select").' '.$this->lang->line("warehouse").'" title="'.$this->lang->line("default_warehouse_tip").'" required="required" data-error="'.$this->lang->line("warehouse").' '.$this->lang->line("is_required").'"'); ?>
+  </div>
   <!-- -->
 </div>
 <!--<div class="control-group">
