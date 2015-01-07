@@ -1,7 +1,8 @@
 <?php
 //print_r($this->session->userdata); 
-echo $session_warehouse_name=$this->session->userdata('default_warehouse');
+$session_warehouse_name=$this->session->userdata('default_warehouse');
 ?>
+
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
 <style type="text/css">
 .text_filter { width: 100% !important; font-weight: normal !important; border: 0 !important; box-shadow: none !important;  border-radius: 0 !important;  padding:0 !important; margin:0 !important; font-size: 1em !important;}
@@ -108,10 +109,10 @@ echo $session_warehouse_name=$this->session->userdata('default_warehouse');
 ************************/
 include_once "fabridge.php";
 $method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-$action = isset($_GET['a']) ? $_GET['a'] : 'inventory'; // http://www.my_fa_domain.com/modules/api/inventory.inc
-$record = isset($_GET['r']) ? $_GET['r'] : '';
+$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocode'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+$record = isset($_GET['r']) ? $_GET['r'] : $session_warehouse_name;
 $filter = isset($_GET['f']) ? $_GET['f'] : false;
-$output = fa_bridge($method, $action, $record, $filter, $data);
+$output = fa_bridge($method, $action, $record, $filter, $data); //echo "<pre>"; print_r($output); echo "</pre>"; exit;
 /***********************
 ************************/
  ?>  
@@ -178,14 +179,14 @@ $output = fa_bridge($method, $action, $record, $filter, $data);
         		
         	
         	<tr>
-        		<td><?php echo $output[$i]['stock_id'];?></td>
-        		<td><?php echo $output[$i]['description'];?></td>
-        		<td><?php echo $output[$i]['category_id'];?></td>
-        		<td><?php echo $output[$i]['material_cost'];?></td>
-        		<td><?php echo $output[$i]['description'];?></td>
-        		<td><?php echo $output[$i]['description'];?></td>
-        		<td><?php echo $output[$i]['description'];?></td>
-        		<td><?php echo $output[$i]['description'];?></td>
+        		<td><?php echo $output[$i][0];?></td>
+        		<td><?php echo $output[$i][0];?></td>
+        		<td><?php //echo $output[$i]['category_id'];?></td>
+        		<td><?php echo $output[$i][3];?></td>
+        		<td><?php echo $output[$i][4];?></td>
+        		<td><?php echo $output[$i]['Product_Quantity'];?></td>
+        		<td><?php echo $output[$i][1];?></td>
+        		<td><?php echo $output[$i][2];?></td>
         		<td>
         			<center>
         			<a href="index.php?module=suppliers&amp;view=edit&amp;id=1" title="" class="tip" data-original-title="Edit Supplier"><i class="icon-edit"></i></a> 

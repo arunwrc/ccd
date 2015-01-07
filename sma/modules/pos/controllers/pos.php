@@ -524,7 +524,7 @@ class Pos extends MX_Controller {
 		$inventory = fa_bridge($method, $action, $record, $filter, $data); 
 		
 		
-		//print_r($inventory); 
+		print_r($inventory); 
 
 		/***********************
 		************************/
