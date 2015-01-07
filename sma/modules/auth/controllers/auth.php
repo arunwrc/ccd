@@ -648,10 +648,10 @@ class Auth extends MX_Controller {
 		'salesman_phone'=> $data['user']->phone,
 		'salesman_fax'=> '465461321',
 		'salesman_email'=> $data['user']->email,
-		'provision'=> '2',
-		'break_pt'=> '1',
-		'provision2'=> '3',
-		'warehouse_code'=> $data['user']->default_warehouse,
+		'provision'=> '',
+		'break_pt'=> '',
+		'provision2'=> '',
+		'loc_code'=> $data['user']->default_warehouse,
 		'inactive'=> $data['user']->active
 		); print_r($datavalue);
 		///Values pass through API to FA

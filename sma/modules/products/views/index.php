@@ -1,3 +1,7 @@
+<?php
+//print_r($this->session->userdata); 
+echo $session_warehouse_name=$this->session->userdata('default_warehouse');
+?>
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
 <style type="text/css">
 .text_filter { width: 100% !important; font-weight: normal !important; border: 0 !important; box-shadow: none !important;  border-radius: 0 !important;  padding:0 !important; margin:0 !important; font-size: 1em !important;}
