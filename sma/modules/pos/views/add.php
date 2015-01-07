@@ -798,6 +798,7 @@ function add_row() {
 		}
 		$('#gmail_loading').show();		
 		var v = $(this).val();
+    //alert(v);
 		$.ajax({
 			  type: "get",
 			  async: false,
@@ -805,10 +806,11 @@ function add_row() {
 			  data: { code: v },
 			  dataType: "json",
 			  success: function(data) {
-				  item_price = parseFloat(data.price);
+				  item_price = parseFloat(data.price); 
 				  prod_name = data.name;
 				  prod_code = data.code;
 				}
+
 		});
 			var leng=$(this).attr('id').length;
 			var last = $(this).attr('id').substr(leng-4);

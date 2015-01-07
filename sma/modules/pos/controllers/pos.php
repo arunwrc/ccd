@@ -30,6 +30,7 @@ class Pos extends MX_Controller {
 	  	{
 			redirect('module=auth&view=login');
 	  	}
+
 		
 		$this->load->library('form_validation');
 		$this->load->model('pos_model');
@@ -189,22 +190,41 @@ class Pos extends MX_Controller {
 			
 			
 			if(!empty($inv_product_code)) {	 
+				//print_r($inv_product_code);exit;
 				foreach($inv_product_code as $pr_code){
+
+					/*
 					$product_details = $this->pos_model->getProductByCode($pr_code);
 					$product_id[] = $product_details->id;
 					$product_name[] = $product_details->name;
 					$product_code[] = $product_details->code;
 					$product_unit[] = $product_details->unit;
+					*/
+					/////
+					//if($this->input->get('code')) { $code = $pr_code; } 
+					include_once "fabridge.php";
+					$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+					$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+					$record = isset($_GET['r']) ? $_GET['r'] : $pr_code;
+					$filter = isset($_GET['f']) ? $_GET['f'] : false;
+					$inventorybystockid = fa_bridge($method, $action, $record, $filter, $data); 
+					$product_id[] = $inventorybystockid[0]['stock_id'];
+					$product_name[] = $inventorybystockid[0]['description'];
+					$product_code[] = $inventorybystockid[0]['stock_id']; //print_r($code); exit;
+					$product_unit[] = $inventorybystockid[0]['units'];
+					//$data = array('price'=> $inventorybystockid[0]['material_cost'], 'name' => $inventorybystockid[0]['description'], 'code' => $inventorybystockid[0]['stock_id']);
+					//echo json_encode($data);
+					/////
 				}
 			}
 		
 			$keys = array("product_id","product_code","product_name","product_unit", "tax_rate_id", "tax","quantity","unit_price", "gross_total", "val_tax", "serial_no", "discount_val", "discount", "discount_id");
-		
+			
 			$items = array();
 			foreach ( array_map(null, $product_id, $product_code, $product_name, $product_unit, $tax_rate_id, $tax, $inv_quantity, $inv_unit_price, $inv_gross_total, $val_tax, $serial, $val_ds, $discount, $dsID) as $key => $value ) {
 				$items[] = array_combine($keys, $value);
 			}
-			
+			//echo "<pre>"; print_r($items); echo "</pre>"; exit;
 			if(TAX2) {
 				$tax_dts = $this->pos_model->getTaxRateByID($tax_rate2);
 				$taxRt = $tax_dts->rate;
@@ -416,37 +436,41 @@ class Pos extends MX_Controller {
 		   
    }
    
-   function price($code = NULL)
-   {
-	   if($this->input->get('code')) { $code = $this->input->get('code'); }
-		   $products = $this->pos_model->getProductByCode($code);
-		   
-		  $price = "88";
-		  $name = "99";
-		  $code = "100";
-		   
-		   $data = array('price'=> $price, 'name' => $name, 'code' => $code);
-		   echo json_encode($data);
+   function price(){
+
+
+   		/***********************
+		 API FOR FRONTACCOUNTING
+		************************/
+		if($this->input->get('code')) { $code = $this->input->get('code'); } 
+		include_once "fabridge.php";
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+		$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+		$record = isset($_GET['r']) ? $_GET['r'] : $code;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$inventorybystockid = fa_bridge($method, $action, $record, $filter, $data); 
+		$data = array('price'=> $inventorybystockid[0]['material_cost'], 'name' => $inventorybystockid[0]['description'], 'code' => $inventorybystockid[0]['stock_id']);
+		echo json_encode($data);
 		   
    }
    
    function poscategories($category_id = NULL) {
 	   
-	   if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } else { $category_id = DCAT; }
+	   if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } //else { $category_id = DCAT; }
 	   if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
 	   
-        $categories = $this->pos_model->getAllCategories();
-		$count = 1;
+        //$categories = $this->pos_model->getAllCategories();
+		//$count = 1;
 		$cats = "";
 
 		
-		foreach($categories as $category) {
+		/*foreach($categories as $category) {
 	
 			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category->id."' class=\"gray\">
 			".$category->name."</button></li>";
 			$count++;
 			
-		}
+		}*/
 
 		/***********************
 		 API FOR FRONTACCOUNTING
@@ -456,18 +480,19 @@ class Pos extends MX_Controller {
 		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; // http://www.my_fa_domain.com/modules/api/category.inc
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$category = fa_bridge($method, $action, $record, $filter, $data);
+		$category = fa_bridge($method, $action, $record, $filter, $data); 
+		//echo "<pre>"; print_r($category); echo "</pre>";
 		/***********************
 		************************/
 
 		//////////////////////////////////////
-		/*for ($count=0; $count < count($category); $count++) { 
+		for ($count=0; $count < count($category); $count++) { 
                  
 			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category[$count]['category_id']."' class=\"gray\">
 			".$category[$count]['description']."</button></li>";
 			
 
-        }*/
+        }
 		//////////////////////////////////////	
 		
 	if($this->input->get('per_page')) {
@@ -480,8 +505,13 @@ class Pos extends MX_Controller {
 		
    }
    
-   function ajaxproducts( $category_id = NULL) {
+   function ajaxproducts() {
 
+   		if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } 
+   		//else { $category_id = DCAT; }
+	    if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
+	     //echo $category_id.'<br>';
+	     //echo $page; 
 
    		/***********************
 		 API FOR FRONTACCOUNTING
@@ -489,18 +519,19 @@ class Pos extends MX_Controller {
 		include_once "fabridge.php";
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 		$action = isset($_GET['a']) ? $_GET['a'] : 'inventory'; // http://www.my_fa_domain.com/modules/api/inventory.inc
-		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$record = isset($_GET['r']) ? $_GET['r'] : $category_id;
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$inventory = fa_bridge($method, $action, $record, $filter, $data);
+		$inventory = fa_bridge($method, $action, $record, $filter, $data); 
+		
+		
+		//print_r($inventory); 
+
 		/***********************
 		************************/
+
 	   
 	   
-	   
-	   if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } else { $category_id = DCAT; }
-	   if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
-	   
-	$this->load->library("pagination");
+	    $this->load->library("pagination");
 	  
 	    $config = array();
         $config["base_url"] = base_url() . "index.php?module=pos&view=ajaxproducts";
@@ -513,11 +544,16 @@ class Pos extends MX_Controller {
 		$config['last_link'] = FALSE;
 
         $this->pagination->initialize($config);
-		$wh_id=$this->session->userdata('default_warehouse');
-        $products = $this->pos_model->fetch_products($category_id, $config["per_page"], $page, $wh_id);
+		//$wh_id=$this->session->userdata('default_warehouse');
+        //$products = $this->pos_model->fetch_products($category_id, $config["per_page"], $page, $wh_id);
+        //echo "<pre>"; print_r($products); echo "</pre>";
 		$pro = 1;
 		$prods = "<div>";
-		foreach($products as $product) {
+
+		/*****
+		**OLD CCD METHOD STARTS
+		********************/
+		/*foreach($products as $product) {
 			$count = $product->id;
 			if($count < 10) { $count = "0".($count /100) *100;  }
 			if($category_id < 10) { $category_id = "0".($category_id /100) *100;  }
@@ -529,7 +565,32 @@ class Pos extends MX_Controller {
 			<button id=\"product-".$category_id.$count."\" type=\"button\" value='".$product->code."' class=\"green\" ><i><img src=\"assets/uploads/thumbs/".$product->image."\"></i><span><span>".$product->name."</span></span></button>";
 		}
 			$pro++;	
-		}
+		}*/
+		/****
+		**OLD CCD METHOD ENDS
+		********************/
+
+		/***
+		** NEW API METHOD
+		********************/
+
+		for ($count=0; $count < count($inventory); $count++) { 
+                 
+			/*$cats .= "<li><button id=\"category\" type=\"button\" value='".$category[$count]['category_id']."' class=\"gray\">
+			".$category[$count]['description']."</button></li>";*/
+
+			$prods .= "
+			<button id=\"product-".$category_id.$count."\" type=\"button\" value='".$inventory[$count]['stock_id']."' class=\"green\" ><i><img src=".MAIN_URL."company/0/images/".$inventory[$count]['stock_id'].".jpg></i><span><span>".$inventory[$count]['description']."</span></span></button>";
+			
+
+        }
+
+		/***
+		** NEW API METHOD ENDS
+		*******************/
+
+
+
 	
 	if($pro <= PLIMIT) {
 		for($i = $pro; $i <= PLIMIT; $i++) {

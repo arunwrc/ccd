@@ -8,10 +8,9 @@ Release Date: 2012-11-28
 */
 
 define("REST_URL",   "http://fa.local/modules/api");
-define("MAIN_URL",   "http://fa.local/");
 define("COMPANY_NO", "0");
 define("REST_USER",  "admin");
-define("REST_PWD",   "1234566");
+define("REST_PWD",   "12345");
 
 function fa_bridge($method="g", $action, $record="", $filter=false, $data=false) {
 
