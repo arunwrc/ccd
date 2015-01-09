@@ -108,7 +108,7 @@ $('#col_1').show();
         <?php if(file_exists('sma/modules/pos/controllers/pos.php') && is_dir('sma/modules/pos')) {
 		echo '<li><a href="index.php?module=pos" class="btn btn-success hbtn">Point of Sale</a></li>'; }
 		if (ALERT_NO > 0) { echo "<li><a class=\"btn btn-warning hbtn\" href=\"index.php?module=reports&view=products\">".ALERT_NO." ".$this->lang->line('product_alerts')."</a></li>"; } 
-       if(DEMO) { echo '<li><a class="btn btn-success hbtn" href="http://codecanyon.net/item/stock-manager-advance-invoice-inventory-system/3647040?ref=tecdiary" target="_blank">Buy Now</a></li>'; }
+       
 		?>	
         <li class="divider-vertical"></li>
       </ul>

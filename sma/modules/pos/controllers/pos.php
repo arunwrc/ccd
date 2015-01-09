@@ -510,13 +510,14 @@ class Pos extends MX_Controller {
    		if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } 
    		//else { $category_id = DCAT; }
 	    if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
-	     echo $category_id.'<br>';
+	     //echo $category_id.'<br>';
 	     //echo $page; 
 
    		/***********************
 		 API FOR FRONTACCOUNTING
 		************************/
 		include_once "fabridge.php";
+		//print_r($this->session->userdata); 
 		$loc_code=$this->session->userdata('default_warehouse');
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 		$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocodecatid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
@@ -525,7 +526,7 @@ class Pos extends MX_Controller {
 		$inventory = fa_bridge($method, $action, $record, $filter, $data); 
 		
 		
-		echo "<pre>";print_r($inventory); echo "</pre>";
+		//echo "<pre>";print_r($inventory); echo "</pre>";
 
 		/***********************
 		************************/
@@ -581,7 +582,7 @@ class Pos extends MX_Controller {
 			".$category[$count]['description']."</button></li>";*/
 
 			$prods .= "
-			<button id=\"product-".$category_id.$count."\" type=\"button\" value='".$inventory[$count]['stock_id']."' class=\"green\" ><i><img src=".MAIN_URL."company/0/images/".$inventory[$count]['stock_id'].".jpg></i><span><span>".$inventory[$count]['description']."</span></span></button>";
+			<button id=\"product-".$category_id.$count."\" type=\"button\" value='".$inventory[$count]['stock_id']."' class=\"green\" ><i><img src=".MAIN_URL."company/0/images/".$inventory[$count]['stock_id'].".jpg></i><span><span>".$inventory[$count]['Product_name']."</span></span></button>";
 			
 
         }

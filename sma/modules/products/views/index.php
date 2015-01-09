@@ -119,24 +119,16 @@ $output = fa_bridge($method, $action, $record, $filter, $data); //echo "<pre>"; 
 
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
-<div class="btn-group pull-right" style="margin-left: 25px;">
- <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
-<?php echo $this->lang->line("all_warehouses"); ?>
-<span class="caret"></span>
-</a>
-<ul class="dropdown-menu">
-    <?php
-	foreach($warehouses as $warehouse) {
-		echo "<li><a href='index.php?module=products&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";	
-	}
-	?>
-    </ul>
-    </div>
+
+<div class="btn-group pull-right" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+	<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
+</div>
+
 <h3 class="title"><?php echo $page_title; ?></h3>
 
 	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
     
-	<table  class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+	<table  class="table table-bordered table-condensed" style="margin-bottom: 5px;">
 		<thead>
         <tr>
 			<th><?php echo $this->lang->line("product_code"); ?></th>
@@ -177,16 +169,19 @@ $output = fa_bridge($method, $action, $record, $filter, $data); //echo "<pre>"; 
         <tbody role="alert" aria-live="polite" aria-relevant="all">
         	<?php for ($i=0; $i < count($output); $i++) { ?>
         		
-        	
+        	<?php if ($output[$i]['Product_Quantity'] <= 20){ ?>
+        	<tr  bgcolor="#ffccc;">
+        	<?php } else {?>
         	<tr>
-        		<td><?php echo $output[$i][0];?></td>
-        		<td><?php echo $output[$i][0];?></td>
-        		<td><?php //echo $output[$i]['category_id'];?></td>
-        		<td><?php echo $output[$i][3];?></td>
-        		<td><?php echo $output[$i][4];?></td>
-        		<td><?php echo $output[$i]['Product_Quantity'];?></td>
-        		<td><?php echo $output[$i][1];?></td>
-        		<td><?php echo $output[$i][2];?></td>
+        	<?php }?>	
+        		<td><?php echo $output[$i]['Product_code'];?></td>
+        		<td><?php echo $output[$i]['Product_name'];?></td>
+        		<td><?php echo $output[$i]['Category'];?></td>
+        		<td><?php echo $output[$i]['Standard_cost'];?></td>
+        		<td><?php echo $output[$i]['Product_price'];?></td>
+        		<td><?php echo $output[$i]['Product_Quantity'];?></td>	
+        		<td><?php echo $output[$i]['UOM'];?></td>
+        		<td><?php echo $output[$i]['Warehouse_name'];?></td>
         		<td>
         			<center>
         			<a href="index.php?module=suppliers&amp;view=edit&amp;id=1" title="" class="tip" data-original-title="Edit Supplier"><i class="icon-edit"></i></a> 
@@ -201,19 +196,10 @@ $output = fa_bridge($method, $action, $record, $filter, $data); //echo "<pre>"; 
 		<!-- Newly Added Ends-->
 	</table>
 	
-	<a href="<?php echo site_url('module=products&view=add');?>" class="btn btn-primary pull-left"><?php echo $this->lang->line("add_product"); ?></a> 
-    <div class="btn-group dropup pull-left" style="margin-left:15px; margin-bottom:20px;">
- <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $this->lang->line("all_warehouses"); ?>
-<span class="caret"></span>
-</a>
-<ul class="dropdown-menu">
-    <?php
-	foreach($warehouses as $warehouse) {
-		echo "<li><a href='index.php?module=products&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";	
-	}
-	?>
-    </ul>
-    </div>
+	
+<div class="btn-group pull-left" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+	<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
+</div>
     
 <div id="picModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="picModalLabel" aria-hidden="true">
  <div class="modal-header">
