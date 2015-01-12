@@ -17,7 +17,7 @@
 	margin:0 !important;
 }
 .table td {
-	width: 12.5%;
+	/*width: 12.5%;*/
 	display: table-cell;
 }
 .table th {
@@ -124,7 +124,7 @@
 //$location=$this->session->userdata('default_warehouse');
 $location=$this->session->userdata('default_warehouse');
 $trans_type='30';
-include_once "fabridge.php";
+//include_once "fabridge.php";
 $method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 $action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; // http://www.my_fa_domain.com/modules/api/inventory.inc
 $record = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
@@ -185,13 +185,8 @@ $output = fa_bridge($method, $action, $record, $filter, $data);// echo "<pre>"; 
 		
 		<td><?php echo $output[$i]['customer_id'];?></td>
 	
-		<td><?php 
-		/*for ($lines=0;$lines<$line_items;$lines++){ $slno=$lines+1;
-		echo $slno.") ".$output[$i]['line_items'][$lines]['description']."".$output[$i]['line_items'][$lines]['price'].'<br>';
-		
-		}*/
-		?>
-		<table style="margin:auto;border:inset; width:100%">
+		<td width="300px">
+		<table style="margin:auto;border:inset; width=300px;">
 			<th>Sl</th>
 			<th>Item</th>
 			<th>Quantity</th>
@@ -205,25 +200,20 @@ $output = fa_bridge($method, $action, $record, $filter, $data);// echo "<pre>"; 
                 </tr>
 
             <?php }?>    
-            </table> 
-            <table style="margin:auto;border:inset; width:100%">
+        
             	<tr>
-            		<td>
-            		</td>
-            		<td>
-            			<b><?php echo "Total  ".$output[$i]['display_total'];?></b>
-            		</td>
+            		<td></td>
+            		<td></td>
+            		<td></td>
+            		<td><b><?php echo $output[$i]['display_total'];?></b></td>
             	</tr>
-            </table>
-	</td>
+        </table>
+		</td>
 		
 		
-		<td>
+		<td width=".3%">
 			<center>
-			<a href="index.php?module=suppliers&amp;view=edit&amp;id=1" title="" class="tip" data-original-title="Edit Supplier"><i class="icon-edit"></i></a> 
-			<a href="index.php?module=suppliers&amp;view=delete&amp;id=1" onclick="return confirm('You are going to remove this supplier. Press OK to proceed and Cancel to Go Back')" title="" class="tip" data-original-title="Delete Supplier">
-				<i class="icon-trash"></i>
-			</a>
+			<a href="#" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> 
 			</center>
 		</td>
 	</tr>

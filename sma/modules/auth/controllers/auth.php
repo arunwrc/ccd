@@ -628,19 +628,18 @@ class Auth extends MX_Controller {
 		
 		$data['user'] = $this->ion_auth_model->getUserByID($id);
 		$data['group'] = $this->ion_auth_model->getUserGroupByUserID($id);
-
+		
+	
 
 		/***********************
 		 API FOR FRONTACCOUNTING
 		************************/
-		include_once "fabridge.php";
+		//include_once "fabridge.php";
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 		$action = isset($_GET['a']) ? $_GET['a'] : 'locations'; // http://www.my_fa_domain.com/modules/api/inventory.inc
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
-		//echo "<pre>";
-		//print_r($data['user']);
 
 		///Values pass through API to FA
 		$datavalue = array(
@@ -653,7 +652,7 @@ class Auth extends MX_Controller {
 		'provision2'=> '',
 		'loc_code'=> $data['user']->default_warehouse,
 		'inactive'=> $data['user']->active
-		); print_r($datavalue);
+		); 
 		///Values pass through API to FA
 
 		
@@ -673,7 +672,7 @@ class Auth extends MX_Controller {
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$output = fa_bridge($method, $action, $record, $filter, $datavalue);
-		print_r($output); 
+		
 		//$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
 		//echo "</pre>"; 
 		/***********************
