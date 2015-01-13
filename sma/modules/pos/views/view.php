@@ -1,5 +1,5 @@
 <?php 
-//print_r($rows);
+//echo "<pre>";print_r($invoice);echo "</pre>";
 ?>
 <!doctype html>
 <html>
@@ -25,8 +25,10 @@ h3 { margin: 5px 0; }
 
 <body>
 <div id="wrapper">
-<img src="<?php echo $this->config->base_url(); ?>assets/uploads/logos/<?php echo $biller->logo; ?>" alt="Biller Logo">
-	<h3 style="text-transform:uppercase;"><?php echo $biller->company; ?></h3>
+
+	<img src="<?php echo $this->config->base_url(); ?>assets/uploads/logos/<?php echo $biller->logo; ?>" alt="Biller Logo">
+
+	<!--<h3 style="text-transform:uppercase;"><?php echo $biller->company; ?></h3>
 	<?php echo "<p style=\"text-transform:capitalize;\">".$biller->address.", ".$biller->city.", ".$biller->postal_code.", ".$biller->state.", ".$biller->country."</p>"; 
 	echo "<span class=\"left\">".$this->lang->line("reference_no").": ".$inv->reference_no."</span> 
 	<span class=\"right\">".$this->lang->line("tel").": ".$biller->phone."</span>";
@@ -39,8 +41,24 @@ h3 { margin: 5px 0; }
 	echo '<div style="clear:both;"></div>';
 	echo "<span class=\"left\">".$this->lang->line("customer").": ". $inv->customer_name."</span> 
 	<span class=\"right\">".$this->lang->line("date").": ".date(PHP_DATE, strtotime($inv->date))."</span>"; 
+	 ?>-->
+	
+	<h3 style="text-transform:uppercase;"><?php echo $biller->company; ?></h3>
+	<?php echo "<p style=\"text-transform:capitalize;\">".$biller->address.", ".$biller->city.", ".$biller->postal_code.", ".$biller->state.", ".$biller->country."</p>"; 
+	echo "<span class=\"left\">".$this->lang->line("reference_no").": ".$invoice['ref']."</span> 
+	<span class=\"right\">".$this->lang->line("tel").": ".$biller->phone."</span>";
+	if($pos->cf_title1 != "" && $pos->cf_value1 != "") {
+		echo "<span class=\"left\">".$pos->cf_title1.": ".$pos->cf_value1."</span>";
+	} 
+	if($pos->cf_title2 != "" && $pos->cf_value2 != "") {	
+		echo "<span class=\"right\">".$pos->cf_title2.": ".$pos->cf_value2."</span>";
+	} 
+	echo '<div style="clear:both;"></div>';
+	echo "<span class=\"left\">".$this->lang->line("customer").": ". $invoice['deliver_to']."</span> 
+	<span class=\"right\">".$this->lang->line("date").": ".date(PHP_DATE, strtotime($invoice['order_date']))."</span>"; 
 	 ?>
-    <div style="clear:both;"></div>
+
+    	<div style="clear:both;"></div>
     
 	<table class="table" cellspacing="0"  border="0"> 
 	<thead> 
@@ -53,7 +71,7 @@ h3 { margin: 5px 0; }
 	</tr> 
 	</thead> 
 	<tbody> 
-	<?php $r = 1; foreach ($rows as $row):?>
+	<!--<?php $r = 1; foreach ($rows as $row):?>
 			<tr>
             	<td style="text-align:center; width:30px;"><?php echo $r; ?></td>
                 <td style="text-align:left; width:180px;"><?php echo $row->product_name; ?></td>
@@ -64,12 +82,25 @@ h3 { margin: 5px 0; }
     <?php 
 		$r++; 
 		endforeach;
+	?>-->
+	<?php $r = 1; foreach ($invoice['line_items'] as $item):?>
+		<tr>
+            	<td style="text-align:center; width:30px;"><?php echo $r; ?></td>
+                <td style="text-align:left; width:180px;"><?php echo $item['description']; ?></td>
+                <td style="text-align:center; width:50px;"><?php echo $item['qty']; ?></td>
+                <td style="text-align:right; width:55px; "><?php echo $this->ion_auth->formatMoney($item['price']); ?></td>
+                <td style="text-align:right; width:65px;"><?php echo $this->ion_auth->formatMoney($item['price']); ?></td> 
+		</tr> 
+    	<?php 
+		$r++; 
+		endforeach;
 	?>
 	</tbody> 
 	</table> 
     
     <table class="totals" cellspacing="0" border="0">
     <tbody>
+<!--
     <tr>
     <td style="text-align:left;"><?php echo $this->lang->line("total_items"); ?></td><td style="text-align:right; padding-right:1.5%; border-right: 1px solid #999;font-weight:bold;"><?php echo $this->ion_auth->formatMoney($inv->count); ?></td>
     <td style="text-align:left; padding-left:1.5%;">Total</td><td style="text-align:right;font-weight:bold;"><?php echo $this->ion_auth->formatMoney($inv->inv_total); ?></td>
@@ -84,6 +115,21 @@ h3 { margin: 5px 0; }
     <tr>
     <td colspan="2" style="text-align:left; font-weight:bold; border-top:1px solid #000; padding-top:10px;"><?php echo $this->lang->line("total_payable"); ?></td><td colspan="2" style="border-top:1px solid #000; padding-top:10px; text-align:right; font-weight:bold;"><?php echo $this->ion_auth->formatMoney($inv->total); ?></td>
     </tr>
+-->
+    <tr>
+    <td style="text-align:left;"><?php echo $this->lang->line("total_items"); ?></td><td style="text-align:right; padding-right:1.5%; border-right: 1px solid #999;font-weight:bold;"><?php echo $this->ion_auth->formatMoney($invoice['total_items']); ?></td>
+    <td style="text-align:left; padding-left:1.5%;">Total</td><td style="text-align:right;font-weight:bold;"><?php echo $this->ion_auth->formatMoney($invoice['sub_total']); ?></td>
+    </tr>
+    <tr>
+   
+    
+    <tr>
+    <td colspan="2" style="text-align:left;"><?php echo $this->lang->line("discount"); ?></td><td colspan="2" style="text-align:right;font-weight:bold;"><?php echo $this->ion_auth->formatMoney($invoice['discount']); ?></td>
+    </tr>
+    <tr>
+    <td colspan="2" style="text-align:left; font-weight:bold; border-top:1px solid #000; padding-top:10px;"><?php echo $this->lang->line("total_payable"); ?></td><td colspan="2" style="border-top:1px solid #000; padding-top:10px; text-align:right; font-weight:bold;"><?php echo $this->ion_auth->formatMoney($invoice['display_total']); ?></td>
+    </tr>
+
     </tbody>
     </table>
     

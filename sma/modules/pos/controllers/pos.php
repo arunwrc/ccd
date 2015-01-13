@@ -731,28 +731,43 @@ function products() {
    
    function view_invoice()
    {
-	   if($this->input->get('id')){ $sale_id = $this->input->get('id'); } else { $sale_id = NULL; }
-	   
-	   $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+	if($this->input->get('id')){ $sale_id = $this->input->get('id'); } else { $sale_id = NULL; }
 
-		   $data['rows'] = $this->pos_model->getAllInvoiceItems($sale_id);
+		//get invoice details from fa trans table
+		include_once "fabridge.php";
+		$trans_type = '10';//salesinvoice
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'sales';
+		$record = isset($_GET['r']) ? $_GET['r'] : $sale_id."/".$trans_type;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$data = array();
+		$data['invoice'] = fa_bridge($method, $action, $record, $filter, $data);
+		
+	   
+	   	$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+
+		$data['rows'] = $this->pos_model->getAllInvoiceItems($sale_id);
+	//echo "<pre>";print_r($invoice);echo "</pre>";
+
+	//echo "<pre>";print_r($data['rows']);echo "</pre>";exit;
+		
 		   
-		   $inv = $this->pos_model->getInvoiceBySaleID($sale_id);
-		   $biller_id = $inv->biller_id;
-		   $customer_id = $inv->customer_id;
-		   $invoice_type_id = $inv->invoice_type;
-		   $data['biller'] = $this->pos_model->getBillerByID($biller_id);
-		   $data['customer'] = $this->pos_model->getCustomerByID($customer_id);
-		   $data['invoice_types_details'] = $this->pos_model->getInvoiceTypeByID($invoice_type_id);
-		   $data['pos'] = $this->pos_model->getSetting();
-		   
-		   $data['inv'] = $inv;
-		   $data['sid'] = $sale_id; 
-	  
-	  $data['page_title'] = $this->lang->line("invoice");
-	
-	  
-      $this->load->view('view', $data);
+		$inv = $this->pos_model->getInvoiceBySaleID($sale_id);
+		$biller_id = $inv->biller_id;
+		$customer_id = $inv->customer_id;
+		$invoice_type_id = $inv->invoice_type;
+		$data['biller'] = $this->pos_model->getBillerByID($biller_id);
+		$data['customer'] = $this->pos_model->getCustomerByID($customer_id);
+		$data['invoice_types_details'] = $this->pos_model->getInvoiceTypeByID($invoice_type_id);
+		$data['pos'] = $this->pos_model->getSetting();
+
+		$data['inv'] = $inv;
+		$data['sid'] = $sale_id; 
+
+		$data['page_title'] = $this->lang->line("invoice");
+
+
+		$this->load->view('view', $data);
 
    }
   
