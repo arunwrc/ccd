@@ -109,7 +109,7 @@ $session_warehouse_name=$this->session->userdata('default_warehouse');
 //include_once "fabridge.php";
 $session_warehouse_name=$this->session->userdata('default_warehouse');
 $method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocode'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocodelowstock'; // http://www.my_fa_domain.com/modules/api/inventory.inc
 $record = isset($_GET['r']) ? $_GET['r'] : $session_warehouse_name;
 $filter = isset($_GET['f']) ? $_GET['f'] : false;
 $output = fa_bridge($method, $action, $record, $filter, $data); //echo "<pre>"; print_r($output); echo "</pre>"; exit;

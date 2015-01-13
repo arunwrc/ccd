@@ -788,6 +788,19 @@ class Products extends MX_Controller {
       $this->load->view('damage_products', $data);
       $this->load->view('commons/footer');
    }
+   function low_stock()
+   {
+	  $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+	  $data['success_message'] = $this->session->flashdata('success_message');
+	  $data['warehouses'] = $this->products_model->getAllWarehouses();
+	  	
+	  $meta['page_title'] = "Low Stock"; 
+	  $data['page_title'] = "Low Stock"; 
+	  
+	  $this->load->view('commons/header', $meta);
+      $this->load->view('low_stock', $data);
+      $this->load->view('commons/footer');
+   }
    
 	function getdamageproducts()
    {

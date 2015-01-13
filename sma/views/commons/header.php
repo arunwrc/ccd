@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,10 +106,29 @@ $('#col_1').show();
       <li class="visible-desktop"><a class="hdate"><?php echo date('l, j F Y'); ?></a></li>
         <li><a href="index.php?module=home"><?php echo $this->lang->line('home'); ?></a></li>
         <li><a href="index.php?module=calendar"><?php echo $this->lang->line('calendar'); ?></a></li>
+<?php
+ini_set('display_startup_errors', 1);
+/***********************
+ API FOR FRONTACCOUNTING
+************************/
+include_once "fabridge.php";
+$session_warehouse_name=$this->session->userdata('default_warehouse');
+$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocode'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+$record = isset($_GET['r']) ? $_GET['r'] : $session_warehouse_name;
+$filter = isset($_GET['f']) ? $_GET['f'] : false;
+$output = fa_bridge($method, $action, $record, $filter, $data); 
+for ($i=0; $i < count($output); $i++) { 
+$alert+=$output[$i]['Product_Quantity'] < 20;
+}
+
+/***********************
+************************/
+ ?>          
         <?php if(file_exists('sma/modules/pos/controllers/pos.php') && is_dir('sma/modules/pos')) {
 		echo '<li><a href="index.php?module=pos" class="btn btn-success hbtn">Point of Sale</a></li>'; }
-		if (ALERT_NO > 0) { echo "<li><a class=\"btn btn-warning hbtn\" href=\"index.php?module=reports&view=products\">".ALERT_NO." ".$this->lang->line('product_alerts')."</a></li>"; } 
-       if(DEMO) { echo '<li><a class="btn btn-success hbtn" href="http://codecanyon.net/item/stock-manager-advance-invoice-inventory-system/3647040?ref=tecdiary" target="_blank">Buy Now</a></li>'; }
+		if ($alert > 0) { echo "<li><a class=\"btn btn-warning hbtn\" href=\"index.php?module=products&view=low_stock\">".$alert." ".$this->lang->line('product_alerts')."</a></li>"; } 
+       
 		?>	
         <li class="divider-vertical"></li>
       </ul>

@@ -73,7 +73,7 @@
 /***********************
  API FOR FRONTACCOUNTING
 ************************/
-include_once "fabridge.php";
+//include_once "fabridge.php";
 $method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 $action = isset($_GET['a']) ? $_GET['a'] : 'suppliers'; // http://www.my_fa_domain.com/modules/api/suppliers.inc
 $record = isset($_GET['r']) ? $_GET['r'] : '';

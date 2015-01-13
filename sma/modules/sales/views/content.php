@@ -17,7 +17,7 @@
 	margin:0 !important;
 }
 .table td {
-	width: 12.5%;
+	/*width: 12.5%;*/
 	display: table-cell;
 }
 .table th {
@@ -117,60 +117,112 @@
             } );
                     
 </script>
+<?php
+/***********************
+ API FOR FRONTACCOUNTING
+************************/
+//$location=$this->session->userdata('default_warehouse');
+$location=$this->session->userdata('default_warehouse');
+$trans_type='30';
+//include_once "fabridge.php";
+$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+$action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+$record = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
+$filter = isset($_GET['f']) ? $_GET['f'] : false;
+$output = fa_bridge($method, $action, $record, $filter, $data);// echo "<pre>"; print_r($output); echo "</pre>"; 
+/***********************
+************************/
+ ?>  
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 
-<div class="btn-group pull-right" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line("all_warehouses"); ?> <span class="caret"></span> </a>
-  <ul class="dropdown-menu">
-    <?php
-	foreach($warehouses as $warehouse) {
-		echo "<li><a href='index.php?module=sales&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";	
-	}
-	?>
-  </ul>
+
+
+<div class="btn-group pull-right" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+	<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
 </div>
+
 <h3 class="title"><?php echo $page_title; ?></h3>
 <p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
-<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+<table class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
   <thead>
     <tr>
       <th><?php echo $this->lang->line("date"); ?></th>
       <th><?php echo $this->lang->line("reference_no"); ?></th>
-      <th><?php echo $this->lang->line("on_credit"); ?></th>
+     
       <th><?php echo $this->lang->line("customer"); ?></th>
-      <th><?php echo $this->lang->line("shop_name"); ?></th>
-      <th><?php echo $this->lang->line("tax2"); ?></th>
-      <th><?php echo $this->lang->line("total"); ?></th>
-      <th style="width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th>
+    
+      <th><?php echo $this->lang->line("Items"); ?></th>
+      
+      <th style="width:55px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th>
+
   
     </tr>
   </thead>
-  <tbody>
-    <tr>
-    <td><?php echo "val";?></td>
-      <td colspan="8" class="dataTables_empty"><?php echo $this->lang->line("loading_data"); ?></td>
-    </tr>
-  </tbody>
+  
   <tfoot>
     <tr>
       <th><?php //echo $this->lang->line("date"); ?> </th>
       <th><?php //echo $this->lang->line("reference_no"); ?></th>
-      <th><?php //echo $this->lang->line("on_credit"); ?></th>
+     
       <th><?php //echo $this->lang->line("customer"); ?></th>
-      <th><?php //echo $this->lang->line("tax1"); ?></th>
-      <th><?php echo $this->lang->line("tax2"); ?></th>
-      <th><?php echo $this->lang->line("total"); ?></th>
+      
+      <th><?php echo $this->lang->line("items"); ?></th>
+     
       <th></th>
     </tr>
   </tfoot>
+  <!-- Newly Added-->
+<tbody role="alert" aria-live="polite" aria-relevant="all">
+	<?php for ($i=0; $i < count($output); $i++) { 
+		$line_items=count($output[$i]['line_items']).'<br>';?>
+		
+		
+	
+	<tr>
+		<td><?php echo $output[$i]['order_date'];?></td>
+		<td><?php echo $output[$i]['ref'];?></td>
+		
+		<td><?php echo $output[$i]['customer_id'];?></td>
+	
+		<td width="300px">
+		<table style="margin:auto;border:inset; width=300px;">
+			<th>Sl</th>
+			<th>Item</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<?php for ($lines=0;$lines<$line_items;$lines++){ $slno=$lines+1; ?>
+                <tr>
+                    <td><?php echo $slno;?></td>              
+                    <td><?php echo $output[$i]['line_items'][$lines]['description'];?></td>  
+                    <td><?php echo $output[$i]['line_items'][$lines]['qty'];?></td>      
+                    <td><?php echo $output[$i]['line_items'][$lines]['price'];?></td>               
+                </tr>
+
+            <?php }?>    
+        
+            	<tr>
+            		<td></td>
+            		<td></td>
+            		<td></td>
+            		<td><b><?php echo $output[$i]['display_total'];?></b></td>
+            	</tr>
+        </table>
+		</td>
+		
+		
+		<td width=".3%">
+			<center>
+			<a href="#" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> 
+			</center>
+		</td>
+	</tr>
+	<?php }?>
+</tbody>
+<!-- Newly Added Ends-->
 </table>
-<a href="<?php echo site_url('module=sales&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("add_sale"); ?></a>
-<div class="btn-group dropup" style="margin-left: 25px;"> <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line("all_warehouses"); ?> <span class="caret"></span> </a>
-  <ul class="dropdown-menu">
-    <?php
-	foreach($warehouses as $warehouse) {
-		echo "<li><a href='index.php?module=sales&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";	
-	}
-	?>
-  </ul>
+
+
+<div class="btn-group" style="margin-left: 25px;"> <a class="btn btn-primary ">
+	<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
 </div>
