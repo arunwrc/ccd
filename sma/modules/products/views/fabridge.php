@@ -7,7 +7,7 @@ Website: http://www.apmuthu.com
 Release Date: 2012-11-28
 */
 
-define("REST_URL",   "http://fa.local/modules/api");
+define("REST_URL",   "http://fa_ccd.local/modules/api");
 define("COMPANY_NO", "0");
 define("REST_USER",  "admin");
 define("REST_PWD",   "12345");

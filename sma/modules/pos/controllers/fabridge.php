@@ -7,8 +7,8 @@ Website: http://www.apmuthu.com
 Release Date: 2012-11-28
 */
 
-define("REST_URL",   "http://fa.local/modules/api");
-define("MAIN_URL",   "http://fa.local/");
+define("REST_URL",   "http://fa_ccd.local/modules/api");
+define("MAIN_URL",   "http://fa_ccd.local/");
 define("COMPANY_NO", "0");
 define("REST_USER",  "admin");
 define("REST_PWD",   "1234566");
@@ -46,7 +46,8 @@ switch($method) {
 	case 'p':
 		
 		curl_setopt($handle, CURLOPT_POST, true);
-		curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+		//curl_setopt($handle, CURLOPT_POSTFIELDS, $data);
+		curl_setopt($handle, CURLOPT_POSTFIELDS, http_build_query($data));
 		break;
 
 	case 't':

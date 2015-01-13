@@ -300,10 +300,73 @@ class Pos extends MX_Controller {
 					redirect("module=pos", 'refresh');			
 				}
 			} else {
-				if($saleID = $this->pos_model->addSale($saleDetails, $items, $warehouse_id, $did)) {
-					$this->session->set_flashdata('success_message', $this->lang->line("sale_added"));
-					redirect("module=pos&view=view_invoice&id=".$saleID, 'refresh');			
-				}
+
+
+				//if($saleID = $this->pos_model->addSale($saleDetails, $items, $warehouse_id, $did)) {
+
+					//add fa sales invoice
+					$customer_id = '4';$trans_type = '10';
+					$method = isset($_GET['m']) ? $_GET['m'] : 'g';
+					$action = isset($_GET['a']) ? $_GET['a'] : 'customer_n_branch';
+					$record = isset($_GET['r']) ? $_GET['r'] : $customer_id."/".$trans_type;
+					$filter = isset($_GET['f']) ? $_GET['f'] : false;
+					$data = array();
+					$pos_customer = fa_bridge($method, $action, $record, $filter, $data);
+					if($pos_customer){
+	
+						//setup items array from ccd .
+						foreach($items as $item){
+							$items_invoice[] =array
+							(
+							    'stock_id' => $item['product_id'],
+							    'qty' => $item['quantity'],
+							    'price' => $item['unit_price'],
+							    'discount' => $item['discount_val'],
+							    'description' => $item['product_name']
+							);
+						}
+						
+						$warehouse = $this->session->userdata('default_warehouse');
+
+						$cart = array(
+							'trans_type'		=> $trans_type,
+							'ref'			=> '1',
+							'comments'		=> '',
+							'order_date'		=> '01/08/2015',//This date is replaced with current date in sales.inc
+							'payment'		=> $pos_customer['payment_terms'],
+							'delivery_date'		=> '01/08/2015',//This date is replaced with current date in sales.inc
+							'cust_ref'		=> $pos_customer['debtor_ref'],
+							'deliver_to'		=> $pos_customer['name'],
+							'delivery_address'	=> $pos_customer['address'],
+							'phone'			=> $pos_customer['phone'],
+							'ship_via'		=> $pos_customer['default_ship_via'],
+							'location'		=> $warehouse,
+							'email'			=> $pos_customer['email'],
+							'customer_id'		=> $pos_customer['debtor_no'],
+							'branch_id'		=> $pos_customer['branch_code'],
+							'sales_type'		=> $pos_customer['sales_type'],
+							'dimension_id'		=> $pos_customer['dimension_id'],
+							'dimension2_id'		=> $pos_customer['dimension2_id'],
+							'freight_cost'		=> '0',
+					   		'salesman' 		=> '1',//get this from ccd session
+							'items' 		=> $items_invoice
+							);
+						//echo "<pre>";print_r($cart);echo "</pre>";exit;
+
+						$method = isset($_GET['m']) ? $_GET['m'] : 'p';
+						$action = isset($_GET['a']) ? $_GET['a'] : 'salesinvoice';
+						$record = isset($_GET['r']) ? $_GET['r'] : '';
+						$filter = isset($_GET['f']) ? $_GET['f'] : false;
+						$trans_no = fa_bridge($method, $action, $record, $filter,$cart);
+						if($trans_no){
+							$this->session->set_flashdata('success_message', $this->lang->line("sale_added"));
+							redirect("module=pos&view=view_invoice&id=".$trans_no, 'refresh');			
+						}
+					
+					}
+					//--------------------------fa ends here------------------------------
+					
+				//}
 			}
 		}
 		else
