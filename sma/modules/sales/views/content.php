@@ -212,7 +212,51 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data);// ec
 		
 		<td width=".3%">
 			<center>
-			<a href="#" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> 
+	
+	<?php
+/***********************
+ API FOR FRONTACCOUNTING
+************************/
+
+$location=$this->session->userdata('default_warehouse');
+$trans_type='10';
+$method_ = isset($_GET['m']) ? $_GET['m'] : 'g';
+$action_ = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; 
+$record_ = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
+$filter_ = isset($_GET['f']) ? $_GET['f'] : false;
+$output_ = $this->fabridge->open($method_, $action_, $record_, $filter_, $data_);
+/***********************
+************************/
+/***********************
+ API FOR FRONTACCOUNTING
+************************/
+$trans_no= $output_[$i]['trans_no'];
+?>
+
+			<a href="<?php echo 'index.php?module=sales&void='.$ref_id=$trans_no;?>" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> 
+
+
+<?php if ($_GET['void']!=0){
+$void_value=$_GET['void']; 
+$method_void = isset($_GET['m']) ? $_GET['m'] : 'p'; 
+$action_void = isset($_GET['a']) ? $_GET['a'] : 'voidsale';
+$record_void = isset($_GET['r']) ? $_GET['r'] : '';
+$filter_void = isset($_GET['f']) ? $_GET['f'] : false;
+
+$data_void = array(
+'type'=> '10',
+'id'=> $void_value,
+'memo_'=> '0'
+);
+
+$output_void = $this->fabridge->open($method_void, $action_void, $record_void, $filter_void, $data_void);
+
+}
+
+
+?>
+
+
 			</center>
 		</td>
 	</tr>
