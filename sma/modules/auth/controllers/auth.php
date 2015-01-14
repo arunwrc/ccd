@@ -409,7 +409,10 @@ class Auth extends MX_Controller {
 				'last_name' => $this->input->post('last_name'),
 				'company' => $this->input->post('company'),
 				'phone' => $this->input->post('phone'),
+				'default_warehouse' => $this->input->post('warehouse'),
 			);
+
+		
 			
 			$group = array($this->input->post('role')); 
 			/*
@@ -587,7 +590,7 @@ class Auth extends MX_Controller {
 				'last_name' => $this->input->post('last_name'),
 				'company' => $this->input->post('company'),
 				'phone' => $this->input->post('phone'),
-				'warehouse' => $this->input->post('warehouse'),
+				'default_warehouse' => $this->input->post('warehouse'),
 			); //print_r($additional_data); exit;
 			$group = $this->input->post('role'); 
 			
@@ -598,6 +601,7 @@ class Auth extends MX_Controller {
 		if ($this->form_validation->run() == true && $this->ion_auth_model->updateUser($id, $email, $password, $additional_data, $group))
 		{ //check to see if we are creating the user
 			//redirect them back to the admin page
+			
 			$salesman = $this->ion_auth->update_salesman($id);
 			
 			$this->session->set_flashdata('success_message', $this->lang->line("user_updated"));

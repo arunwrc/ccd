@@ -1916,33 +1916,37 @@ class Ion_auth_model extends CI_Model
 		if($userdata){
 			///Values pass through API to FA
 			$datavalue = array(
-				'salesman_name'=> $userdata->username,
+				'salesman_name'=> $userdata->first_name." ".$userdata->last_name,
 				'salesman_phone'=> $userdata->phone,
 				'salesman_fax'=> '',
 				'salesman_email'=> $userdata->email,
-				'provision'=> '',
-				'break_pt'=> '',
-				'provision2'=> '',
+				'provision'=> 0,
+				'break_pt'=> 0,
+				'provision2'=> 0,
 				'loc_code'=> $userdata->default_warehouse,
 				'inactive'=> $userdata->active
 				); 
 			
 
 			if($userdata->salesman_code > 0){//edit
-				$method = isset($_GET['m']) ? $_GET['m'] : 't';
-				$action = isset($_GET['a']) ? $_GET['a'] : '/salesman/:id/';
+				
+				$method = isset($_GET['m']) ? $_GET['m'] : 'p';
+				$action = isset($_GET['a']) ? $_GET['a'] : 'salesman';
 				$record = isset($_GET['r']) ? $_GET['r'] : $userdata->salesman_code;
 				$filter = isset($_GET['f']) ? $_GET['f'] : false;
 			
 				$output = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
+
 			}else{//add
+		
 				$method = isset($_GET['m']) ? $_GET['m'] : 'p';
 				$action = isset($_GET['a']) ? $_GET['a'] : 'salesman';
 				$record = isset($_GET['r']) ? $_GET['r'] : '';
 				$filter = isset($_GET['f']) ? $_GET['f'] : false;
 				$output = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
+
 				if($output > 0)
-				$this->updateUserSalesmancode($user_id,array('salesman_code'=>$output));
+					$this->updateUserSalesmancode($user_id,array('salesman_code'=>$output));
 			}			
 			
 			return true;
