@@ -44,6 +44,23 @@ $(function() {
   <div class="controls"> <?php /* echo form_input($email, '', 'class="span4" required="required" data-error="'.$this->lang->line("date").' '.$this->lang->line("is_required").'"'); */?> 
   <input type="email" name="email" class="span4" required="required" data-error="<?php echo $this->lang->line("email_address").' '.$this->lang->line("is_required"); ?>" /></div>
 </div>
+
+<!-- -->
+  <div class="control-group">
+  <label class="control-label" for="warehouse"><?php echo $this->lang->line("warehouse"); ?></label>
+  <div class="controls">
+    <?php 
+    $options = array();
+        foreach ($warehouses as $warehouse) {
+        $options[$warehouse['loc_code']] =  $warehouse['location_name'];
+        
+     }
+     
+		echo form_dropdown('warehouse', $options,$warehouse['default_warehouse'],  'class="span4 tip chzn-select" data-placeholder="'.$this->lang->line("select").' '.$this->lang->line("warehouse").'" title="'.$this->lang->line("default_warehouse_tip").'" required="required" data-error="'.$this->lang->line("warehouse").' '.$this->lang->line("is_required").'"'); ?>
+  </div>
+ </div>
+  <!-- -->
+
 <div class="control-group">
   <label class="control-label" for="role"><?php echo $this->lang->line("user_role"); ?></label>
   <div class="controls">

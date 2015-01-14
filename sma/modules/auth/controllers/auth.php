@@ -420,18 +420,34 @@ class Auth extends MX_Controller {
 			}*/
 			
 			//$data['groups'] = $group;
-		}
-		
-		
-		if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data, $group))
-		{ //check to see if we are creating the user
-			//redirect them back to the admin page
-			$this->session->set_flashdata('success_message', $this->lang->line("user_added"));
-			redirect("module=auth&view=users", 'refresh');
-		}
-		else
+				
+			$new_user = $this->ion_auth->register($username, $password, $email, $additional_data, $group);	
+			
+			if ($new_user)
+			{ 
+				$userdata = $this->ion_auth->update_salesman($new_user);
+				
+			
+
+				//check to see if we are creating the user
+				//redirect them back to the admin page
+				$this->session->set_flashdata('success_message', $this->lang->line("user_added"));
+				redirect("module=auth&view=users", 'refresh');
+			}
+		}else
 		{ //display the create user form
 			//set the flash data error message if there is one
+
+
+			/***********************
+			 API FOR FRONTACCOUNTING
+			************************/
+			$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+			$action = isset($_GET['a']) ? $_GET['a'] : 'locations';
+			$record = isset($_GET['r']) ? $_GET['r'] : '';
+			$filter = isset($_GET['f']) ? $_GET['f'] : false;
+			$data['warehouses'] = $this->fabridge->open($method, $action, $record, $filter,array());
+
 		
 			$data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 			
@@ -518,6 +534,16 @@ class Auth extends MX_Controller {
 	
 	function edit_user($id = NULL)
 	{
+
+		/***********************
+		 API FOR FRONTACCOUNTING
+		************************/
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'locations';
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$data['warehouses'] = $this->fabridge->open($method, $action, $record, $filter,array());		
+
 		if($this->input->get('id')) { $id = $this->input->get('id'); }
 		
 		$groups = array('admin', 'purchaser', 'salesman', 'viewer');
@@ -572,12 +598,15 @@ class Auth extends MX_Controller {
 		if ($this->form_validation->run() == true && $this->ion_auth_model->updateUser($id, $email, $password, $additional_data, $group))
 		{ //check to see if we are creating the user
 			//redirect them back to the admin page
+			$salesman = $this->ion_auth->update_salesman($id);
+			
 			$this->session->set_flashdata('success_message', $this->lang->line("user_updated"));
 			redirect("module=auth&view=users", 'refresh');
 		}
 		else
 		{ //display the create user form
 			//set the flash data error message if there is one
+
 		
 			$data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 			
@@ -629,22 +658,15 @@ class Auth extends MX_Controller {
 		$data['user'] = $this->ion_auth_model->getUserByID($id);
 		$data['group'] = $this->ion_auth_model->getUserGroupByUserID($id);
 		
-	
 
-		/***********************
-		 API FOR FRONTACCOUNTING
-		************************/
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
-		$action = isset($_GET['a']) ? $_GET['a'] : 'locations';
-		$record = isset($_GET['r']) ? $_GET['r'] : '';
-		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$data['warehouses'] = $this->fabridge->open($method, $action, $record, $filter,array());
+		
  
+		/*
 		///Values pass through API to FA
 		$datavalue = array(
 				'salesman_name'=> $data['user']->username,
 				'salesman_phone'=> $data['user']->phone,
-				'salesman_fax'=> '465461321',
+				'salesman_fax'=> '',
 				'salesman_email'=> $data['user']->email,
 				'provision'=> '',
 				'break_pt'=> '',
@@ -652,18 +674,6 @@ class Auth extends MX_Controller {
 				'loc_code'=> $data['user']->default_warehouse,
 				'inactive'=> $data['user']->active
 				); 
-		///Values pass through API to FA
-
-		
-		/*$username=$data['user']->username;
-		$phone=$data['user']->phone;
-		$fax='';
-		$email=$data['user']->email;
-		$provsion='';
-		$break_point='';
-		$provision2='';
-		$warehouse_code=$data['user']->default_warehouse;
-		$active_status=$data['user']->active;*/
 		
 
 		$method = isset($_GET['m']) ? $_GET['m'] : 'p';
@@ -671,7 +681,7 @@ class Auth extends MX_Controller {
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$output = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
-		
+		*/
 		//$data['warehouses'] = $this->fabridge->open($method, $action, $record, $filter, $data);
 		//echo "</pre>"; 
 		/***********************

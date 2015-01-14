@@ -1819,6 +1819,9 @@ class Ion_auth_model extends CI_Model
 			return false;
 		}
 	}
+
+
+
 	
 	public function deleteUser($id) 
 	{
@@ -1893,6 +1896,63 @@ class Ion_auth_model extends CI_Model
 		  return FALSE;
 
 	}
+
+
+	public function updateUserSalesmancode($id,$userData) 
+	{
+		$this->db->where('id', $id);
+		if($this->db->update('users', $userData)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	public function update_salesman($user_id = 0)
+	{
+		$userdata = $this->getUserByID($user_id);
+
+		
+		if($userdata){
+			///Values pass through API to FA
+			$datavalue = array(
+				'salesman_name'=> $userdata->username,
+				'salesman_phone'=> $userdata->phone,
+				'salesman_fax'=> '',
+				'salesman_email'=> $userdata->email,
+				'provision'=> '',
+				'break_pt'=> '',
+				'provision2'=> '',
+				'loc_code'=> $userdata->default_warehouse,
+				'inactive'=> $userdata->active
+				); 
+			
+
+			if($userdata->salesman_code > 0){//edit
+				$method = isset($_GET['m']) ? $_GET['m'] : 't';
+				$action = isset($_GET['a']) ? $_GET['a'] : '/salesman/:id/';
+				$record = isset($_GET['r']) ? $_GET['r'] : $userdata->salesman_code;
+				$filter = isset($_GET['f']) ? $_GET['f'] : false;
+			
+				$output = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
+			}else{//add
+				$method = isset($_GET['m']) ? $_GET['m'] : 'p';
+				$action = isset($_GET['a']) ? $_GET['a'] : 'salesman';
+				$record = isset($_GET['r']) ? $_GET['r'] : '';
+				$filter = isset($_GET['f']) ? $_GET['f'] : false;
+				$output = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
+				if($output > 0)
+				$this->updateUserSalesmancode($user_id,array('salesman_code'=>$output));
+			}			
+			
+			return true;
+				
+		}else{
+			return false;
+		}
+	}
+	
+
 }
 
 /* End of file ion_auth_model.php */ 
