@@ -16,6 +16,7 @@
 
 
 define("REST_URL",   "http://fa_ccd.local/modules/api");
+define("MAIN_URL",   "http://fa_ccd.local/");
 
 
 

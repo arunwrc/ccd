@@ -311,6 +311,8 @@ class Pos extends MX_Controller {
 					$filter = isset($_GET['f']) ? $_GET['f'] : false;
 					$data = array();
 					$pos_customer = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+			//print_r($pos_customer);exit;
 					if($pos_customer){
 	
 						//setup items array from ccd .
@@ -736,7 +738,7 @@ function products() {
 		$record = isset($_GET['r']) ? $_GET['r'] : $sale_id."/".$trans_type;
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$data = array();
-		$data['invoice'] = $this->fabridge->($method, $action, $record, $filter, $data);
+		$data['invoice'] = $this->fabridge->open($method, $action, $record, $filter, $data);
 
 		//get company prefs
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
