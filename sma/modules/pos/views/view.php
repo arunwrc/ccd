@@ -1,5 +1,5 @@
 <?php 
-//echo "<pre>";print_r($invoice);echo "</pre>";
+//echo "<pre>";print_r($company);echo "</pre>";
 ?>
 <!doctype html>
 <html>
@@ -43,10 +43,10 @@ h3 { margin: 5px 0; }
 	<span class=\"right\">".$this->lang->line("date").": ".date(PHP_DATE, strtotime($inv->date))."</span>"; 
 	 ?>-->
 	
-	<h3 style="text-transform:uppercase;"><?php echo $biller->company; ?></h3>
-	<?php echo "<p style=\"text-transform:capitalize;\">".$biller->address.", ".$biller->city.", ".$biller->postal_code.", ".$biller->state.", ".$biller->country."</p>"; 
+	<h3 style="text-transform:uppercase;"><?php echo $company['coy_name']; ?></h3>
+	<?php echo "<p style=\"text-transform:capitalize;\">".$company['postal_address']."</p>"; 
 	echo "<span class=\"left\">".$this->lang->line("reference_no").": ".$invoice['ref']."</span> 
-	<span class=\"right\">".$this->lang->line("tel").": ".$biller->phone."</span>";
+	<span class=\"right\">".$this->lang->line("tel").": ".$invoice['order']['salesman_phone']."</span>";
 	if($pos->cf_title1 != "" && $pos->cf_value1 != "") {
 		echo "<span class=\"left\">".$pos->cf_title1.": ".$pos->cf_value1."</span>";
 	} 

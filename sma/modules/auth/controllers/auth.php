@@ -634,25 +634,24 @@ class Auth extends MX_Controller {
 		/***********************
 		 API FOR FRONTACCOUNTING
 		************************/
-		//include_once "fabridge.php";
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-		$action = isset($_GET['a']) ? $_GET['a'] : 'locations'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'locations';
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
-
+		$data['warehouses'] = $this->fabridge->open($method, $action, $record, $filter,array());
+ 
 		///Values pass through API to FA
 		$datavalue = array(
-		'salesman_name'=> $data['user']->username,
-		'salesman_phone'=> $data['user']->phone,
-		'salesman_fax'=> '465461321',
-		'salesman_email'=> $data['user']->email,
-		'provision'=> '',
-		'break_pt'=> '',
-		'provision2'=> '',
-		'loc_code'=> $data['user']->default_warehouse,
-		'inactive'=> $data['user']->active
-		); 
+				'salesman_name'=> $data['user']->username,
+				'salesman_phone'=> $data['user']->phone,
+				'salesman_fax'=> '465461321',
+				'salesman_email'=> $data['user']->email,
+				'provision'=> '',
+				'break_pt'=> '',
+				'provision2'=> '',
+				'loc_code'=> $data['user']->default_warehouse,
+				'inactive'=> $data['user']->active
+				); 
 		///Values pass through API to FA
 
 		
@@ -667,13 +666,13 @@ class Auth extends MX_Controller {
 		$active_status=$data['user']->active;*/
 		
 
-		$method = isset($_GET['m']) ? $_GET['m'] : 'p'; // g, p, t, d => GET, POST, PUT, DELETE
-		$action = isset($_GET['a']) ? $_GET['a'] : 'salesman'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+		$method = isset($_GET['m']) ? $_GET['m'] : 'p';
+		$action = isset($_GET['a']) ? $_GET['a'] : 'salesman';
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$output = fa_bridge($method, $action, $record, $filter, $datavalue);
+		$output = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
 		
-		//$data['warehouses'] = fa_bridge($method, $action, $record, $filter, $data);
+		//$data['warehouses'] = $this->fabridge->open($method, $action, $record, $filter, $data);
 		//echo "</pre>"; 
 		/***********************
 		************************/
@@ -684,7 +683,7 @@ class Auth extends MX_Controller {
 		$data['warehouse_id'] = $this->ion_auth_model->getWarehouseByID($id);  //newly added
 		$meta['page_title'] = $this->lang->line("update_user");
 		$data['id'] = $id;
-		$data['page_title'] = $this->lang->line("update_user"); //echo "<pre>"; print_r($data); echo "</pre>"; exit;
+		$data['page_title'] = $this->lang->line("update_user"); 
 		$this->load->view('commons/header', $meta);
 		$this->load->view('auth/edit_user', $data);
 		$this->load->view('commons/footer');

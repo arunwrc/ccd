@@ -124,12 +124,11 @@
 //$location=$this->session->userdata('default_warehouse');
 $location=$this->session->userdata('default_warehouse');
 $trans_type='30';
-//include_once "fabridge.php";
-$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-$action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+$method = isset($_GET['m']) ? $_GET['m'] : 'g';
+$action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation';
 $record = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
 $filter = isset($_GET['f']) ? $_GET['f'] : false;
-$output = fa_bridge($method, $action, $record, $filter, $data);// echo "<pre>"; print_r($output); echo "</pre>"; 
+$output = $this->fabridge->open($method, $action, $record, $filter, $data);// echo "<pre>"; print_r($output); echo "</pre>"; 
 /***********************
 ************************/
  ?>  

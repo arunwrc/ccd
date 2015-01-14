@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'auth/ion_auth');
 */
 
-$autoload['libraries'] = array('database', 'session', 'auth/ion_auth');
+$autoload['libraries'] = array('database', 'session', 'auth/ion_auth','Fabridge');
 
 
 /*

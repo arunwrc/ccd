@@ -202,12 +202,11 @@ class Pos extends MX_Controller {
 					*/
 					/////
 					//if($this->input->get('code')) { $code = $pr_code; } 
-					include_once "fabridge.php";
-					$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-					$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
+					$method = isset($_GET['m']) ? $_GET['m'] : 'g';
+					$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; 
 					$record = isset($_GET['r']) ? $_GET['r'] : $pr_code;
 					$filter = isset($_GET['f']) ? $_GET['f'] : false;
-					$inventorybystockid = fa_bridge($method, $action, $record, $filter, $data); 
+					$inventorybystockid = $this->fabridge->open($method, $action, $record, $filter, $data); 
 					$product_id[] = $inventorybystockid[0]['stock_id'];
 					$product_name[] = $inventorybystockid[0]['description'];
 					$product_code[] = $inventorybystockid[0]['stock_id']; //print_r($code); exit;
@@ -311,7 +310,7 @@ class Pos extends MX_Controller {
 					$record = isset($_GET['r']) ? $_GET['r'] : $customer_id."/".$trans_type;
 					$filter = isset($_GET['f']) ? $_GET['f'] : false;
 					$data = array();
-					$pos_customer = fa_bridge($method, $action, $record, $filter, $data);
+					$pos_customer = $this->fabridge->open($method, $action, $record, $filter, $data);
 					if($pos_customer){
 	
 						//setup items array from ccd .
@@ -357,7 +356,7 @@ class Pos extends MX_Controller {
 						$action = isset($_GET['a']) ? $_GET['a'] : 'salesinvoice';
 						$record = isset($_GET['r']) ? $_GET['r'] : '';
 						$filter = isset($_GET['f']) ? $_GET['f'] : false;
-						$trans_no = fa_bridge($method, $action, $record, $filter,$cart);
+						$trans_no = $this->fabridge->open($method, $action, $record, $filter,$cart);
 						if($trans_no){
 							$this->session->set_flashdata('success_message', $this->lang->line("sale_added"));
 							redirect("module=pos&view=view_invoice&id=".$trans_no, 'refresh');			
@@ -506,12 +505,11 @@ class Pos extends MX_Controller {
 		 API FOR FRONTACCOUNTING
 		************************/
 		if($this->input->get('code')) { $code = $this->input->get('code'); } 
-		include_once "fabridge.php";
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 		$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
 		$record = isset($_GET['r']) ? $_GET['r'] : $code;
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$inventorybystockid = fa_bridge($method, $action, $record, $filter, $data); 
+		$inventorybystockid = $this->fabridge->open($method, $action, $record, $filter, $data); 
 		$data = array('price'=> $inventorybystockid[0]['material_cost'], 'name' => $inventorybystockid[0]['description'], 'code' => $inventorybystockid[0]['stock_id']);
 		echo json_encode($data);
 		   
@@ -538,12 +536,11 @@ class Pos extends MX_Controller {
 		/***********************
 		 API FOR FRONTACCOUNTING
 		************************/
-		include_once "fabridge.php";
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; // http://www.my_fa_domain.com/modules/api/category.inc
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; 
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$category = fa_bridge($method, $action, $record, $filter, $data); 
+		$category = $this->fabridge->open($method, $action, $record, $filter, $data); 
 		//echo "<pre>"; print_r($category); echo "</pre>";
 		/***********************
 		************************/
@@ -579,14 +576,13 @@ class Pos extends MX_Controller {
    		/***********************
 		 API FOR FRONTACCOUNTING
 		************************/
-		include_once "fabridge.php";
 		//print_r($this->session->userdata); 
 		$loc_code=$this->session->userdata('default_warehouse');
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
 		$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocodecatid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
 		$record = isset($_GET['r']) ? $_GET['r'] : $loc_code."/".$category_id;
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$inventory = fa_bridge($method, $action, $record, $filter, $data); 
+		$inventory = $this->fabridge->open($method, $action, $record, $filter, $data); 
 		
 		
 		//echo "<pre>";print_r($inventory); echo "</pre>";
@@ -734,14 +730,23 @@ function products() {
 	if($this->input->get('id')){ $sale_id = $this->input->get('id'); } else { $sale_id = NULL; }
 
 		//get invoice details from fa trans table
-		include_once "fabridge.php";
 		$trans_type = '10';//salesinvoice
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
 		$action = isset($_GET['a']) ? $_GET['a'] : 'sales';
 		$record = isset($_GET['r']) ? $_GET['r'] : $sale_id."/".$trans_type;
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
 		$data = array();
-		$data['invoice'] = fa_bridge($method, $action, $record, $filter, $data);
+		$data['invoice'] = $this->fabridge->($method, $action, $record, $filter, $data);
+
+		//get company prefs
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'company';
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$data['company'] = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+
+		
 		
 	   
 	   	$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
