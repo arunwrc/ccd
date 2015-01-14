@@ -123,7 +123,7 @@
 ************************/
 //$location=$this->session->userdata('default_warehouse');
 $location=$this->session->userdata('default_warehouse');
-$trans_type='30';
+$trans_type='10';
 $method = isset($_GET['m']) ? $_GET['m'] : 'g';
 $action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation';
 $record = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
@@ -179,10 +179,10 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data);// ec
 		
 	
 	<tr>
-		<td><?php echo $output[$i]['order_date'];?></td>
-		<td><?php echo $output[$i]['ref'];?></td>
+		<td><?php echo $output[$i]['tran_date'];?></td>
+		<td><?php echo $output[$i]['reference'];?></td>
 		
-		<td><?php echo $output[$i]['customer_id'];?></td>
+		<td><?php echo $output[$i]['debtor_no'];?></td>
 	
 		<td width="300px">
 		<table style="margin:auto;border:inset; width=300px;">
