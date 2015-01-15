@@ -1,5 +1,5 @@
 
-
+<?php $session_warehouse_name =$this->session->userdata('warehouse_name');?>
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
 <style type="text/css">
 .text_filter {
@@ -29,6 +29,39 @@ text-align: center;
 text-align:right;
 }
 </style>
+<!-- SCRIPT  Collapse Table Starts-->
+<script src="http://code.jquery.com/jquery-1.5.1.min.js" type="text/javascript"></script>
+ <script type="text/javascript">
+  
+             $(document).ready(function()
+             {
+		 
+		$(".hide-me").hide();
+		
+                 $('.RowToClick').click(function ()
+                 {
+                     $(this).nextAll('tr').each( function()
+                     {
+                         if ($(this).is('.RowToClick'))
+                        {
+                           return false;
+                        }
+                        $(this).toggle(50);
+                     });
+                 });
+             });
+ </script>
+<!-- SCRIPT Collapse Table Ends-->
+<!-- SCRIPT FOR MODAL WINDOW DELETE STARTS-->
+ <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script>
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            $(this).find('.danger').attr('href', $(e.relatedTarget).data('href'));
+            
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.danger').attr('href') + '</strong>');
+        })
+</script>
+<!-- SCRIPT FOR MODAL WINDOW DELETE ENDS-->
 <script>
              $(document).ready(function() {
 function format_date(oObj) {
@@ -119,7 +152,6 @@ null, null, null, null
 /***********************
  API FOR FRONTACCOUNTING
 ************************/
-$session_warehouse_name = $this->session->userdata('warehouse_name');
 
 $location=$this->session->userdata('default_warehouse');
 $trans_type='10';
@@ -163,20 +195,25 @@ $line_items=count($output[$i]['line_items']).'<br>';?>
 <td><?php echo $output[$i]['debtor_no'];?></td>
 <?php for ($lines=0;$lines<$line_items;$lines++){ $slno=$lines+1; ?>
 <td width="300px">
-<table style="margin:auto;border:inset; width=300px;">
-<th>Sl</th>
-<th>Item</th>
-<th>Quantity</th>
-<th>Price</th>
+<table style="margin:auto; width=300px;">
+<tr  class="RowToClick">
+<td colspan="4" style="background-color: #dfdfdf;">View</td>
+</tr>
+<tr class="hide-me">
+<td>Sl</td>
+<td>Item</td>
+<td>Quantity</td>
+<td>Price</td>
+</tr>
 <?php for ($lines=0;$lines<$line_items;$lines++){ $slno=$lines+1; ?>
-               <tr>
+               <tr class="hide-me">
                    <td><?php echo $slno;?></td>              
                    <td><?php echo $output[$i]['line_items'][$lines]['description'];?></td>  
                    <td><?php echo $output[$i]['line_items'][$lines]['qty'];?></td>      
                    <td><?php  echo $output[$i]['line_items'][$lines]['price']; ?></td>               
                </tr>
 <?php }?>   
-           	<tr>
+           	<tr class="hide-me">
            	<td></td>
            	<td></td>
            	<td></td>
@@ -204,7 +241,8 @@ $output_ = $this->fabridge->open($method_, $action_, $record_, $filter_, $data_)
 API FOR FRONTACCOUNTING
 ************************/
 $reference_no= $output_[$i]['trans_no'];?>
-<a href="<?php echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> 
+<!--<a href="<?php //echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> -->
+<a data-href="<?php echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" data-toggle="modal" data-target="#confirm-delete" href="#"><i class="icon-remove-sign"></i></a><br>
 <?php if ($_GET['void']!=0){ //To confirm not to insert '0' value on pageload
 $void_value=$_GET['void']; 
 $method_void = isset($_GET['m']) ? $_GET['m'] : 'p'; 
@@ -226,6 +264,29 @@ $output_void = $this->fabridge->open($method_void, $action_void, $record_void, $
 } //Item Line Ends
 } //Count of (outputitems) ?>
 </tbody>
+<!-- Modal Window For Delete Alert Starts-->
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+            
+                <div class="modal-body">
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Modal Window For Delete Alert Ends-->  
 <tfoot>
     <tr>
       <th></th>
@@ -239,3 +300,5 @@ $output_void = $this->fabridge->open($method_void, $action_void, $record_void, $
 <div class="btn-group" style="margin-left: 25px;"> <a class="btn btn-primary ">
 <?php echo $session_warehouse_name; ?>  </a>
 </div>
+
+ᐧ
