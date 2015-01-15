@@ -58,6 +58,26 @@ class Sales extends MX_Controller {
       $this->load->view('content', $data);
       $this->load->view('commons/footer');
    }
+
+function canceled_sales()
+   {
+ 
+if ($this->ion_auth->in_group('purchaser'))
+{
+$this->session->set_flashdata('message', $this->lang->line("access_denied"));
+$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+redirect('module=home', 'refresh');
+}
+  $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+  $data['success_message'] = $this->session->flashdata('success_message');
+
+  $data['warehouses'] = $this->sales_model->getAllWarehouses();
+      $meta['page_title'] = "Canceled_sales";
+ $data['page_title'] = "Canceled_sales";
+      $this->load->view('commons/header', $meta);
+      $this->load->view('canceled_sales', $data);
+      $this->load->view('commons/footer');
+   }
    
    function getdatatableajax()
    {
