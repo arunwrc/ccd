@@ -857,14 +857,21 @@ class Ion_auth_model extends CI_Model
 					return FALSE;
 				}
 
+
 				$session_data = array(
 				    'identity'             => $user->{$this->identity_column},
 				    'username'             => $user->username,
 				    'email'                => $user->email,
 				    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
 				    'old_last_login'       => $user->last_login,
-					'default_warehouse'		=>$user->default_warehouse
+				    'default_warehouse'	   => $user->default_warehouse,
+				    'salesman'	   	   => $user->salesman_code,
+				    'warehouse_name'	   => ''
 				);
+				$warehouse = $this->getWarehouse($user->default_warehouse);
+				if($warehouse){
+					$session_data['warehouse_name'] = $warehouse['location_name'];
+				}
 
 				$this->update_last_login($user->id);
 				
@@ -1954,6 +1961,22 @@ class Ion_auth_model extends CI_Model
 		}else{
 			return false;
 		}
+	}
+
+	//api for get location
+	public function getWarehouse($loc_code){
+
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g';
+		$action = isset($_GET['a']) ? $_GET['a'] : 'locations';
+		$record = isset($_GET['r']) ? $_GET['r'] : $loc_code;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+	
+		$location = $this->fabridge->open($method, $action, $record, $filter, $datavalue);
+
+		if($location)
+			return $location;
+		else
+			return false;
 	}
 	
 

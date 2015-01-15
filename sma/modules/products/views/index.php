@@ -1,6 +1,4 @@
-<?php
-$session_warehouse_name=$this->session->userdata('default_warehouse');
-?>
+
 
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
 <style type="text/css">
@@ -106,10 +104,14 @@ $session_warehouse_name=$this->session->userdata('default_warehouse');
 /***********************
  API FOR FRONTACCOUNTING
 ************************/
-$session_warehouse_name=$this->session->userdata('default_warehouse');
+
+
+$session_warehouse_name = $this->session->userdata('warehouse_name');
+
+$session_warehouse = $this->session->userdata('default_warehouse');
 $method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
 $action = isset($_GET['a']) ? $_GET['a'] : 'inventorybylocode'; 
-$record = isset($_GET['r']) ? $_GET['r'] : $session_warehouse_name;
+$record = isset($_GET['r']) ? $_GET['r'] : $session_warehouse;
 $filter = isset($_GET['f']) ? $_GET['f'] : false;
 $output = $this->fabridge->open($method, $action, $record, $filter, $data); //echo "<pre>"; print_r($output); echo "</pre>"; exit;
 /***********************
@@ -120,7 +122,7 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data); //ec
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 
 <div class="btn-group pull-right" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-	<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
+	<?php echo $session_warehouse_name; ?>  </a>
 </div>
 
 <h3 class="title"><?php echo $page_title; ?></h3>
@@ -197,7 +199,7 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data); //ec
 	
 	
 <div class="btn-group pull-left" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-	<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
+	<?php echo $session_warehouse_name; ?>  </a>
 </div>
     
 <div id="picModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="picModalLabel" aria-hidden="true">

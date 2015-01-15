@@ -119,6 +119,8 @@ null, null, null, null
 /***********************
  API FOR FRONTACCOUNTING
 ************************/
+$session_warehouse_name = $this->session->userdata('warehouse_name');
+
 $location=$this->session->userdata('default_warehouse');
 $trans_type='10';
 $method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
@@ -132,7 +134,7 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data);
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 <div class="btn-group pull-right" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
+<?php echo $session_warehouse_name; ?>  </a>
 </div>
 <div class="btn-group pull-right"> 
 <a href="/index.php?module=sales&view=canceled_sales" class="btn btn-primary">
@@ -235,5 +237,5 @@ $output_void = $this->fabridge->open($method_void, $action_void, $record_void, $
   </tfoot>
 </table>
 <div class="btn-group" style="margin-left: 25px;"> <a class="btn btn-primary ">
-<?php echo $session_warehouse_name=$this->session->userdata('default_warehouse'); ?>  </a>
+<?php echo $session_warehouse_name; ?>  </a>
 </div>
