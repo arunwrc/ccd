@@ -49,6 +49,21 @@ text-align:right;
                         $(this).toggle(50);
                      });
                  });
+
+
+
+		 $('.member').click(function() {
+		    if (confirm('Are you sure?')) {
+		      var url = $(this).attr('href');
+		      $('#content').load(url);
+		return true;
+		    }else{
+		    return false;
+		    }
+
+		  });
+
+
              });
  </script>
 <!-- SCRIPT Collapse Table Ends-->
@@ -242,7 +257,7 @@ API FOR FRONTACCOUNTING
 ************************/
 $reference_no= $output_[$i]['trans_no'];?>
 <!--<a href="<?php //echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> -->
-<a data-href="<?php echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" data-toggle="modal" data-target="#confirm-delete" href="#"><i class="icon-remove-sign"></i></a><br>
+<a class="member" href="<?php echo '/index.php?module=sales&void='.$ref_id=$reference_no;?>"><button class="btn btn-danger" type="button">Cancel</button></a><br>
 <?php if ($_GET['void']!=0){ //To confirm not to insert '0' value on pageload
 $void_value=$_GET['void']; 
 $method_void = isset($_GET['m']) ? $_GET['m'] : 'p'; 
@@ -255,7 +270,10 @@ $data_void = array(
 //'date_'=>'01-01-2015',
 'memo_'=> '0');
 $output_void = $this->fabridge->open($method_void, $action_void, $record_void, $filter_void, $data_void);
+redirect('module=sales');
 }
+
+
 ?>
 </center>
 </td>
