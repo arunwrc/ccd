@@ -40,24 +40,41 @@ class Inventories extends MX_Controller {
 	
    function index()
    {
-	   if ($this->ion_auth->in_group('salesman'))
-		{
-			$this->session->set_flashdata('message', $this->lang->line("access_denied"));
-			$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-			redirect('module=home', 'refresh');
-		}
+	if ($this->ion_auth->in_group('salesman'))
+	{
+		$this->session->set_flashdata('message', $this->lang->line("access_denied"));
+		$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+		redirect('module=home', 'refresh');
+	}
 		
-		if($this->input->get('search_term')) { $data['search_term'] = $this->input->get('search_term'); } else { $data['search_term'] = false;}
+	if($this->input->get('search_term')) { 
+		$data['search_term'] = $this->input->get('search_term'); 
 		
-	   $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-	   $data['success_message'] = $this->session->flashdata('success_message');
-	  
-	  $data['warehouses'] = $this->inventories_model->getAllWarehouses();
-      $meta['page_title'] = $this->lang->line("purchase_orders");
-	  $data['page_title'] = $this->lang->line("purchase_orders");
-      $this->load->view('commons/header', $meta);
-      $this->load->view('content', $data);
-      $this->load->view('commons/footer');
+	} else { $data['search_term'] = false;}
+
+	//api for purcahse list
+	$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+	$action = isset($_GET['a']) ? $_GET['a'] : 'purchase';
+	$record = isset($_GET['r']) ? $_GET['r'] : '1';
+	$filter = isset($_GET['f']) ? $_GET['f'] : false;
+	$data = array();
+	$data['purchase_list']= $this->inventories_model->getPurchaseList('1');
+	
+		
+	$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+	$data['success_message'] = $this->session->flashdata('success_message');
+
+	//$data['warehouses'] = $this->inventories_model->getAllWarehouses();
+	$data['warehouses'] = $this->inventories_model->Warehouses(); 
+
+	$meta['page_title'] = $this->lang->line("purchase_orders");
+	$data['page_title'] = $this->lang->line("purchase_orders");
+
+	//echo "<pre>";print_r($data['warehouses']);echo "</pre>";exit;
+
+	$this->load->view('commons/header', $meta);
+	$this->load->view('content', $data);
+	$this->load->view('commons/footer');
    }
    
   function getdatatableajax()
@@ -78,20 +95,24 @@ class Inventories extends MX_Controller {
 
    }
    
-   function warehouse($warehouse = DEFAULT_WAREHOUSE)
+   function warehouse($warehouse = 'DEF')
+   //function warehouse($warehouse = DEFAULT_WAREHOUSE)
    {
-	   if($this->input->get('warehouse_id')){ $warehouse = $this->input->get('warehouse_id'); }
+	if($this->input->get('warehouse_id')){ $warehouse = $this->input->get('warehouse_id'); }
 	   
-	  $data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+		$data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 	  
-	  $data['warehouses'] = $this->inventories_model->getAllWarehouses();
-	  $data['warehouse_id'] = $warehouse;
+		//$data['warehouses'] = $this->inventories_model->getAllWarehouses();
+		$data['warehouses'] = $this->inventories_model->Warehouses();
+		$data['purchase_list']= $this->inventories_model->getPurchaseList('1');
+ 
+		$data['warehouse_id'] = $warehouse;
 
-      $meta['page_title'] = $this->lang->line("purchase_orders");
-	  $data['page_title'] = $this->lang->line("purchase_orders");
-      $this->load->view('commons/header', $meta);
-      $this->load->view('warehouse', $data);
-      $this->load->view('commons/footer');
+      		$meta['page_title'] = $this->lang->line("purchase_orders");
+	  	$data['page_title'] = $this->lang->line("purchase_orders");
+		$this->load->view('commons/header', $meta);
+		$this->load->view('warehouse', $data);
+		$this->load->view('commons/footer');
    }
    
    function getwhinv($warehouse_id = NULL)

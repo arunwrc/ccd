@@ -1,3 +1,9 @@
+
+<?php
+	//print_r($warehouses);exit;
+
+?>
+
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
 <style type="text/css">
 .text_filter { width: 100% !important; font-weight: normal !important; border: 0 !important; box-shadow: none !important;  border-radius: 0 !important;  padding:0 !important; margin:0 !important; font-size: 1em !important;}
@@ -92,10 +98,10 @@
 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 <?php $links = '<li><a href="index.php?module=inventories">'.$this->lang->line("all_warehouses").'</a></li><li class="divider"></li>';
 	foreach($warehouses as $warehouse) {
-		if($warehouse->id == $warehouse_id) {
-			echo $warehouse->name;
+		if($warehouse['loc_code'] == $warehouse_id) {
+			echo $warehouse['location_name'];
 		} else {
-			$links .= "<li><a href='index.php?module=inventories&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";
+			$links .= "<li><a href='index.php?module=inventories&view=warehouse&warehouse_id=".$warehouse['loc_code']."'>".$warehouse['location_name']."</a></li>";
 		}
 	} 
 	?>
@@ -110,7 +116,7 @@
     <h3 class="title"><?php echo $page_title; ?></h3>
 	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
 
-	<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+	<table  class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
  
 		<thead>
         <tr>
@@ -121,27 +127,42 @@
             <th style="width:135px !important; text-align:center;"><?php echo $this->lang->line("actions"); ?></th>
 		</tr>
         </thead>
-		<tbody>
-			<tr>
-            	<td colspan="5" class="dataTables_empty">Loading data from server</td>
-			</tr>
+
+	<tbody>
+	<!--<tr>
+		<td colspan="5" class="dataTables_empty">Loading data from server</td>
+	</tr>-->
         </tbody>
+
         <tfoot>
-        <tr>
+
+
+        <!--<tr>
             <th>[<?php echo $this->lang->line("date"); ?>]</th>
 			<th>[<?php echo $this->lang->line("ref_no"); ?>]</th>
             <th>[<?php echo $this->lang->line("supplier"); ?>]</th>
             <th>[<?php echo $this->lang->line("total"); ?>]</th>
             <th style="width:135px !important; text-align:center;"><?php echo $this->lang->line("actions"); ?></th>
-		</tr>
+	</tr>-->
+	<?php foreach($purchase_list as $purchase){?>
+	<tr>
+		<th><?php echo $purchase['tran_date'];?></th>
+		<th><?php echo $purchase['reference']; ?></th>
+		<th><?php echo $purchase['supp_name']; ?></th>
+		<th><?php echo $purchase['TotalAmount']; ?></th>
+		<th style="width:135px !important; text-align:center;"><?php echo $this->lang->line("actions"); ?></th>
+	</tr>
+	<?php }?>
+
+
         </tfoot>
 	</table>
 	<a href="<?php echo site_url('module=inventories&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("add_purchase"); ?></a> <div class="btn-group dropup" style="margin-left: 25px;">
 <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 <?php 
 	foreach($warehouses as $warehouse) {
-		if($warehouse->id == $warehouse_id) {
-			echo $warehouse->name;
+		if($warehouse['loc_code'] == $warehouse_id) {
+			echo $warehouse['location_name'];
 		}
 	} 
 	?>

@@ -1,3 +1,10 @@
+
+
+
+<?php
+	//print_r($warehouses);
+
+?>
 <script src="<?php echo base_url(); ?>assets/media/js/jquery.dataTables.columnFilter.js" type="text/javascript"></script>
 <style type="text/css">
 .text_filter { width: 100% !important; font-weight: normal !important; border: 0 !important; box-shadow: none !important;  border-radius: 0 !important;  padding:0 !important; margin:0 !important; font-size: 1em !important;}
@@ -6,31 +13,34 @@
 .table th { text-align: center; }
 .table td:nth-child(4), .table tfoot th:nth-child(4) { text-align:right; }
 </style>
+
 <script>
-             $(document).ready(function() {
-				 function format_date(oObj) {
-					var aDate = oObj.split('-');
-					<?php if(JS_DATE == 'dd-mm-yyyy') { ?>
-					return aDate[2] + "-" + aDate[1] + "-" + aDate[0];
-					<?php } elseif(JS_DATE == 'dd/mm/yyyy') { ?>
-					return aDate[2] + "/" + aDate[1] + "/" + aDate[0];
-					<?php } elseif(JS_DATE == 'mm/dd/yyyy') { ?>
-					return aDate[1] + "/" + aDate[2] + "/" + aDate[0];
-					<?php } elseif(JS_DATE == 'mm-dd-yyyy') { ?>
-					return aDate[1] + "-" + aDate[2] + "-" + aDate[0];
-					<?php } else { ?>
-					return sValue;
-					<?php } ?>
-				}
-				 function currencyFormate(x) {
-					var parts = x.toString().split(".");
-				   return  parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")+(parts[1] ? "." + parts[1] : ".00");
+	$(document).ready(function() {
+		 function format_date(oObj) {
+			var aDate = oObj.split('-');
+			<?php if(JS_DATE == 'dd-mm-yyyy') { ?>
+			return aDate[2] + "-" + aDate[1] + "-" + aDate[0];
+			<?php } elseif(JS_DATE == 'dd/mm/yyyy') { ?>
+			return aDate[2] + "/" + aDate[1] + "/" + aDate[0];
+			<?php } elseif(JS_DATE == 'mm/dd/yyyy') { ?>
+			return aDate[1] + "/" + aDate[2] + "/" + aDate[0];
+			<?php } elseif(JS_DATE == 'mm-dd-yyyy') { ?>
+			return aDate[1] + "-" + aDate[2] + "-" + aDate[0];
+			<?php } else { ?>
+			return sValue;
+			<?php } ?>
+		}
+
+		function currencyFormate(x) {
+			var parts = x.toString().split(".");
+			return  parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")+(parts[1] ? "." + parts[1] : ".00");
 					 
-				}
+		}
+
                 $('#fileData').dataTable( {
 					"aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-                    "aaSorting": [[ 1, "desc" ]],
-                    "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
+                   		 "aaSorting": [[ 1, "desc" ]],
+                   		 "iDisplayLength": <?php echo ROWS_PER_PAGE; ?>,
 					'bProcessing'    : true,
 					'bServerSide'    : true,
 					'sAjaxSource'    : '<?php echo base_url(); ?>index.php?module=inventories&view=getdatatableajax<?php 
@@ -83,64 +93,94 @@
 						{ type: "text", bRegex:true },
 						{ type: "text", bRegex:true },
 						null, null
-                     ]});
+                 ]});
 				
-            });
+});
                     
 </script>
+
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
+
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 
 <div class="btn-group pull-right" style="margin-left: 25px;">
-<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line("all_warehouses"); ?>
-<span class="caret"></span>
-</a>
-<ul class="dropdown-menu">
-    <?php
-	foreach($warehouses as $warehouse) {
-		echo "<li><a href='index.php?module=inventories&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";	
-	}
-	?>
-    </ul>
-    </div>
-    <h3 class="title"><?php echo $page_title; ?></h3>
-	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
+		<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line("all_warehouses"); ?>
+		<span class="caret"></span>
+		</a>
 
-	<table id="fileData" class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+		<ul class="dropdown-menu">
+	    <?php
+		foreach($warehouses as $warehouse) {
+			echo "<li><a href='index.php?module=inventories&view=warehouse&warehouse_id=".$warehouse['loc_code']."'>".$warehouse['location_name']."</a></li>";	
+		}
+		?>
+		</ul>
+</div>
+
+<h3 class="title"><?php echo $page_title; ?></h3>
+
+<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
+
+<table  class="table table-bordered table-hover table-striped table-condensed" style="margin-bottom: 5px;">
+
+<thead>
+<tr>
+	<th><?php echo $this->lang->line("date"); ?></th>
+	<th><?php echo $this->lang->line("ref_no"); ?></th>
+	<th><?php echo $this->lang->line("supplier"); ?></th>
+	<th><?php echo $this->lang->line("total"); ?></th>
+	<th><?php echo $this->lang->line("actions"); ?></th>
+</tr>
+</thead>
+
+<tbody>
+<!--
+<tr>
+	<td colspan="5" class="dataTables_empty">Loading data from server</td>
+</tr>
+-->
+
+</tbody>
+
+<tfoot>
+
+<?php foreach($purchase_list as $purchase){?>
+<tr>
+	<th><?php echo $purchase['tran_date'];?></th>
+	<th><?php echo $purchase['reference']; ?></th>
+	<th><?php echo $purchase['supp_name']; ?></th>
+	<th><?php echo $purchase['TotalAmount']; ?></th>
+	<th><?php echo $this->lang->line("actions"); ?></th>
+</tr>
+<?php }?>
+
+<!--<tr>
+    <th>[<?php echo $this->lang->line("date"); ?> (yyyy-mm-dd)]</th>
+		<th>[<?php echo $this->lang->line("ref_no"); ?>]</th>
+    <th>[<?php echo $this->lang->line("supplier"); ?>]</th>
+    <th>[<?php echo $this->lang->line("total"); ?>]</th>
+    <th><?php echo $this->lang->line("actions"); ?></th>
+</tr>-->
+
+
+</tfoot>
+
+</table>
+
+<a href="<?php echo site_url('module=inventories&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("add_purchase"); ?></a>
  
-		<thead>
-        <tr>
-            <th><?php echo $this->lang->line("date"); ?></th>
-			<th><?php echo $this->lang->line("ref_no"); ?></th>
-            <th><?php echo $this->lang->line("supplier"); ?></th>
-            <th><?php echo $this->lang->line("total"); ?></th>
-            <th><?php echo $this->lang->line("actions"); ?></th>
-		</tr>
-        </thead>
-		<tbody>
-			<tr>
-            	<td colspan="5" class="dataTables_empty">Loading data from server</td>
-			</tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th>[<?php echo $this->lang->line("date"); ?> (yyyy-mm-dd)]</th>
-			<th>[<?php echo $this->lang->line("ref_no"); ?>]</th>
-            <th>[<?php echo $this->lang->line("supplier"); ?>]</th>
-            <th>[<?php echo $this->lang->line("total"); ?>]</th>
-            <th><?php echo $this->lang->line("actions"); ?></th>
-		</tr>
-        </tfoot>
-	</table>
-	<a href="<?php echo site_url('module=inventories&view=add');?>" class="btn btn-primary"><?php echo $this->lang->line("add_purchase"); ?></a> <div class="btn-group dropup" style="margin-left: 25px;">
-<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line("all_warehouses"); ?>
-<span class="caret"></span>
-</a>
-<ul class="dropdown-menu">
-    <?php
+<div class="btn-group dropup" style="margin-left: 25px;">
+	<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><?php echo $this->lang->line("all_warehouses"); ?>
+		<span class="caret"></span>
+	</a>
+
+	<ul class="dropdown-menu">
+	<?php
 	foreach($warehouses as $warehouse) {
-		echo "<li><a href='index.php?module=inventories&view=warehouse&warehouse_id=".$warehouse->id."'>".$warehouse->name."</a></li>";	
+		echo "<li><a href='index.php?module=inventories&view=warehouse&warehouse_id=".$warehouse['loc_code']."'>".$warehouse['location_name']."</a></li>";	
 	}
 	?>
-    </ul>
-    </div>
+	</ul>
+
+</div>
+

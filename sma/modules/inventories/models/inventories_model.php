@@ -485,6 +485,40 @@ class Inventories_model extends CI_Model
 			return $data;
 		}
 	}
+
+	//api for location list
+	public function Warehouses()
+	{
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'locations'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$warehouses = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+		if($warehouses){
+			return $warehouses;
+		}else{
+			return false;
+		}
+	}
+
+	//api for purchase list
+	public function getPurchaseList($filter = '')
+	{
+		//api for purcahse list
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
+		$action = isset($_GET['a']) ? $_GET['a'] : 'purchase';
+		$record = isset($_GET['r']) ? $_GET['r'] : $filter;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$data = array();
+		$purchase_list = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+		if($purchase_list)
+			return $purchase_list;
+		else
+			return false;
+	}
+
 	
 	public function deleteInventory($id) 
 	{
