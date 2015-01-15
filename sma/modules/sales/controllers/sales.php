@@ -47,6 +47,9 @@ class Sales extends MX_Controller {
 			$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 			redirect('module=home', 'refresh');
 		}
+
+
+	$data['sales'] = $this->sales_model->getSalesByLocation();
 				
 	   $data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 	   $data['success_message'] = $this->session->flashdata('success_message');

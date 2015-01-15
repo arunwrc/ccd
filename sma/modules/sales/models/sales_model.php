@@ -738,5 +738,29 @@ class Sales_model extends CI_Model
 			
 	    return FALSE;
 	    }
+
+
+	public function getSalesByLocation()
+	{
+		/***********************
+		 API FOR FRONTACCOUNTING
+		************************/
+
+		$location=$this->session->userdata('default_warehouse');
+		$trans_type='10';
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$output = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+
+		if($output)
+			return $output;
+		else
+			return false;
+		/***********************
+		************************/
+	}
 	
 }

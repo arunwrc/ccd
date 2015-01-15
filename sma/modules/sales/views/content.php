@@ -163,21 +163,8 @@ null, null, null, null
             } );
                     
 </script>
-<?php
-/***********************
- API FOR FRONTACCOUNTING
-************************/
 
-$location=$this->session->userdata('default_warehouse');
-$trans_type='10';
-$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
-$action = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; 
-$record = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
-$filter = isset($_GET['f']) ? $_GET['f'] : false;
-$output = $this->fabridge->open($method, $action, $record, $filter, $data);
-/***********************
-************************/
- ?>  
+
 <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
 <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
 <div class="btn-group pull-right" style="margin-left: 25px;"> <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -200,14 +187,14 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data);
     </tr>
   </thead>
 <tbody role="alert" aria-live="polite" aria-relevant="all">
-<?php for ($i=0; $i < count($output); $i++) { 
-$line_items=count($output[$i]['line_items']).'<br>';?>
+<?php for ($i=0; $i < count($sales); $i++) { 
+$line_items=count($sales[$i]['line_items']).'<br>';?>
 <?php for ($lines=0;$lines<$line_items;$lines++){ ?>
-<?php  if($output[$i]['line_items'][$lines]['qty']!=0){ // To check for any canceled Sale.?>
+<?php  if($sales[$i]['line_items'][$lines]['qty']!=0){ // To check for any canceled Sale.?>
 <tr>
-<td><?php $date=$output[$i]['tran_date']; echo date('d - m - Y',strtotime($date));?></td>
-<td><?php echo $output[$i]['reference'];?></td>
-<td><?php echo $output[$i]['debtor_no'];?></td>
+<td><?php $date=$sales[$i]['tran_date']; echo date('d - m - Y',strtotime($date));?></td>
+<td><?php echo $sales[$i]['reference'];?></td>
+<td><?php echo $sales[$i]['debtor_no'];?></td>
 <?php for ($lines=0;$lines<$line_items;$lines++){ $slno=$lines+1; ?>
 <td width="300px">
 <table style="margin:auto; width=300px;">
@@ -223,17 +210,17 @@ $line_items=count($output[$i]['line_items']).'<br>';?>
 <?php for ($lines=0;$lines<$line_items;$lines++){ $slno=$lines+1; ?>
                <tr class="hide-me">
                    <td><?php echo $slno;?></td>              
-                   <td><?php echo $output[$i]['line_items'][$lines]['description'];?></td>  
-                   <td><?php echo $output[$i]['line_items'][$lines]['qty'];?></td>      
-                   <td><?php  echo $output[$i]['line_items'][$lines]['price']; ?></td>               
+                   <td><?php echo $sales[$i]['line_items'][$lines]['description'];?></td>  
+                   <td><?php echo $sales[$i]['line_items'][$lines]['qty'];?></td>      
+                   <td><?php  echo $sales[$i]['line_items'][$lines]['price']; ?></td>               
                </tr>
 <?php }?>   
            	<tr class="hide-me">
            	<td></td>
            	<td></td>
            	<td></td>
-           	<td><b><?php  echo $output[$i]['ov_amount']; ?></b></td>
-           	<?php $g_total+=$output[$i]['ov_amount'];?>
+           	<td><b><?php  echo $sales[$i]['ov_amount']; ?></b></td>
+           	<?php $g_total+=$sales[$i]['ov_amount'];?>
            	</tr>
        </table>
 </td>
@@ -241,21 +228,8 @@ $line_items=count($output[$i]['line_items']).'<br>';?>
 <td width=".3%">
 <center>
 <?php
-/***********************
-API FOR FRONTACCOUNTING
-************************/
-$location=$this->session->userdata('default_warehouse');
-$trans_type='10';
-//include_once "fabridge.php";
-$method_ = isset($_GET['m']) ? $_GET['m'] : 'g'; 
-$action_ = isset($_GET['a']) ? $_GET['a'] : 'getsalesbylocation'; 
-$record_ = isset($_GET['r']) ? $_GET['r'] : $trans_type."/".$location;
-$filter_ = isset($_GET['f']) ? $_GET['f'] : false;
-$output_ = $this->fabridge->open($method_, $action_, $record_, $filter_, $data_);
-/***********************
-API FOR FRONTACCOUNTING
-************************/
-$reference_no= $output_[$i]['trans_no'];?>
+
+$reference_no= $sales[$i]['trans_no'];?>
 <!--<a href="<?php //echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> -->
 <a class="member" href="<?php echo '/index.php?module=sales&void='.$ref_id=$reference_no;?>"><button class="btn btn-danger" type="button">Cancel</button></a><br>
 <?php if ($_GET['void']!=0){ //To confirm not to insert '0' value on pageload
