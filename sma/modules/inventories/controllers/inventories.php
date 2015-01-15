@@ -95,7 +95,7 @@ class Inventories extends MX_Controller {
 
    }
    
-   function warehouse($warehouse = 'DEF')
+   function warehouse($warehouse = '')
    //function warehouse($warehouse = DEFAULT_WAREHOUSE)
    {
 	if($this->input->get('warehouse_id')){ $warehouse = $this->input->get('warehouse_id'); }
