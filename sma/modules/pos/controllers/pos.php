@@ -511,8 +511,11 @@ class Pos extends MX_Controller {
 		$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; // http://www.my_fa_domain.com/modules/api/inventory.inc
 		$record = isset($_GET['r']) ? $_GET['r'] : $code;
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$inventorybystockid = $this->fabridge->open($method, $action, $record, $filter, $data); 
-		$data = array('price'=> $inventorybystockid[0]['material_cost'], 'name' => $inventorybystockid[0]['description'], 'code' => $inventorybystockid[0]['stock_id']);
+		$inventorybystockid = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+		
+
+		$data = array('price'=> $inventorybystockid[0]['sales_price'], 'name' => $inventorybystockid[0]['description'], 'code' => $inventorybystockid[0]['stock_id']);
 		echo json_encode($data);
 		   
    }
