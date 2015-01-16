@@ -85,6 +85,10 @@ class Pos extends MX_Controller {
 			$biller_details = $this->pos_model->getBillerByID($biller_id);
 			$biller_name = $biller_details->name;
 			
+			$list = explode(":",$this->input->post('customer'));
+
+			
+
 			if($customer_details = $this->pos_model->getCustomerByName($this->input->post('customer'))) {
 				$customer_id = $customer_details->id;
 				$customer_name = $customer_details->name;
@@ -174,7 +178,7 @@ class Pos extends MX_Controller {
 					}
 				}
 			
-					
+				
 			if(DISCOUNT_OPTION == 2) {
 				$total_ds = array_sum($val_ds);
 			} else {
@@ -304,7 +308,10 @@ class Pos extends MX_Controller {
 				//if($saleID = $this->pos_model->addSale($saleDetails, $items, $warehouse_id, $did)) {
 
 					//add fa sales invoice
-					$customer_id = '4';$trans_type = '10';
+					//$customer_id = '4';
+					$customer_id = substr($list[1],0,-1);
+					$trans_type = '10';
+					
 					$method = isset($_GET['m']) ? $_GET['m'] : 'g';
 					$action = isset($_GET['a']) ? $_GET['a'] : 'customer_n_branch';
 					$record = isset($_GET['r']) ? $_GET['r'] : $customer_id."/".$trans_type;

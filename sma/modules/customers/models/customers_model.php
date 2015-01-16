@@ -165,7 +165,7 @@ class Customers_model extends CI_Model
 	}
 	
 	public function getCustomerNames($term)
-    {
+   	 {
 	   	$this->db->select('name');
 	    $this->db->like('name', $term, 'both');
    		$q = $this->db->get('customers');
@@ -176,6 +176,19 @@ class Customers_model extends CI_Model
 				
 			return $data; 
 		}
-    }
+   	 }
+
+	public function getCustomerNames1($term)
+	{
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'customername'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : $term;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$names = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+		return $names;
+	}
+
+
 
 }
