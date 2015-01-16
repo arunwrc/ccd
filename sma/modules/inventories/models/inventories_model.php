@@ -503,18 +503,15 @@ class Inventories_model extends CI_Model
 	}
 
 	//api for purchase list
-	public function getPurchaseList($filter = '')
+	public function getPurchaseList($data=array())
 	{
 		//api for purcahse list
 		$method = isset($_GET['m']) ? $_GET['m'] : 'p'; // g, p, t, d => GET, POST, PUT, DELETE
-		$action = isset($_GET['a']) ? $_GET['a'] : 'purchase';
+		$action = isset($_GET['a']) ? $_GET['a'] : 'purchasesearch';
 		$record = isset($_GET['r']) ? $_GET['r'] : '';
 		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$data = array('filter'		=>'1',
-				'loc_code'	=> 'KKD'//$this->session->userdata('default_warehouse')
-				);
 		$purchase_list = $this->fabridge->open($method, $action, $record, $filter, $data);
-		//print_r($purchase_list);exit;
+		
 		if($purchase_list)
 			return $purchase_list;
 		else

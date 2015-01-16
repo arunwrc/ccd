@@ -52,13 +52,12 @@ class Inventories extends MX_Controller {
 		
 	} else { $data['search_term'] = false;}
 
-	//api for purcahse list
-	$method = isset($_GET['m']) ? $_GET['m'] : 'g'; // g, p, t, d => GET, POST, PUT, DELETE
-	$action = isset($_GET['a']) ? $_GET['a'] : 'purchase';
-	$record = isset($_GET['r']) ? $_GET['r'] : '1';
-	$filter = isset($_GET['f']) ? $_GET['f'] : false;
-	$data = array();
-	$data['purchase_list']= $this->inventories_model->getPurchaseList('1');
+	//call api for purcahse list
+	$filterData = array('filter'=>'1');
+	if (!$this->ion_auth->in_group(array('owner', 'admin'))) {
+		//$filterData['loc_code'] = $this->session->userdata('default_warehouse');
+	}
+	$data['purchase_list']= $this->inventories_model->getPurchaseList($filterData);
 	
 		
 	$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
@@ -104,7 +103,15 @@ class Inventories extends MX_Controller {
 	  
 		//$data['warehouses'] = $this->inventories_model->getAllWarehouses();
 		$data['warehouses'] = $this->inventories_model->Warehouses();
-		$data['purchase_list']= $this->inventories_model->getPurchaseList('1');
+
+		$filterData = array('filter'=>'1');
+		if ($warehouse != "") {
+			$filterData['loc_code'] = $warehouse;
+		}
+
+		
+		$data['purchase_list']= $this->inventories_model->getPurchaseList($filterData);
+
  
 		$data['warehouse_id'] = $warehouse;
 
