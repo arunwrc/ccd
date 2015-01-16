@@ -836,10 +836,11 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login,default_warehouse')
+		$query = $this->db->select($this->identity_column . ', username, email, id, password, active, last_login,default_warehouse,salesman_code')
 		                  ->where($this->identity_column, $this->db->escape_str($identity))
 		                  ->limit(1)
 		                  ->get($this->tables['users']);
+			
 
 		if ($query->num_rows() === 1)
 		{
@@ -868,6 +869,8 @@ class Ion_auth_model extends CI_Model
 				    'salesman'	   	   => $user->salesman_code,
 				    'warehouse_name'	   => ''
 				);
+
+				//print_r($session_data);exit;
 				$warehouse = $this->getWarehouse($user->default_warehouse);
 				if($warehouse){
 					$session_data['warehouse_name'] = $warehouse['location_name'];

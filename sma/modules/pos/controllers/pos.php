@@ -329,6 +329,13 @@ class Pos extends MX_Controller {
 						
 						$warehouse = $this->session->userdata('default_warehouse');
 
+				if ($this->ion_auth->in_group('salesman')){
+					$salesman = $this->session->userdata('salesman');
+				}else{
+					$salesman = '1';
+				}
+				//echo $salesman;exit;
+
 						$cart = array(
 							'trans_type'		=> $trans_type,
 							'ref'			=> '1',
@@ -349,7 +356,7 @@ class Pos extends MX_Controller {
 							'dimension_id'		=> $pos_customer['dimension_id'],
 							'dimension2_id'		=> $pos_customer['dimension2_id'],
 							'freight_cost'		=> '0',
-					   		'salesman' 		=> '1',//get this from ccd session
+					   		'salesman' 		=> $salesman,
 							'items' 		=> $items_invoice
 							);
 						//echo "<pre>";print_r($cart);echo "</pre>";exit;
