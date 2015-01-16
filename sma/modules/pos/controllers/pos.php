@@ -978,7 +978,7 @@ function products() {
        
     } 
 	
-	function add_customer()
+	/*function add_customer()
 	{
 		$cusData = $this->input->post('data');
 		
@@ -1020,6 +1020,80 @@ function products() {
 			}
 		} else {
 			echo  $error;
+		}
+	}*/
+	function add_customer()
+	{
+
+
+
+		$cusData = $this->input->post('data');
+		$this->load->helper('email');
+		$error = NULL;
+		if (!empty($cusData[0]) && !empty($cusData[1]) && valid_email($cusData[3]) && !empty($cusData[4]) && !empty($cusData[5]) && !empty($cusData[6]) && !empty($cusData[7]) && !empty($cusData[8]) && !empty($cusData[2]))
+		{
+
+
+		//FA BRIDGE STARTS
+
+		include_once "fabridge.php";
+		$method = isset($_GET['m']) ? $_GET['m'] : 'p'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'customers'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+
+		$datavalues = array(
+		'custname'=> $cusData[1],
+		'cust_ref'=> $cusData[2],
+		'address'=> $cusData[4],
+		'tax_id'=> '0',
+		'curr_code'=> 'INR',
+		'credit_status'=> '0',
+		'payment_terms'=> '0',
+		'discount'=> '0',
+		'pymt_discount'=> '0',
+		'credit_limit'=> '0',
+		'sales_type'=> '0',
+		'notes'=>'0'
+		);
+
+		$output = $this->fabridge->open($method, $action, $record, $filter, $datavalues);
+		//FA BRIDGE ENDS
+
+
+		    $data = array('name' => $cusData[1],
+		'email' => $cusData[3],
+		'company' => $cusData[0],
+		'address' => $cusData[4],
+		'city' => $cusData[5],
+		'state' => $cusData[6],
+		'postal_code' => $cusData[7],
+		'country' => $cusData[8],
+		'phone' => $cusData[2]
+		);
+		}
+
+
+		else
+		{
+		$error =  $this->lang->line("email")." ".$this->lang->line("is_required");
+		}
+		if (empty($cusData[8])) {$error =  $this->lang->line("country")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[7]) || !is_numeric($cusData[7])) {$error =  $this->lang->line("postal_code")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[6])) {$error =  $this->lang->line("state")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[5])) {$error =  $this->lang->line("city")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[4])) {$error =  $this->lang->line("address")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[2]) || !is_numeric($cusData[2])) {$error =  $this->lang->line("phone")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[1])) {$error =  $this->lang->line("name")." ".$this->lang->line("is_required"); }
+		if (empty($cusData[0])) {$error =  $this->lang->line("company")." ".$this->lang->line("is_required"); }
+
+		if(!$error) {
+		if ( $this->pos_model->addCustomer($data))
+		{  
+		echo $this->lang->line("customer_added");
+		}
+		} else {
+		echo  $error;
 		}
 	}
    
