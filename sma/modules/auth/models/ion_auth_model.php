@@ -1870,6 +1870,7 @@ class Ion_auth_model extends CI_Model
 	public function getDateFormat($id) 
 	{
 
+
 		$q = $this->db->get_where('date_format', array('id' => $id), 1); 
 		  if( $q->num_rows() > 0 )
 		  {
@@ -1977,6 +1978,39 @@ class Ion_auth_model extends CI_Model
 			return $location;
 		else
 			return false;
+	}
+
+
+	public function getCompanyPrefs()
+	{
+		//get company prefs
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'company';
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$coy = $this->fabridge->open($method, $action, $record, $filter, $data);
+		if($coy)
+			return $coy;
+		else
+			return false;
+
+	
+	}
+
+	public function getFaAdmin()
+	{
+		//get company prefs
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'admin';
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$coy = $this->fabridge->open($method, $action, $record, $filter, $data);
+		if($coy)
+			return $coy;
+		else
+			return false;
+
+	
 	}
 	
 

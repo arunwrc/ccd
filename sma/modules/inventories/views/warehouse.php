@@ -14,6 +14,25 @@
 </style>
 <script>
              $(document).ready(function() {
+
+
+				$( "#from_date" ).datepicker({
+			format: "<?php echo JS_DATE; ?>",
+			autoclose: true
+    		});
+
+		$( "#to_date" ).datepicker({
+        		format: "<?php echo JS_DATE; ?>",
+			autoclose: true
+    		});
+
+		<?php if(!isset($_POST['search'])) { 
+			echo '$( "#to_date" ).datepicker("setDate", new Date());'; 
+			echo '$( "#from_date" ).datepicker("setDate", new Date());'; 
+			
+		} ?>
+
+
 				 function format_date(oObj) {
 					var aDate = oObj.split('-');
 					<?php if(JS_DATE == 'dd-mm-yyyy') { ?>
@@ -112,6 +131,27 @@
     <?php echo $links; ?>
     </ul>
     </div>
+
+
+
+<?php echo form_open("module=inventories&view=warehouse&warehouse_id=".$warehouse_id);?>
+<table  class="table table-hover table-striped table-condensed" style="margin-bottom: 5px;" >
+	<tr>
+		<td>
+			<label class="control-label" for="from_date">From</label>
+  <div class="controls"> <?php echo form_input('from_date', (isset($_POST['from_date']) ? $_POST['from_date'] : ""), 'class="" id="from_date"');?> </div>
+		</td>
+		<td>
+			<label class="control-label" for="to_date">To</label>
+  <div class="controls"> <?php echo form_input('to_date', (isset($_POST['to_date']) ? $_POST['to_date'] : ""), 'class="" id="to_date"');?> </div>
+		</td>
+		<td>
+			<div class="controls"><?php echo form_submit('search', 'Search', 'class="btn btn-primary" style="padding: 6px 15px;"');?></div>
+		</td>
+	</tr>
+</table>
+<?php echo form_close();?> 
+
 
     <h3 class="title"><?php echo $page_title; ?></h3>
 	<p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>

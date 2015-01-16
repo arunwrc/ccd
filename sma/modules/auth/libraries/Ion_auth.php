@@ -102,6 +102,9 @@ class Ion_auth
 				
 		
 		if ($this->logged_in()) {
+
+		
+		
 			
 		if($df = $this->ion_auth_model->getDateFormat($SETTING->dateformat)) {
 			define("JS_DATE", $df->js);

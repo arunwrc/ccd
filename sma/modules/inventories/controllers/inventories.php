@@ -40,12 +40,20 @@ class Inventories extends MX_Controller {
 	
    function index()
    {
+	
+	//echo "<pre>";print_r($this->config->config['dateformats']);echo "</pre>";exit;
+	//echo "<pre>";print_r($this->config->config['dateseps']);echo "</pre>";exit;
+
+	//str_replace($sep, "", $date_);
+
 	if ($this->ion_auth->in_group('salesman'))
 	{
 		$this->session->set_flashdata('message', $this->lang->line("access_denied"));
 		$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 		redirect('module=home', 'refresh');
 	}
+
+	
 		
 	if($this->input->get('search_term')) { 
 		$data['search_term'] = $this->input->get('search_term'); 
@@ -54,12 +62,21 @@ class Inventories extends MX_Controller {
 
 	//call api for purcahse list
 	$filterData = array('filter'=>'1');
+	if($this->input->post('from_date')) {
+		$filterData['from_date']=$this->input->post('from_date');
+	}
+	if($this->input->post('to_date')) {
+		$filterData['to_date']= $this->input->post('to_date');
+	}
+
+	
+
 	if (!$this->ion_auth->in_group(array('owner', 'admin'))) {
 		//$filterData['loc_code'] = $this->session->userdata('default_warehouse');
 	}
 	$data['purchase_list']= $this->inventories_model->getPurchaseList($filterData);
 	
-		
+		//print_r($data['purchase_list']);//exit;
 	$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 	$data['success_message'] = $this->session->flashdata('success_message');
 
