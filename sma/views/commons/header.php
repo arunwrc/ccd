@@ -142,37 +142,19 @@ for ($i=0; $i < count($output); $i++) {
       <li class="dropdown"><a class="showSubMenus" href="#productsMenu"><i class="icon-barcode icon-white"></i> <?php echo $this->lang->line('products'); ?> <b class="caret"></b></a>
         <ul class="nav nav-tabs nav-stacked sub-menu" id="productsMenu">
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=products"><?php echo $this->lang->line('list_products'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=products&amp;view=add"><?php echo $this->lang->line('new_product'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=products&amp;view=upload_csv"><?php echo $this->lang->line('add_by_csv'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=products&amp;view=update_price"><?php echo $this->lang->line('update_price'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=products&amp;view=damage_products"><?php echo $this->lang->line('damage_products'); ?></a></li>
-        </ul>
+                </ul>
       </li>
-      <li class="dropdown"><a class="showSubMenus" href="#transfersMenu"><i class="icon-random icon-white"></i> <?php echo $this->lang->line('transfers'); ?> <b class="caret"></b></a>
-        <ul class="nav nav-tabs nav-stacked sub-menu" id="transfersMenu">
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=transfers"><?php echo $this->lang->line('list_transfers'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=transfers&amp;view=add"><?php echo $this->lang->line('transfer_products'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=transfers&amp;view=transfer_csv"><?php echo $this->lang->line('transfer_products_by_csv'); ?></a></li>
-        </ul>
-      </li>
+    
       <li class="dropdown"><a class="showSubMenus" href="#purchasesMenu"><i class="icon-star icon-white"></i> <?php echo $this->lang->line('purchases'); ?> <b class="caret"></b></a>
         <ul class="nav nav-tabs nav-stacked sub-menu" id="purchasesMenu">
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=inventories"><?php echo $this->lang->line('list_purchases'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=inventories&amp;view=add"><?php echo $this->lang->line('add_purchase'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=inventories&amp;view=csv_inventory"><?php echo $this->lang->line('csv_inventory'); ?></a></li>
+          
         </ul>
       </li>
       <li class="dropdown"><a class="showSubMenus" href="#salesMenu"><i class="icon-heart  icon-white"></i> <?php echo $this->lang->line('sales'); ?> <b class="caret"></b></a>
         <ul class="nav nav-tabs nav-stacked sub-menu" id="salesMenu">
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=sales"><?php echo $this->lang->line('list_invoices'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=sales&amp;view=add"><?php echo $this->lang->line('add_invoice'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=sales&amp;view=deliveries"><?php echo $this->lang->line('list_deliveries'); ?></a></li>
-        </ul>
-      </li>
-      <li class="dropdown"><a class="showSubMenus" href="#quotesMenu"><i class="icon-exclamation-sign icon-white"></i> <?php echo $this->lang->line('quotes'); ?> <b class="caret"></b></a>
-        <ul class="nav nav-tabs nav-stacked sub-menu" id="quotesMenu">
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=quotes"><?php echo $this->lang->line('list_quotes'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=quotes&amp;view=add"><?php echo $this->lang->line('add_quote'); ?></a></li>
+         
         </ul>
       </li>
       <li class="dropdown"><a class="showSubMenus" href="#peopleMenu"><i class="icon-user  icon-white"></i> <?php echo $this->lang->line('people'); ?> <b class="caret"></b></a>
@@ -182,16 +164,8 @@ for ($i=0; $i < count($output); $i++) {
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=auth&amp;view=create_user"><?php echo $this->lang->line('new_user'); ?></a></li>
           <li class="divider"></li>
           <?php } ?>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=billers"><?php echo $this->lang->line('list_billers'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=billers&amp;view=add"><?php echo $this->lang->line('new_biller'); ?></a></li>
-          <li class="divider"></li>
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=suppliers"><?php echo $this->lang->line('list_suppliers'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=suppliers&amp;view=add"><?php echo $this->lang->line('new_supplier'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=suppliers&amp;view=add_by_csv"><?php echo $this->lang->line('add_suppliers_by_csv'); ?></a></li>
-          <li class="divider"></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=customers"><?php echo $this->lang->line('list_customers'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=customers&amp;view=add"><?php echo $this->lang->line('new_customer'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=customers&amp;view=add_by_csv"><?php echo $this->lang->line('add_customers_by_csv'); ?></a></li>
+          
         </ul>
       </li>
       <?php if ($this->ion_auth->in_group('owner')) { ?>
@@ -202,19 +176,7 @@ for ($i=0; $i < count($output); $i++) {
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=upload_biller_logo"><?php echo $this->lang->line('upload_biller_logo'); ?></a></li>
           <li class="divider"></li>
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=categories"><?php echo $this->lang->line('list_categories'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=categories&amp;view=add"><?php echo $this->lang->line('new_category'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=categories&view=subcategories"><?php echo $this->lang->line('list_subcategories'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=categories&amp;view=add_subcategory"><?php echo $this->lang->line('new_subcategory'); ?></a></li>
-          <li class="divider"></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=warehouses"><?php echo $this->lang->line('warehouses'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=add_warehouse"><?php echo $this->lang->line('add_warehouse'); ?></a></li>
-          <li class="divider"></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=tax_rates"><?php echo $this->lang->line('tax_rates'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=add_tax_rate"><?php echo $this->lang->line('add_tax_rate'); ?></a></li>
-          <li class="divider"></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=discounts"><?php echo $this->lang->line('discounts'); ?></a></li>
-          <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=add_discount"><?php echo $this->lang->line('add_discount'); ?></a></li>
-          <li class="divider"></li>
+         
           <li><a href="<?php echo $this->config->base_url(); ?>index.php?module=settings&amp;view=backup_database"><?php echo $this->lang->line('backup_database'); ?></a></li>
         </ul>
       </li>

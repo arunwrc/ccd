@@ -53,7 +53,7 @@ text-align:right;
 
 
 		 $('.member').click(function() {
-		    if (confirm('Are you sure?')) {
+		    if (confirm('Do you want to cancel this sale?')) {
 		      var url = $(this).attr('href');
 		      $('#content').load(url);
 		return true;
@@ -225,13 +225,13 @@ $line_items=count($sales[$i]['line_items']).'<br>';?>
        </table>
 </td>
 <?php } ?>
-<td width=".3%">
+<td width="15%">
 <center>
 <?php
 
 $reference_no= $sales[$i]['trans_no'];?>
 <!--<a href="<?php //echo 'index.php?module=sales&void='.$ref_id=$reference_no;?>" title="" class="tip" data-original-title="Cancel Sale"><i class="icon-remove-sign"></i></a> -->
-<a class="member" href="<?php echo '/index.php?module=sales&void='.$ref_id=$reference_no;?>"><button class="btn btn-danger" type="button">Cancel</button></a><br>
+<a class="member" href="<?php echo '/index.php?module=sales&void='.$ref_id=$reference_no;?>"><button class="btn btn-danger" type="button">Cancel Sale</button></a><br>
 <?php if ($_GET['void']!=0){ //To confirm not to insert '0' value on pageload
 $void_value=$_GET['void']; 
 $method_void = isset($_GET['m']) ? $_GET['m'] : 'p'; 
@@ -289,6 +289,8 @@ redirect('module=sales');
     </tr>
   </tfoot>
 </table>
+<?php print_r($data);?>
+<?php echo $paginglinks; ?>
 <div class="btn-group" style="margin-left: 25px;"> <a class="btn btn-primary ">
 <?php echo $session_warehouse_name; ?>  </a>
 </div>

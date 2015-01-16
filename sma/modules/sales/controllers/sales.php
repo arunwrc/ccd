@@ -31,6 +31,7 @@ class Sales extends MX_Controller {
 	  	{
 			redirect('module=auth&view=login');
 	  	}
+		$this->load->library('pagination'); 
 		$this->load->library('form_validation');
 		$this->load->model('sales_model');
 
@@ -47,6 +48,48 @@ class Sales extends MX_Controller {
 			$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 			redirect('module=home', 'refresh');
 		}
+
+
+	   
+		//
+		//from mail
+		
+		$per_page = 10; 
+		$data['result'] = $this->sales_model->getSalesByLocation(); // for display result
+		$config["total_rows"] = '5';
+		$config["per_page"] = '3';
+		$config['prev_link'] = FALSE;
+		$config['next_link'] = FALSE;
+		$config['display_pages'] = FALSE;
+		$config['first_link'] = FALSE;
+		$config['last_link'] = FALSE; 
+		$this->pagination->initialize($config);
+		$data['paginglinks'] = $this->pagination->create_links();   
+		//echo "<pre>";print_r($config);echo "</pre>";
+		//$this->load->view('viewname', $data); //your view name
+		//
+		//
+
+	/*$this->load->library("pagination");
+
+	$config = array();
+	$config["base_url"] = base_url() . "index.php?module=sales";
+	$config["total_rows"] = '5';
+	$config["per_page"] = '3';
+	$config['prev_link'] = FALSE;
+	$config['next_link'] = FALSE;
+	$config['display_pages'] = FALSE;
+	$config['first_link'] = FALSE;
+	$config['last_link'] = FALSE;
+
+	$this->pagination->initialize($config);
+	$data['paginglinks'] = $this->pagination->create_links();   
+
+	print_r($data); exit;*/
+    //$this->load->view('viewname', $data); //your view name
+	
+
+
 
 
 	$data['sales'] = $this->sales_model->getSalesByLocation();

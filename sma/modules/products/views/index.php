@@ -144,7 +144,7 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data); //ec
             <th><?php echo $this->lang->line("product_unit"); ?></th>
             <th><?php echo $this->lang->line("warehouse"); ?></th>
             
-            <th style="min-width:115px; text-align:center;"><?php echo $this->lang->line("actions"); ?></th> 
+            
 		</tr>
         </thead>
 
@@ -183,14 +183,7 @@ $output = $this->fabridge->open($method, $action, $record, $filter, $data); //ec
         		<td><?php echo $output[$i]['Product_Quantity'];?></td>	
         		<td><?php echo $output[$i]['UOM'];?></td>
         		<td><?php echo $output[$i]['Warehouse_name'];?></td>
-        		<td>
-        			<center>
-        			<a href="index.php?module=suppliers&amp;view=edit&amp;id=1" title="" class="tip" data-original-title="Edit Supplier"><i class="icon-edit"></i></a> 
-        			<a href="index.php?module=suppliers&amp;view=delete&amp;id=1" onclick="return confirm('You are going to remove this supplier. Press OK to proceed and Cancel to Go Back')" title="" class="tip" data-original-title="Delete Supplier">
-        				<i class="icon-trash"></i>
-        			</a>
-        			</center>
-        		</td>
+        		
         	</tr>
         	<?php }?>
         </tbody>
