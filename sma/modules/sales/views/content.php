@@ -244,6 +244,7 @@ $data_void = array(
 //'date_'=>'01-01-2015',
 'memo_'=> '0');
 $output_void = $this->fabridge->open($method_void, $action_void, $record_void, $filter_void, $data_void);
+$this->session->set_flashdata('success_message', "Sale id ".$reference_no."  cancelled");
 redirect('module=sales');
 }
 

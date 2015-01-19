@@ -49,8 +49,8 @@ class Pos extends MX_Controller {
 /* -------------------------------------------------------------------------------------------------------------------------------- */ 
 //Add new pos sale
 
-   function index()
-   {
+	function index()
+	{
 	   	if( $this->input->get('suspend_id') ) { $data['sid'] = $this->input->get('suspend_id'); } else { $data['sid'] = NULL; }
 		if( $this->input->post('delete_id') ) { $did = $this->input->post('delete_id'); } else { $did = NULL; }
 		if( $this->input->post('suspend') ) { $suspend = TRUE; } else { $suspend = FALSE; }
@@ -68,144 +68,34 @@ class Pos extends MX_Controller {
 		$this->form_validation->set_rules('customer', $this->lang->line("customer"), 'trim|required|xss_clean');
 
 		$quantity = "quantity";
+		$discount = "dsctxt";
 		$product = "product";
-		$unit_price = "price";
-		$tax_rate = "tax_rate";
-		$sl = "serial";
-		$dis = "discount";
+		$unit_price = "price";		
+
 			
 		if ($this->form_validation->run() == true)
 		{
 			$date = date('Y-m-d');
-			$reference_no = $this->pos_model->getNextAI();
-			$paid_by = $this->input->post('rpaidby');
-			$count = $this->input->post('count'); $count = $count - 1;
-			$warehouse_id = DEFAULT_WAREHOUSE;
-			$biller_id = DBILLER;
-			$biller_details = $this->pos_model->getBillerByID($biller_id);
-			$biller_name = $biller_details->name;
+			$items = array();
 			
 			$list = explode(":",$this->input->post('customer'));
-
-			
-
-			if($customer_details = $this->pos_model->getCustomerByName($this->input->post('customer'))) {
-				$customer_id = $customer_details->id;
-				$customer_name = $customer_details->name;
-			} else { 
-				$customer_details = $this->pos_model->getCustomerByName(DCUS);
-				$customer_id = $customer_details->id;
-				$customer_name = $customer_details->name;
-			}
-			
-			if(DISCOUNT_OPTION == 1) { $inv_discount = DEFAULT_DISCOUNT; }
-			if(TAX2) {  $tax_rate2 = DEFAULT_TAX2; }
-			
-			$inv_total_no_tax = 0;
-
-				for($i=1; $i<=500; $i++){
-					if( $this->input->post($quantity.$i) && $this->input->post($product.$i) && $this->input->post($unit_price.$i) ) {
-						
-						if(TAX1) { 
-							$tax_id = $this->input->post($tax_rate.$i);
-							$tax_details = $this->pos_model->getTaxRateByID($tax_id);
-							$taxRate = $tax_details->rate;
-							$taxType = $tax_details->type;	
-							$tax_rate_id[] = $tax_id;	
-							
-							if($taxType == 1 && $taxRate != 0) {
-							$item_tax = (($this->input->post($quantity.$i)) * ($this->input->post($unit_price.$i)) * $taxRate / 100);
-							$val_tax[] = $item_tax;
-							} else {
-							$item_tax = $taxRate;	
-							$val_tax[] = $item_tax;
-							}
-							
-							if($taxType == 1) { $tax[] = $taxRate."%"; } else { $tax[] = $taxRate;  }			
-						} else {
-							$item_tax = 0;
-							$tax_rate_id[] = 0;
-							$val_tax[] = 0;
-							$tax[] = "";
-						}
-						
-						if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 2) {
-						
-							$discount_id = $this->input->post($dis.$i);
-							$ds_details = $this->pos_model->getDiscountByID($discount_id);
-							$ds = $ds_details->discount;
-							$dsType = $ds_details->type;	
-							$dsID[] = $discount_id;	
-							
-							if($dsType == 1 && $ds != 0) {
-							$val_ds[] = (($this->input->post($quantity.$i)) * ($this->input->post($unit_price.$i)) * $ds / 100);
-							} else {
-							$val_ds[] = $ds * ($this->input->post($quantity.$i));
-							}
-							
-							if($dsType == 1) { $discount[] = $ds."%"; } else { $discount[] = $ds;  }	
-						
-						} elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 2) {
-						
-							$discount_id = $this->input->post($dis.$i);
-							$ds_details = $this->pos_model->getDiscountByID($discount_id);
-							$ds = $ds_details->discount;
-							$dsType = $ds_details->type;	
-							$dsID[] = $discount_id;	
-							
-							if($dsType == 1 && $ds != 0) {
-							$val_ds[] = (((($this->input->post($quantity.$i)) * ($this->input->post($unit_price.$i)) + $item_tax) * $ds) / 100);
-							} else {
-							$val_ds[] = $ds * ($this->input->post($quantity.$i));
-							}
-							
-							if($dsType == 1) { $discount[] = $ds."%"; } else { $discount[] = $ds;  }	
-						
-						} else {
-							$val_ds[] = 0;
-							$dsID[] = 0;
-							$discount[] = "";
-							
-						}
-						if(PRODUCT_SERIAL) { $serial[] = $this->input->post($sl.$i); } else { $serial[] = ""; }
-						$inv_quantity[] = $this->input->post($quantity.$i);
-						$inv_product_code[] = $this->input->post($product.$i);
-						$inv_unit_price[] = $this->input->post($unit_price.$i);
-						$inv_gross_total[] = (($this->input->post($quantity.$i)) * ($this->input->post($unit_price.$i)));
-						
-						$inv_total_no_tax += (($this->input->post($quantity.$i)) * ($this->input->post($unit_price.$i)));
-						
-					}
+			//set form items
+			for($i=1; $i<=500; $i++){
+				if( $this->input->post($quantity.$i) && $this->input->post($product.$i) && $this->input->post($unit_price.$i) ) {
+					$inv_quantity[] = $this->input->post($quantity.$i);
+					$inv_discount[] = $this->input->post($discount.$i);
+					$inv_product_code[] = $this->input->post($product.$i);
+					$inv_unit_price[] = $this->input->post($unit_price.$i);
+					//$inv_discount_value[] = (($this->input->post($quantity.$i)) * ($this->input->post($unit_price.$i)) * $this->input->post($discount.$i) / 100);
 				}
-			
-				
-			if(DISCOUNT_OPTION == 2) {
-				$total_ds = array_sum($val_ds);
-			} else {
-				$total_ds = 0;
 			}
-			
-			
-			if(TAX1) {
-				$total_tax = array_sum($val_tax);
-			} else {
-				$total_tax = 0;
-			}
-			
-			
+			//---------------------------------------------
+
+			//get product details from fa bridge and items array settings
 			if(!empty($inv_product_code)) {	 
 				//print_r($inv_product_code);exit;
 				foreach($inv_product_code as $pr_code){
 
-					/*
-					$product_details = $this->pos_model->getProductByCode($pr_code);
-					$product_id[] = $product_details->id;
-					$product_name[] = $product_details->name;
-					$product_code[] = $product_details->code;
-					$product_unit[] = $product_details->unit;
-					*/
-					/////
-					//if($this->input->get('code')) { $code = $pr_code; } 
 					$method = isset($_GET['m']) ? $_GET['m'] : 'g';
 					$action = isset($_GET['a']) ? $_GET['a'] : 'inventorybystockid'; 
 					$record = isset($_GET['r']) ? $_GET['r'] : $pr_code;
@@ -213,102 +103,39 @@ class Pos extends MX_Controller {
 					$inventorybystockid = $this->fabridge->open($method, $action, $record, $filter, $data); 
 					$product_id[] = $inventorybystockid[0]['stock_id'];
 					$product_name[] = $inventorybystockid[0]['description'];
-					$product_code[] = $inventorybystockid[0]['stock_id']; //print_r($code); exit;
-					$product_unit[] = $inventorybystockid[0]['units'];
-					//$data = array('price'=> $inventorybystockid[0]['material_cost'], 'name' => $inventorybystockid[0]['description'], 'code' => $inventorybystockid[0]['stock_id']);
-					//echo json_encode($data);
-					/////
-				}
-			}
-		
-			$keys = array("product_id","product_code","product_name","product_unit", "tax_rate_id", "tax","quantity","unit_price", "gross_total", "val_tax", "serial_no", "discount_val", "discount", "discount_id");
-			
-			$items = array();
-			foreach ( array_map(null, $product_id, $product_code, $product_name, $product_unit, $tax_rate_id, $tax, $inv_quantity, $inv_unit_price, $inv_gross_total, $val_tax, $serial, $val_ds, $discount, $dsID) as $key => $value ) {
-				$items[] = array_combine($keys, $value);
-			}
-			//echo "<pre>"; print_r($items); echo "</pre>"; exit;
-			if(TAX2) {
-				$tax_dts = $this->pos_model->getTaxRateByID($tax_rate2);
-				$taxRt = $tax_dts->rate;
-				$taxTp = $tax_dts->type;	
 					
-				if($taxTp == 1 && $taxRt != 0) {
-					$val_tax2 = ($inv_total_no_tax * $taxRt / 100);
-				} else {
-					$val_tax2 = $taxRt;
+				}
+
+				
+				$keys = array("stock_id","qty","price","discount", "description");
+				for($i= 0;$i < count($product_id); $i++){
+					$items_invoice[] =array
+							(
+							    'stock_id' => $product_id[$i],
+							    'qty' => $inv_quantity[$i],
+							    'price' => $inv_unit_price[$i],
+							    'discount' => $inv_discount[$i],
+							    'description' => $product_name[$i]
+							);
 				}
 				
-			} else {
-				$val_tax2 = 0;
-				$tax_rate2 = 0;
+
+				//echo "<pre>"; print_r($items_invoice); echo "</pre>"; exit;
 			}
-			
-			if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) {
-				
-				$ds_dts = $this->pos_model->getDiscountByID($inv_discount);
-				$ds = $ds_dts->discount;
-				$dsTp = $ds_dts->type;	
-					
-				if($dsTp == 1 && $ds != 0) {
-					$val_discount = ($inv_total_no_tax * $ds / 100);
-				} else {
-					$val_discount = $ds;
-				}
-			
-			} elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) {
-				
-				$ds_dts = $this->pos_model->getDiscountByID($inv_discount);
-				$ds = $ds_dts->discount;
-				$dsTp = $ds_dts->type;	
-					
-				if($dsTp == 1 && $ds != 0) {
-					$val_discount = ((($inv_total_no_tax + $total_tax + $val_tax2) * $ds) / 100);
-				} else {
-					$val_discount = $ds;
-				}
-				
-			} else {
-				$val_discount = $total_ds;
-				$inv_discount = 0;
-			}
-			
-			$gTotal = $inv_total_no_tax + $total_tax + $val_tax2 - $val_discount;
-			
-			$saleDetails = array('reference_no' => $reference_no,
-					'date' => $date,
-					'biller_id' => $biller_id,
-					'biller_name' => $biller_name,
-					'customer_id' => $customer_id,
-					'customer_name' => $customer_name,
-					'inv_total' => $inv_total_no_tax,
-					'total_tax' => $total_tax,
-					'total' => $gTotal,
-					'total_tax2' => $val_tax2,
-					'tax_rate2_id' => $tax_rate2,
-					'inv_discount' => $val_discount,
-					'discount_id' => $inv_discount,
-					'user'	=> USER_NAME,
-					'paid_by' => $paid_by,
-					'count' => $count
-				);
-				
-		}
-		
-		if ( $this->form_validation->run() == true && !empty($items) )
-		{ 
-			if($suspend) {
-				if($this->pos_model->suspendSale($saleDetails, $items, $count, $did)) {
-					$this->session->set_flashdata('success_message', $this->lang->line("sale_suspended"));
-					redirect("module=pos", 'refresh');			
-				}
-			} else {
+			//---------------------------------------------
 
 
-				//if($saleID = $this->pos_model->addSale($saleDetails, $items, $warehouse_id, $did)) {
+			//get customer and insert invoice
+			if (!empty($items_invoice) )
+			{ 
+				if($suspend) {
+					if($this->pos_model->suspendSale($saleDetails, $items, $count, $did)) {
+						$this->session->set_flashdata('success_message', $this->lang->line("sale_suspended"));
+						redirect("module=pos", 'refresh');			
+					}
+				} else {
 
-					//add fa sales invoice
-					//$customer_id = '4';
+
 					$customer_id = substr($list[1],0,-1);
 					$trans_type = '10';
 					
@@ -319,29 +146,17 @@ class Pos extends MX_Controller {
 					$data = array();
 					$pos_customer = $this->fabridge->open($method, $action, $record, $filter, $data);
 
-			//print_r($pos_customer);exit;
+					//print_r($pos_customer);exit;
 					if($pos_customer){
-	
-						//setup items array from ccd .
-						foreach($items as $item){
-							$items_invoice[] =array
-							(
-							    'stock_id' => $item['product_id'],
-							    'qty' => $item['quantity'],
-							    'price' => $item['unit_price'],
-							    'discount' => $item['discount_val'],
-							    'description' => $item['product_name']
-							);
-						}
 						
 						$warehouse = $this->session->userdata('default_warehouse');
 
-				if ($this->ion_auth->in_group('salesman')){
-					$salesman = $this->session->userdata('salesman');
-				}else{
-					$salesman = '1';
-				}
-				//echo $salesman;exit;
+						if ($this->ion_auth->in_group('salesman')){
+							$salesman = $this->session->userdata('salesman');
+						}else{
+							$salesman = '1';
+						}
+						//echo $salesman;exit;
 
 						$cart = array(
 							'trans_type'		=> $trans_type,
@@ -382,56 +197,56 @@ class Pos extends MX_Controller {
 					}
 					//--------------------------fa ends here------------------------------
 					
-				//}
+
 			}
 		}
-		else
-		{ 
+		//---------------------------------------------get customer and insert invoice-----
+	}else{  //validation fails 
 		
 		$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 		$data['success_message'] = $this->session->flashdata('success_message');
-						
-	  
-	  $data['customer'] = $this->pos_model->getCustomerById(DCUS);
-	  $data['biller'] = $this->pos_model->getBillerByID(DBILLER);
-	  $data['discounts'] = $this->pos_model->getAllDiscounts();
-	  $data['tax_rates'] = $this->pos_model->getAllTaxRates();
-	  $data["total_cats"] = $this->pos_model->categories_count();
-	  $data["total_cp"] = $this->pos_model->products_count(DCAT);
-	  if(DISCOUNT_OPTION == 1) { 
-			$discount_details = $this->pos_model->getDiscountByID(DEFAULT_DISCOUNT);
 			
-	  		$data['discount_rate'] = $discount_details->discount;
- 			$data['discount_type'] = $discount_details->type;
+
+		$data['customer'] = $this->pos_model->getCustomerById(DCUS);
+		$data['biller'] = $this->pos_model->getBillerByID(DBILLER);
+		$data['discounts'] = $this->pos_model->getAllDiscounts();
+		$data['tax_rates'] = $this->pos_model->getAllTaxRates();
+		$data["total_cats"] = $this->pos_model->categories_count();
+		$data["total_cp"] = $this->pos_model->products_count(DCAT);
+		if(DISCOUNT_OPTION == 1) { 
+			$discount_details = $this->pos_model->getDiscountByID(DEFAULT_DISCOUNT);
+
+			$data['discount_rate'] = $discount_details->discount;
+			$data['discount_type'] = $discount_details->type;
 			$data['discount_name'] = $discount_details->name;
-	  } 
-	  if(DISCOUNT_OPTION == 2) { 
+		} 
+		if(DISCOUNT_OPTION == 2) { 
 			$discount2_details = $this->pos_model->getDiscountByID(DEFAULT_DISCOUNT);
-	  		$data['discount_rate2'] = $discount2_details->discount;
- 			$data['discount_type2'] = $discount2_details->type;
-	  } 
-	  if(TAX1) {
-	  $tax_rate_details = $this->pos_model->getTaxRateByID(DEFAULT_TAX);
-	  $data['tax_rate'] = $tax_rate_details->rate;
+			$data['discount_rate2'] = $discount2_details->discount;
+			$data['discount_type2'] = $discount2_details->type;
+		} 
+		if(TAX1) {
+		$tax_rate_details = $this->pos_model->getTaxRateByID(DEFAULT_TAX);
+		$data['tax_rate'] = $tax_rate_details->rate;
 
- 		$data['tax_type'] = $tax_rate_details->type;
+		$data['tax_type'] = $tax_rate_details->type;
 		$data['tax_name'] = $tax_rate_details->name;
-	   	
-	  }
-	  if(TAX2) {
-		$tax_rate2_details = $this->pos_model->getTaxRateByID(DEFAULT_TAX2);
-	  	$data['tax_rate2'] = $tax_rate2_details->rate;
-		$data['tax_name2'] = $tax_rate2_details->name;
- 		$data['tax_type2'] = $tax_rate2_details->type;
-	  }
-	   $data['products'] = $this->ajaxproducts(DCAT);
-	   $data['categories'] = $this->poscategories();
-	   
-	  $data['page_title'] = $this->lang->line("pos_module");
-
-      $this->load->view('add', $data);
 
 		}
+		if(TAX2) {
+		$tax_rate2_details = $this->pos_model->getTaxRateByID(DEFAULT_TAX2);
+		$data['tax_rate2'] = $tax_rate2_details->rate;
+		$data['tax_name2'] = $tax_rate2_details->name;
+		$data['tax_type2'] = $tax_rate2_details->type;
+		}
+		$data['products'] = $this->ajaxproducts(DCAT);
+		$data['categories'] = $this->poscategories();
+
+		$data['page_title'] = $this->lang->line("pos_module");
+
+		$this->load->view('add', $data);
+
+	}
    }
    
    function tax_rates()

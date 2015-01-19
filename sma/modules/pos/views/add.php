@@ -93,7 +93,8 @@
                   <tr>
                     <th style="width: 30px; color:#FFF;padding:5px 0; font-weight:normal;"><i class="icon-trash icon-white"></i></th>
                     <th style="width: 200px; color:#FFF;padding:5px 0; font-weight:normal;"><?php echo $this->lang->line('product'); ?></th>
-                    <th style="width: 42px; color:#FFF;padding:5px 0; font-weight:normal;"><?php echo $this->lang->line('qty'); ?></th>
+                    <th style="width: 40px; color:#FFF;padding:5px 0; font-weight:normal;"><?php echo $this->lang->line('qty'); ?></th>
+		<th style="width: 44px; color:#FFF;padding:5px 0; font-weight:normal;">Discount</th>
                     <th style="width: 82px; color:#FFF; padding:5px 0; font-weight:normal;"><?php echo $this->lang->line('price'); ?></th>
                   </tr>
                 </thead>
@@ -115,6 +116,7 @@
               <td style="padding-left:10px; text-align:left;"><?php echo $this->lang->line('total_x_tax'); ?></td>
               <td style="text-align:right; padding-right:10px; font-size: 14px; font-weight:bold;"><span id="total">0.00</span></td>
             </tr>
+	<!--
             <?php if(TAX1 || TAX2) { ?>
             <tr>
               <?php if(TAX1 && !TAX2) { ?>
@@ -137,6 +139,8 @@
               <?php } ?>
             </tr>
             <?php } ?>
+
+		-->
             <tr>
               <td style="padding-left:10px; text-align:left; " colspan="2"><?php echo $this->lang->line('discount'); ?></td>
               <td style="text-align:right; padding-right:10px; font-weight:bold;" colspan="2"><span id="ds">0.00</span></td>
@@ -818,7 +822,7 @@ function add_row() {
 			var quan='quantity'+last;
 			var code='code'+last;
 			var newTr = $('<tr id="row_'+ count + last +'"></tr>');
-			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + last +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ prod_code +'" id="product-'+ count + last +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + last +'"><input type="hidden" name="tax_rate'+ count +'" value="<?php echo DEFAULT_TAX; ?>" id="tax_rate-'+ count + last +'"><input type="hidden" name="discount'+ count +'" value="<?php echo DEFAULT_DISCOUNT; ?>" id="discount-'+ count + last +'"><a href="#" id="model-'+ count + last +'" class="code">'+ prod_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + last +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + last +'"></td>');
+			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + last +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ prod_code +'" id="product-'+ count + last +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + last +'"><a href="#" id="model-'+ count + last +'" class="code">'+ prod_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="dsctxt'+ count +'" type="text" value="0" autocomplete="off" id="dsctxt-'+ count + last +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + last +'"></td>');
 			
 			newTr.appendTo("#saletbl");
 			 
@@ -882,7 +886,8 @@ function add_row() {
 }
 	  
 function key_pad() { 
-	$('.keyboard').keyboard({
+	/*$('.keyboard').keyboard({
+		
 		restrictInput: true,
 		preventPaste: true,
 		autoAccept: true,
@@ -1025,6 +1030,119 @@ function key_pad() {
 		 $("#count").append(count-1);
 		 
 		}
+	});*/
+
+	 
+	$('.keyboard').keyboard({
+		
+		restrictInput: true,
+		preventPaste: true,
+		autoAccept: true,
+		alwaysOpen: false,
+		openOn       : 'click',
+		layout: 'costom',
+		display: {
+				'a'     : '\u2714:Accept (Shift-Enter)', 
+				'accept': 'Accept:Accept (Shift-Enter)',
+				'b'     : '\u2190:Backspace', 
+				'bksp'  : 'Bksp:Backspace',
+				'c'     : '\u2716:Cancel (Esc)', 
+				'cancel': 'Cancel:Cancel (Esc)',
+			'clear'  : 'C:Clear'
+		
+		},
+		position     : {
+				of : null, 
+				my : 'center top',
+				at : 'center top',
+				at2: 'center bottom' 
+		},
+		usePreview   : false,
+		customLayout: {
+				'default': [
+				  '1 2 3 {b}',
+				  '4 5 6 {clear}',
+				  '7 8 9 0',
+				  '{accept} {cancel}'
+					]
+		},
+		beforeClose : function(e, keyboard, el, accepted) {		
+
+			var row_id = $(this).attr('id');
+			var sp_id = row_id.split("-");
+			var id_no = sp_id[1]+"-"+sp_id[2];
+
+			var pr = '#price-'+id_no;
+			var dsc = '#dsctxt-'+id_no;
+			var qty = '#quantity-'+id_no;
+
+			var row_price = parseFloat($.trim($(pr).val()));
+
+			if(sp_id[0] == 'quantity'){
+
+				var before_qty = parseInt(keyboard.originalContent);
+				var row_qty = parseInt(el.value);
+				count = (count - before_qty) + row_qty;
+				
+				var row_dsc = parseInt($(dsc).val());
+				var product_price = (row_price /  before_qty );
+
+				var old_pr_discount = ((product_price * row_dsc)/100) * before_qty;
+							;
+				var new_pr_discount = ((product_price * row_dsc)/100) * row_qty;
+				
+				total_discount = (total_discount - old_pr_discount) + new_pr_discount;
+
+				
+			}else{
+				var row_qty = parseInt($(qty).val());
+				var product_price = (row_price /  row_qty );
+
+				var before_dsc = parseInt(keyboard.originalContent);
+				var row_dsc = parseFloat(el.value);
+
+				var old_pr_discount = ((product_price * before_dsc)/100) * row_qty;
+							;
+				var new_pr_discount = ((product_price * row_dsc)/100) * row_qty;
+				
+				total_discount = (total_discount - old_pr_discount) + new_pr_discount;
+
+				
+				
+			}
+			
+			
+
+			var gross_total = row_qty * product_price; 
+			
+			total = (total - row_price) + gross_total;
+			
+			gross_total = parseFloat(gross_total).toFixed(2);
+			$(pr).val(gross_total);
+
+			current = parseFloat(total).toFixed(2);
+
+
+
+			var current_discount = parseFloat(total_discount).toFixed(2);
+		
+			
+			 var g_total = total - total_discount;
+			 grand_total = parseFloat(g_total).toFixed(2);
+			
+			 $("#count").empty();
+			 $("#total").empty();
+			 $("#ds").empty(); 
+			 $("#total-payable").empty();
+
+			 $("#count").append(count-1);
+			 $("#total").append(current);
+			 $("#ds").append(current_discount);
+			 $("#total-payable").append(grand_total);
+		 
+		 
+		 
+		}
 	});
 		
 }	
@@ -1099,7 +1217,7 @@ $('#scancode').keydown(function(e){
 			if(item_price == null) { $(this).val(''); bootbox.alert('<?php echo $this->lang->line('code_error'); ?>'); $('#gmail_loading').hide(); return false; }
 			
 			var newTr = $('<tr id="row_'+ count + slast +'"></tr>');
-			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + slast +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ sproduct_code +'" id="product-'+ count + slast +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + slast +'"><input type="hidden" name="tax_rate'+ count +'" value="<?php echo DEFAULT_TAX; ?>" id="tax_rate-'+ count + slast +'"><input type="hidden" name="discount'+ count +'" value="<?php echo DEFAULT_DISCOUNT; ?>" id="discount-'+ count + slast +'"><a href="#" id="model-'+ count + slast +'" class="code">'+ sproduct_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + slast +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + slast +'"></td>');
+			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + slast +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ sproduct_code +'" id="product-'+ count + slast +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + slast +'"><a href="#" id="model-'+ count + slast +'" class="code">'+ sproduct_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="dsctxt'+ count +'" type="text" value="0" autocomplete="off" id="dsctxt-'+ count + slast +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + slast +'"></td>');
 			
 			newTr.appendTo("#saletbl");
 		 
