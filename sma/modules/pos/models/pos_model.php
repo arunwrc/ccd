@@ -988,6 +988,45 @@ class Pos_model extends CI_Model
 			return true;
 		}
 		return false;
-	}  
+	} 
+
+	/***********APIs*******************
+	**********************************/
+	public function getInvoice($trans_no){
+
+		if($trans_no == NULL)
+			return false;
+
+		//get invoice details from fa trans table
+		$trans_type = '10';//salesinvoice
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'sales';
+		$record = isset($_GET['r']) ? $_GET['r'] : $trans_no."/".$trans_type;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$data = array();
+		$invoice = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+		if($invoice){
+			//get invoice details from fa trans table
+			$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+			$action = isset($_GET['a']) ? $_GET['a'] : 'taxtransaction';
+			$record = isset($_GET['r']) ? $_GET['r'] : $trans_no;
+			$filter = isset($_GET['f']) ? $_GET['f'] : false;
+			$data = array();
+			$invoice['taxes'] = $this->fabridge->open($method, $action, $record, $filter, $data);
+
+			return $invoice;
+		}
+			
+		else
+			return false;
+	}
+
+
+	/**********************************
+	**********************************/
+
+
+
 	
 }

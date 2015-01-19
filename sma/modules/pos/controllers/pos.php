@@ -373,6 +373,7 @@ class Pos extends MX_Controller {
 						$record = isset($_GET['r']) ? $_GET['r'] : '';
 						$filter = isset($_GET['f']) ? $_GET['f'] : false;
 						$trans_no = $this->fabridge->open($method, $action, $record, $filter,$cart);
+						
 						if($trans_no){
 							$this->session->set_flashdata('success_message', $this->lang->line("sale_added"));
 							redirect("module=pos&view=view_invoice&id=".$trans_no, 'refresh');			
@@ -748,25 +749,14 @@ function products() {
    {
 	if($this->input->get('id')){ $sale_id = $this->input->get('id'); } else { $sale_id = NULL; }
 
-		//get invoice details from fa trans table
-		$trans_type = '10';//salesinvoice
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
-		$action = isset($_GET['a']) ? $_GET['a'] : 'sales';
-		$record = isset($_GET['r']) ? $_GET['r'] : $sale_id."/".$trans_type;
-		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$data = array();
-		$data['invoice'] = $this->fabridge->open($method, $action, $record, $filter, $data);
+		//get invoice details 
+		$data['invoice'] =  $this->pos_model->getInvoice($sale_id);
+		//echo "<pre>";print_r($data['invoice']);echo "</pre>";exit;
 
 		//get company prefs
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
-		$action = isset($_GET['a']) ? $_GET['a'] : 'company';
-		$record = isset($_GET['r']) ? $_GET['r'] : '';
-		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$data['company'] = $this->fabridge->open($method, $action, $record, $filter, $data);
+		$data['company'] =$this->ion_auth_model->getCompanyPrefs();
 
 
-		
-		
 	   
 	   	$data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
 

@@ -1,5 +1,5 @@
 <?php 
-//echo "<pre>";print_r($company);echo "</pre>";
+//echo "<pre>";print_r($invoice['display_total']);echo "</pre>";
 ?>
 <!doctype html>
 <html>
@@ -126,6 +126,14 @@ h3 { margin: 5px 0; }
     <tr>
     <td colspan="2" style="text-align:left;"><?php echo $this->lang->line("discount"); ?></td><td colspan="2" style="text-align:right;font-weight:bold;"><?php echo $this->ion_auth->formatMoney($invoice['discount']); ?></td>
     </tr>
+
+
+    <?php foreach($invoice['taxes'] as $tax){?>
+    <tr>
+    <td colspan="2" style="text-align:left;"><?php echo $tax['name']; ?></td><td colspan="2" style="text-align:right;font-weight:bold;"><?php echo $tax['amount']; ?></td>
+    </tr>
+    <?php }?>
+
     <tr>
     <td colspan="2" style="text-align:left; font-weight:bold; border-top:1px solid #000; padding-top:10px;"><?php echo $this->lang->line("total_payable"); ?></td><td colspan="2" style="border-top:1px solid #000; padding-top:10px; text-align:right; font-weight:bold;"><?php echo $this->ion_auth->formatMoney($invoice['display_total']); ?></td>
     </tr>
