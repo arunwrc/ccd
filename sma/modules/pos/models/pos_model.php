@@ -96,10 +96,7 @@ class Pos_model extends CI_Model
 		}
 	}
 	
-	public function products_count($category_id) {
-		$this->db->where('category_id', $category_id)->from('products');
-        return $this->db->count_all_results();
-    }
+	
 
     public function fetch_products($category_id, $limit, $start, $wh_id) {
 		
@@ -1049,6 +1046,18 @@ class Pos_model extends CI_Model
 		else
 			return 0;
 	}
+
+	public function products_count($category_id) {
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'catproductcount'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : $category_id;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$count = $this->fabridge->open($method, $action, $record, $filter, $data); 
+		if($count)
+			return $count[0];
+		else
+			return 0;
+    	}
 
 
 	public function getPOSCustomer($id)

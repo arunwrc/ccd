@@ -63,11 +63,15 @@
     </div>
   </div>
 </div>
+
 <div id="content">
 <div class="c1">
   <div class="pos">
+
     <?php if($message) { echo "<div class=\"alert alert-error\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $message . "</div>"; } ?>
+
     <?php if($success_message) { echo "<div class=\"alert alert-success\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>" . $success_message . "</div>"; } ?>
+
     <div id="pos"> <?php echo form_open("module=pos"); ?>
       <div id="leftdiv">
       <div id="printhead">
@@ -145,6 +149,7 @@
         <input type="submit" id="submit" value="Submit Sale" style="display: none;" />
       </div>
       <?php echo form_close();?>
+
       <div id="cp">
         <div id="cpinner">
           <div id="catContainer">
@@ -162,11 +167,11 @@
                 <div id="proajax">
                   <?php
 
-echo $products;
+			echo $products;
 
-echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-index:10002;'><i><img src='assets/pos/images/previous.png' alt='previous' /></i><span><span>".$this->lang->line('previous')."</span></span></button><button id=\"next\" type=\"button\" class=\"blue\" style='z-index:10003;'><i><img src='assets/pos/images/next.png' alt='next' /></i><span><span>".$this->lang->line('next')."</span></span></button></div>";
+			echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-index:10002;'><i><img src='assets/pos/images/previous.png' alt='previous' /></i><span><span>".$this->lang->line('previous')."</span></span></button><button id=\"next\" type=\"button\" class=\"blue\" style='z-index:10003;'><i><img src='assets/pos/images/next.png' alt='next' /></i><span><span>".$this->lang->line('next')."</span></span></button></div>";
 
-?>
+		?>
                 </div>
               </div>
               <div style="clear:both;"></div>
@@ -182,6 +187,8 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
 </div>
 </div>
 </div>
+
+<!--on item click <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
 <div id="itemModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -190,36 +197,9 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
   <div class="modal-body">
     <div class="form-horizontal">
       <input type="hidden" id="itemRowId" value="">
-      <?php if(TAX1) { ?>
-      <div class="control-group">
-        <label class="control-label" for="tax1"><?php echo $this->lang->line("tax1"); ?></label>
-        <div class="controls">
-          <?php 
-	   		foreach($tax_rates as $tax){
-				$tr[$tax->id] = $tax->name;
-			}
-		echo form_dropdown('tax1', $tr, DEFAULT_TAX, 'id="item_tax"'); ?>
-        </div>
-      </div>
-      <?php } ?>
-      <?php if(DISCOUNT_OPTION == 2) { ?>
-      <div class="control-group">
-        <label class="control-label" for="discount"><?php echo $this->lang->line("discount"); ?></label>
-        <div class="controls">
-          <?php 
-	   		foreach($discounts as $discount){
-				$ds[$discount->id] = $discount->name;
-			}
-		echo form_dropdown('discount', $ds, DEFAULT_DISCOUNT, 'id="item_discount" '); ?>
-        </div>
-      </div>
-      <?php } ?>
-      <?php if(PRODUCT_SERIAL) { ?>
-      <div class="control-group">
-        <label class="control-label" for="serial_no"><?php echo $this->lang->line("serial_no"); ?></label>
-        <div class="controls"> <?php echo form_input('serial_no', '', 'id="item_serial_no" '); ?> </div>
-      </div>
-      <?php } ?>
+      
+      
+      
     </div>
   </div>
   <div class="modal-footer">
@@ -227,6 +207,10 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
     <button class="btn btn-primary" id="updateRow"><?php echo $this->lang->line('save'); ?></button>
   </div>
 </div>
+<!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>on item click  -->
+
+<!--payment click <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+
 <div id="paymentModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -240,6 +224,9 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
     <button class="btn btn-primary" id="submit-sale"><?php echo $this->lang->line('submit'); ?></button>
   </div>
 </div>
+<!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>payment click  -->
+
+<!--customer add click <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
 <div id="customerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -299,6 +286,9 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
     <button class="btn btn-primary" id="add-customer"><?php echo $this->lang->line('add_customer'); ?></button>
   </div>
 </div>
+<!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>customer add click  -->
+
+<!--today sales click <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
 <div id="saleModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="saleModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -315,6 +305,8 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
   <div class="blackbg"></div>
   <div class="gmailLoader"> <img src="<?php echo $this->config->base_url(); ?>assets/pos/images/gmail-loader.gif" alt="Loading ..." /> <?php echo $this->lang->line('loading'); ?> </div>
 </div>
+<!-->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>today sales click  -->
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -322,25 +314,8 @@ $(document).ready(function(){
 	var total = 0; var total_discount = 0;
 	var an = 1; 
 
-	var discount_method = <?php echo DISCOUNT_METHOD; ?>;
-	<?php if(DISCOUNT_OPTION == 1) { ?>
-	var discount = <?php echo $discount_rate; ?>;
-	var discount_type = <?php echo $discount_type; ?>;
-	<?php } ?>
-	<?php if(DISCOUNT_OPTION == 2) { ?>
-	var discount2 = <?php echo $discount_rate2; ?>;
-	var discount_type2 = <?php echo $discount_type2; ?>;
-	<?php } ?>
-	<?php if(TAX1) { ?>
-	var tax_rate = <?php echo $tax_rate; ?>;
-	var tax_type = <?php echo $tax_type; ?>;
-	<?php } ?>
 	var tax_value = 0;
-	<?php if(TAX2) { ?>
-	var tax_rate2 = <?php echo $tax_rate2; ?>;
-	var tax_type2 = <?php echo $tax_type2; ?>;
-	<?php } ?>
-	var tax_value2 = 0;
+	
 	var ids = new Array();
 	var p_page = 0;
 	var page = 0;
@@ -349,45 +324,44 @@ $(document).ready(function(){
 	var slast; var old_val; var new_val;
 	var total_cp = 0;
 	var total_cats = <?php echo $total_cats; ?>;
-	var new_tax_rate; var new_tax_type; var old_tax_rate; var old_tax_type;
-	var new_discount_rate; var new_discount_type; var old_discount_rate; var old_discount_type;
+	
 	add_row();
 	loadProducts();
 		 
-function loadProducts() {
-$('button[id^="category"]').click(function () {
-	if(cat_id != $(this).val()) {	
-	$('#gmail_loading').show();
-	cat_id = $(this).val();
-	$.ajax({
-		type: "get",
-		url: "index.php?module=pos&view=ajaxproducts",
-		data: { category_id: cat_id, per_page: 'n' },
-		dataType: "html",
-		success: function(data) {
-			  $('#proajax').empty();
-			  var newPrs = $('<div></div>');
-			  newPrs.html(data);
-			  newPrs.appendTo("#proajax");
-		 }
-	}).done(function() { 
-		add_row();
-		$.ajax({
-		  type: "get",
-		  async: false,
-		  url: "index.php?module=pos&view=total_cp",
-		  data: { category_id: cat_id },
-		  dataType: "html",
-		  success: function(data) {
-			   total_cp = data;
-		  }
-		});	
-	p_page = 'n';
-	$('#gmail_loading').hide();
-	});
+	function loadProducts() {
+		$('button[id^="category"]').click(function () {
+			if(cat_id != $(this).val()) {	
+				$('#gmail_loading').show();
+			cat_id = $(this).val();
+			$.ajax({
+				type: "get",
+				url: "index.php?module=pos&view=ajaxproducts",
+				data: { category_id: cat_id, per_page: 'n' },
+				dataType: "html",
+				success: function(data) {
+					  $('#proajax').empty();
+					  var newPrs = $('<div></div>');
+					  newPrs.html(data);
+					  newPrs.appendTo("#proajax");
+				 }
+			}).done(function() { 
+				add_row();
+				$.ajax({
+				  type: "get",
+				  async: false,
+				  url: "index.php?module=pos&view=total_cp",
+				  data: { category_id: cat_id },
+				  dataType: "html",
+				  success: function(data) {
+					   total_cp = data;
+				  }
+				});	
+			p_page = 'n';
+			$('#gmail_loading').hide();
+			});
+			}
+		});
 	}
-});
-}
 
 $('#next').click(function () {
 	if (p_page == 'n') { p_page = 0 }
@@ -642,511 +616,281 @@ $("#saletbl").on("click", 'input[id^="price"]', function() {
 
 
 /*------------------------------------------------------------------------------------------------------------------*/
-		  
-$("#saletbl").on("click", 'button[class^="del_row"]', function() {
-			var delID=$(this).attr('id');
-			var dl_id = delID.split("-");
- 			var rw_no = dl_id[1];
-			var p1 = $('#price-'+rw_no);
-			var q1 = $('#quantity-'+rw_no);
+	
+	
+
+	$("#saletbl").on("focus", ".keyboard", function() {
+		key_pad();
+	});
+
+	/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< product row adding on click product button*/
+	function add_row() {
+		$('button[id^="product"]').click(function () {
 			
-			<?php if(TAX1) { ?>
-			var t1 = $('#tax_rate-'+rw_no);
-			var t1_val = t1.val();		
+			var v = $(this).val();
+			var a = ids.indexOf(v);
+			/*alert(a);
+			if(a < 0){
+				bootbox.alert("This item already added.");
+				 return false;
+			}*/
+			
+
+			if(count>=1000) {
+				 bootbox.alert("<?php echo $this->lang->line('qty_limit'); ?>");
+				 return false;
+			}
+			if(an >= 51){
+				  bootbox.alert("<?php echo $this->lang->line('max_pro_reached'); ?>");
+				  $('#gmail_loading').hide();
+					var divElement = document.getElementById('protbldiv');
+					 divElement.scrollTop = divElement.scrollHeight;
+				  return false;
+			}
+			$('#gmail_loading').show();		
+			
+    //alert(v);
 			$.ajax({
 				  type: "get",
 				  async: false,
-				  url: "index.php?module=pos&view=tax_rates",
-				  data: { id: t1_val },
+				  url: "index.php?module=pos&view=price",
+				  data: { code: v },
 				  dataType: "json",
 				  success: function(data) {
-						 new_tax_rate = parseFloat(data.new_tax_rate);
-						 new_tax_type = parseFloat(data.new_tax_type);
-					},
-				error: function(){
-					bootbox.alert('<?php echo $this->lang->line('tax_request_failed'); ?>');
-					return false;
-				}
-				  
+					  item_price = parseFloat(data.price); 
+					  prod_name = data.name;
+					  prod_code = data.code;
+					}
+
 			});
-			<?php } else {?>
-				new_pr_tax_rate = 0;
-			<?php } ?>
-			
-			<?php if(DISCOUNT_OPTION == 2) { ?>
-			var d1 = $('#discount-'+rw_no);
-			var d1_val = d1.val();	
-			$.ajax({
-				type: "get",
-				async: false,
-				url: "index.php?module=pos&view=discounts",
-				data: { id: d1_val },
-				dataType: "json",
-				success: function(data) {
-					   new_discount_rate = parseFloat(data.new_discount);
-					   new_discount_type = parseFloat(data.new_discount_type);
-				  },
-			  error: function(){
-				  bootbox.alert('<?php echo $this->lang->line('discount_request_failed'); ?>');
-				  return false;
-			  }
-			});
-		<?php } ?> 
-	
-		 var row_price = parseFloat(p1.val());
-		 var row_quantity = parseInt(q1.val());
-		 total = total - row_price;
-		 current = parseFloat(total).toFixed(2);	 
-		 count = count - row_quantity;
-		 if(isNaN(count)) {  
-		 	bootbox.alert('<?php echo $this->lang->line('pos_error'); ?>');  
-			$('#cancel').trigger('click'); 
-			return false; 
-		}
-		 if(isNaN(current)) {  
-		 	bootbox.alert('<?php echo $this->lang->line('pos_error'); ?>');
-			$('#cancel').trigger('click');  
-			return false; 
-		}
-		 <?php if(TAX1) { ?>
-		 if(new_tax_type == 2){ new_pr_tax_rate = new_tax_rate; }
-		 if(new_tax_type == 1){ new_pr_tax_rate = (row_price*new_tax_rate)/100; }
-		 tax_value = tax_value - new_pr_tax_rate;
-		 current_tax = Math.abs(tax_value).toFixed(2);
-		 <?php } ?>
-		 
-		 <?php if(DISCOUNT_OPTION == 2) { ?>
-
-		<?php if(DISCOUNT_METHOD == 1) { ?>
-			if(new_discount_type == 2){ new_pr_discount = new_discount_rate; }
-			if(new_discount_type == 1){ new_pr_discount = (row_price*new_discount_rate)/100; }
-		<?php } elseif(DISCOUNT_METHOD == 2) { ?>
-			if(new_discount_type == 2){ new_pr_discount = new_discount_rate; }
-			if(new_discount_type == 1){ new_pr_discount = ((row_price + new_pr_tax_rate) * new_discount_rate)/100; }
-		<?php } ?>
-		total_discount = total_discount - new_pr_discount;	
-		<?php } else { ?> 
-				new_pr_discount = 0;
-		<?php } ?> 
-		
-		<?php if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount; }
-			if(discount_type == 1){ new_discount_value = (total*discount)/100; }
-			total_discount = new_discount_value;
-			<?php } elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount; }
-			if(discount_type == 1){ new_discount_value = ((total + tax_value + tax_value2) * discount)/100; }
-			total_discount = new_discount_value;
-			<?php } ?>
-		 <?php if(TAX2) { ?>
-		 if(tax_type2 == 2){ tax_value2 = tax_rate2; }
-			if(tax_type2 == 1){ tax_value2 = (total*tax_rate2)/100; }
-			current_tax2 = Math.abs(tax_value2).toFixed(2);
-		<?php } ?>
-		 var g_total = (total + tax_value + tax_value2) - total_discount;
-		 current_discount = Math.abs(total_discount).toFixed(2);
-		 grand_total = Math.abs(g_total).toFixed(2);
-			
-		 $("#total-payable").empty(); $("#total-payable").append(grand_total);
-		 $("#total").empty(); $("#total").append(current);
-		 $("#count").empty(); $("#count").append(count-1);
-		 <?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax); <?php } ?>
-		 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax2); <?php } ?>
-		 <?php if(DISCOUNT_OPTION == 2) { ?>$("#ds").empty(); $("#ds").append(current_discount); <?php } ?>
-		 
-		 an--;
-		 row_id = $("#row_"+rw_no);
-		 row_id.remove();
-				
-});
-
-$("#saletbl").on("focus", ".keyboard", function() {
-key_pad();
-});
 
 
-function add_row() {
-	$('button[id^="product"]').click(function () {
-		if(count>=1000) {
-			 bootbox.alert("<?php echo $this->lang->line('qty_limit'); ?>");
-			 return false;
-		}
-		if(an >= 51){
-			  bootbox.alert("<?php echo $this->lang->line('max_pro_reached'); ?>");
-			  $('#gmail_loading').hide();
-				var divElement = document.getElementById('protbldiv');
-				 divElement.scrollTop = divElement.scrollHeight;
-			  return false;
-		}
-		$('#gmail_loading').show();		
-		var v = $(this).val();
-    //alert(v);
-		$.ajax({
-			  type: "get",
-			  async: false,
-			  url: "index.php?module=pos&view=price",
-			  data: { code: v },
-			  dataType: "json",
-			  success: function(data) {
-				  item_price = parseFloat(data.price); 
-				  prod_name = data.name;
-				  prod_code = data.code;
-				}
-
-		});
 			var leng=$(this).attr('id').length;
 			var last = $(this).attr('id').substr(leng-4);
 			var pric='price'+last;
 			var quan='quantity'+last;
 			var code='code'+last;
 			var newTr = $('<tr id="row_'+ count + last +'"></tr>');
-			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + last +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ prod_code +'" id="product-'+ count + last +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + last +'"><a href="#" id="model-'+ count + last +'" class="code">'+ prod_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="dsctxt'+ count +'" type="text" value="0" autocomplete="off" id="dsctxt-'+ count + last +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + last +'"></td>');
+			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + last +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ prod_code +'" id="product-'+ count + last +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + last +'"><a href="#" id="model-'+ count + last +'" class="code">'+ prod_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + last +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="discount'+ count +'" type="text" value="0" autocomplete="off" id="discount-'+ count + last +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + last +'"></td>');
 			
 			newTr.appendTo("#saletbl");
+			ids.push(v);//make selected ids array
 			 
 		 	total += item_price;
 			current = parseFloat(total).toFixed(2);
-			<?php if(TAX1) { ?>
-			if(tax_type == 2){ new_tax_value = tax_rate; }
-			if(tax_type == 1){ new_tax_value = (item_price*tax_rate)/100; }
-			tax_value += new_tax_value;
-			current_tax = parseFloat(tax_value).toFixed(2);
-			<?php } ?>
-			<?php if(TAX2) { ?>
-			if(tax_type2 == 2){ tax_value2 = tax_rate2; }
-			if(tax_type2 == 1){ tax_value2 = (total*tax_rate2)/100; }
-			current_tax2 = parseFloat(tax_value2).toFixed(2);
-			<?php } ?>
+			current_discount = parseFloat(total_discount).toFixed(2);
 			
-			<?php if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount1; }
-			if(discount_type == 1){ new_discount_value = (total*discount)/100; }
-			total_discount = new_discount_value;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount1; }
-			if(discount_type == 1){ new_discount_value = ((total + tax_value + tax_value2) * discount)/100; }
-			total_discount = new_discount_value;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } ?>
+		 	var g_total = total  - total_discount;
+		 	grand_total = parseFloat(g_total).toFixed(2);
 			
-			<?php if(DISCOUNT_OPTION == 2 && DISCOUNT_METHOD == 1) { ?>
-			if(discount_type2 == 2){ new_discount_value2 = discount2; }
-			if(discount_type2 == 1){ new_discount_value2 = (item_price*discount2)/100; }
-			total_discount += new_discount_value2;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } elseif(DISCOUNT_OPTION == 2 && DISCOUNT_METHOD == 2) { ?>
-			if(discount_type2 == 2){ new_discount_value2 = discount2; }
-			if(discount_type2 == 1){ new_discount_value2 = ((item_price + new_tax_value)*discount2)/100; }
-			total_discount += new_discount_value2;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } ?>
-		 var g_total = total + tax_value + tax_value2 - total_discount;
-		 grand_total = parseFloat(g_total).toFixed(2);
-			
-		 $("#total-payable").empty(); $("#total-payable").append(grand_total);
-		 $("#total").empty(); $("#total").append(current);
-		 $("#count").empty(); $("#count").append(count);
-		 <?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax);<?php } ?>
-		 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax2);<?php } ?>
-		 <?php if(DISCOUNT_OPTION == 1 || DISCOUNT_OPTION == 2) { ?> $("#ds").empty(); $("#ds").append(current_discount); <?php } ?>
+		 	$("#total-payable").empty(); $("#total-payable").append(grand_total);
+			$("#total").empty(); $("#total").append(current);
+		 	$("#count").empty(); $("#count").append(count);
+			$("#ds").empty(); 
+			$("#ds").append(current_discount); 
 		  
-		 count++;
-		 an++;
-		 var divElement = document.getElementById('protbldiv');
-		 divElement.scrollTop = divElement.scrollHeight;
+		 	count++;
+		 	an++;
+		 	var divElement = document.getElementById('protbldiv');
+		 	divElement.scrollTop = divElement.scrollHeight;
 
-		 $('#gmail_loading').hide(); 
+			 $('#gmail_loading').hide(); 
 		 
 
 		 });
 		 		 
-}
-	  
-function key_pad() { 
-	/*$('.keyboard').keyboard({
-		
-		restrictInput: true,
-		preventPaste: true,
-		autoAccept: true,
-		alwaysOpen: false,
-		openOn       : 'click',
-		layout: 'costom',
-		display: {
-				'a'     : '\u2714:Accept (Shift-Enter)', 
-				'accept': 'Accept:Accept (Shift-Enter)',
-				'b'     : '\u2190:Backspace', 
-				'bksp'  : 'Bksp:Backspace',
-				'c'     : '\u2716:Cancel (Esc)', 
-				'cancel': 'Cancel:Cancel (Esc)',
-			'clear'  : 'C:Clear'
-		
-		},
-		position     : {
-				of : null, 
-				my : 'center top',
-				at : 'center top',
-				at2: 'center bottom' 
-		},
-		usePreview   : false,
-		customLayout: {
-				'default': [
-				  '1 2 3 {b}',
-				  '4 5 6 {clear}',
-				  '7 8 9 0',
-				  '{accept} {cancel}'
-					]
-		},
-		beforeClose : function(e, keyboard, el, accepted) {		
-			var before_qty = parseInt(keyboard.originalContent);
-			var after_qty = parseInt(el.value);
-			var row_id = $(this).attr('id');
-			var sp_id = row_id.split("-");
- 			var id_no = sp_id[1];
-			var p = '#price-'+id_no;
-			var row_price = parseFloat($.trim($(p).val()));
-			if(before_qty == 1) { product_price =  row_price; }
-			if(before_qty > 1) { product_price = (row_price /  before_qty ); }
-			var gross_total = after_qty * product_price;
-			var b_count = (count - before_qty);
-			var a_count = (b_count + after_qty);
-			count = a_count;
-			var b_total = (total - row_price);
-			var a_total = (b_total + gross_total);
-			total = a_total;
-			gross_total = parseFloat(gross_total).toFixed(2);
-			$(p).val(gross_total);
-			current = parseFloat(total).toFixed(2);
-		<?php if(TAX1) { ?>	
-			var pr_tax_id = $('#tax_rate-'+id_no).val();
-			$.ajax({
-				  type: "get",
-				  async: false,
-				  url: "index.php?module=pos&view=tax_rates",
-				  data: { id: pr_tax_id },
-				  dataType: "json",
-				  success: function(data) {
-						 new_tax_rate = parseFloat(data.new_tax_rate);
-						 new_tax_type = parseFloat(data.new_tax_type);
-					},
-				error: function(){
-					bootbox.alert('<?php echo $this->lang->line('tax_request_failed'); ?>');
-					return false;
-				}
-			});
+	}
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+
+	/*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<delete row of items selected*/	  
+	$("#saletbl").on("click", 'button[class^="del_row"]', function() {
+		var delID=$(this).attr('id');
+		var dl_id = delID.split("-");
+		var rw_no = dl_id[1]+"-"+dl_id[2];
+
+		var p1 = $('#price-'+rw_no);
+		var q1 = $('#quantity-'+rw_no);
+		var d1 = $('#discount-'+rw_no);
 			
-		 if(new_tax_type == 2){ new_tax_value = new_tax_rate; }
-		 if(new_tax_type == 1){ new_tax_value = (product_price*new_tax_rate)/100; }
-		 tax_value = tax_value - (new_tax_value * before_qty);
-		 tax_value = tax_value + (new_tax_value * after_qty);
-		 current_tax = parseFloat(tax_value).toFixed(2);
-		 <?php } else { ?>
-		 	new_tax_value = 0;
-		 <?php } ?>
-		 
-		 <?php if(DISCOUNT_OPTION == 2) { ?>
-			var pr_ds_id = $('#discount-'+id_no).val();
 	
-			$.ajax({
-			  type: "get",
-			  async: false,
-			  url: "index.php?module=pos&view=discounts",
-			  data: { id: pr_ds_id },
-			  dataType: "json",
-			  success: function(data) {
-					 new_discount_rate = parseFloat(data.new_discount);
-					 new_discount_type = parseFloat(data.new_discount_type);
-				},
-			error: function(){
-       			bootbox.alert('<?php echo $this->lang->line('discount_request_failed'); ?>');
-				return false;
-    		}
-			  
-			});
-	
-		<?php if(DISCOUNT_METHOD == 1) { ?>
-		 	if(new_discount_type == 2){ new_pr_discount = new_discount_rate; }
-			if(new_discount_type == 1){ new_pr_discount = (product_price*new_discount_rate)/100; }
-		<?php } elseif(DISCOUNT_METHOD == 2) { ?>
-		 	if(new_discount_type == 2){ new_pr_discount = new_discount_rate; }
-			if(new_discount_type == 1){ new_pr_discount = ((product_price + new_tax_value) * new_discount_rate)/100; }
-		<?php } ?>
-			total_discount = total_discount - (new_pr_discount * before_qty);
-			total_discount = total_discount + (new_pr_discount * after_qty);
-			current_discount = parseFloat(total_discount).toFixed(2);
-		<?php } ?> 
-		 
-		 <?php if(TAX2) { ?>
-		 if(tax_type2 == 2){ tax_value2 = tax_rate2; }
-			if(tax_type2 == 1){ tax_value2 = (total*tax_rate2)/100; }
-			current_tax2 = parseFloat(tax_value2).toFixed(2);
-		<?php } ?>	
-		
-		<?php if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount1; }
-			if(discount_type == 1){ new_discount_value = (total*discount)/100; }
-			total_discount = new_discount_value;
-			current_discount = parseFloat(total_discount).toFixed(2);
-		<?php } elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount1; }
-			if(discount_type == 1){ new_discount_value = ((total + tax_value + tax_value2) * discount)/100; }
-			total_discount = new_discount_value;
-			current_discount = parseFloat(total_discount).toFixed(2);
-		<?php } ?>
-			
-		 var g_total = (total + tax_value + tax_value2) - total_discount;
-		 grand_total = parseFloat(g_total).toFixed(2);
-			
-		 $("#total-payable").empty();
-		 $("#total").empty();
-		 $("#count").empty();
-		 <?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax);<?php } ?>
-		 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax2);<?php } ?>
-		 <?php if(DISCOUNT_OPTION == 1 || DISCOUNT_OPTION == 2) { ?> $("#ds").empty(); $("#ds").append(current_discount); <?php } ?>
-		  $("#total-payable").append(grand_total);
-		 $("#total").append(current);
-		 $("#count").append(count-1);
-		 
+		var row_price = parseFloat(p1.val());
+		var row_quantity = parseInt(q1.val());
+		var row_discount = parseFloat(d1.val());
+		total = total - row_price;
+		current = parseFloat(total).toFixed(2);	 
+		count = count - row_quantity;
+
+		var row_discount_value = (row_price*row_discount)/100;
+		total_discount = total_discount - row_discount_value;	 
+
+		if(isNaN(count)) {  
+		 	bootbox.alert('<?php echo $this->lang->line('pos_error'); ?>');  
+			$('#cancel').trigger('click'); 
+			return false; 
 		}
-	});*/
 
-	 
-	$('.keyboard').keyboard({
-		
-		restrictInput: true,
-		preventPaste: true,
-		autoAccept: true,
-		alwaysOpen: false,
-		openOn       : 'click',
-		layout: 'costom',
-		display: {
-				'a'     : '\u2714:Accept (Shift-Enter)', 
-				'accept': 'Accept:Accept (Shift-Enter)',
-				'b'     : '\u2190:Backspace', 
-				'bksp'  : 'Bksp:Backspace',
-				'c'     : '\u2716:Cancel (Esc)', 
-				'cancel': 'Cancel:Cancel (Esc)',
-			'clear'  : 'C:Clear'
-		
-		},
-		position     : {
-				of : null, 
-				my : 'center top',
-				at : 'center top',
-				at2: 'center bottom' 
-		},
-		usePreview   : false,
-		customLayout: {
-				'default': [
-				  '1 2 3 {b}',
-				  '4 5 6 {clear}',
-				  '7 8 9 0',
-				  '{accept} {cancel}'
-					]
-		},
-		beforeClose : function(e, keyboard, el, accepted) {		
-
-			var row_id = $(this).attr('id');
-			var sp_id = row_id.split("-");
-			var id_no = sp_id[1]+"-"+sp_id[2];
-
-			var pr = '#price-'+id_no;
-			var dsc = '#dsctxt-'+id_no;
-			var qty = '#quantity-'+id_no;
-
-			var row_price = parseFloat($.trim($(pr).val()));
-
-			if(sp_id[0] == 'quantity'){
-
-				var before_qty = parseInt(keyboard.originalContent);
-				var row_qty = parseInt(el.value);
-				count = (count - before_qty) + row_qty;
-				
-				var row_dsc = parseInt($(dsc).val());
-				var product_price = (row_price /  before_qty );
-
-				var old_pr_discount = ((product_price * row_dsc)/100) * before_qty;
-							;
-				var new_pr_discount = ((product_price * row_dsc)/100) * row_qty;
-				
-				total_discount = (total_discount - old_pr_discount) + new_pr_discount;
-
-				
-			}else{
-				var row_qty = parseInt($(qty).val());
-				var product_price = (row_price /  row_qty );
-
-				var before_dsc = parseInt(keyboard.originalContent);
-				var row_dsc = parseFloat(el.value);
-
-				var old_pr_discount = ((product_price * before_dsc)/100) * row_qty;
-							;
-				var new_pr_discount = ((product_price * row_dsc)/100) * row_qty;
-				
-				total_discount = (total_discount - old_pr_discount) + new_pr_discount;
-
-				
-				
-			}
-			
-			
-
-			var gross_total = row_qty * product_price; 
-			
-			total = (total - row_price) + gross_total;
-			
-			gross_total = parseFloat(gross_total).toFixed(2);
-			$(pr).val(gross_total);
-
-			current = parseFloat(total).toFixed(2);
-
-
-
-			var current_discount = parseFloat(total_discount).toFixed(2);
-		
-			
-			 var g_total = total - total_discount;
-			 grand_total = parseFloat(g_total).toFixed(2);
-			
-			 $("#count").empty();
-			 $("#total").empty();
-			 $("#ds").empty(); 
-			 $("#total-payable").empty();
-
-			 $("#count").append(count-1);
-			 $("#total").append(current);
-			 $("#ds").append(current_discount);
-			 $("#total-payable").append(grand_total);
-		 
-		 
-		 
+		 if(isNaN(current)) {  
+		 	bootbox.alert('<?php echo $this->lang->line('pos_error'); ?>');
+			$('#cancel').trigger('click');  
+			return false; 
 		}
+		
+
+		 var g_total = total - total_discount;
+		 current_discount = Math.abs(total_discount).toFixed(2);
+		 grand_total = Math.abs(g_total).toFixed(2);
+			
+		 $("#total-payable").empty(); $("#total-payable").append(grand_total);
+		 $("#total").empty(); $("#total").append(current);
+		 $("#count").empty(); $("#count").append(count-1);
+		 $("#ds").empty(); $("#ds").append(current_discount); 
+		 an--;
+		 row_id = $("#row_"+rw_no);
+		 row_id.remove();
+				
 	});
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+	  
+	function key_pad() { 
+	
+		$('.keyboard').keyboard({
 		
-}	
+			restrictInput: true,
+			preventPaste: true,
+			autoAccept: true,
+			alwaysOpen: false,
+			openOn       : 'click',
+			layout: 'costom',
+			display: {
+					'a'     : '\u2714:Accept (Shift-Enter)', 
+					'accept': 'Accept:Accept (Shift-Enter)',
+					'b'     : '\u2190:Backspace', 
+					'bksp'  : 'Bksp:Backspace',
+					'c'     : '\u2716:Cancel (Esc)', 
+					'cancel': 'Cancel:Cancel (Esc)',
+				'clear'  : 'C:Clear'
+		
+			},
+			position     : {
+					of : null, 
+					my : 'center top',
+					at : 'center top',
+					at2: 'center bottom' 
+			},
+			usePreview   : false,
+			customLayout: {
+					'default': [
+					  '1 2 3 {b}',
+					  '4 5 6 {clear}',
+					  '7 8 9 0',
+					  '{accept} {cancel}'
+						]
+			},
+			beforeClose : function(e, keyboard, el, accepted) {		
 
-$( "#customer" ).autocomplete({
-			source: function(request, response) {
-				$.ajax({ url: "<?php echo site_url('module=customers&view=suggestions'); ?>",
+				var row_id = $(this).attr('id');
+				var sp_id = row_id.split("-");
+				var id_no = sp_id[1]+"-"+sp_id[2];
+
+				var pr = '#price-'+id_no;
+				var dsc = '#discount-'+id_no;
+				var qty = '#quantity-'+id_no;
+
+				var row_price = parseFloat($.trim($(pr).val()));
+
+				if(sp_id[0] == 'quantity'){
+
+					var before_qty = parseInt(keyboard.originalContent);
+					var row_qty = parseInt(el.value);
+					count = (count - before_qty) + row_qty;
+				
+					var row_dsc = parseInt($(dsc).val());
+					var product_price = (row_price /  before_qty );
+
+					var old_pr_discount = ((product_price * row_dsc)/100) * before_qty;
+								;
+					var new_pr_discount = ((product_price * row_dsc)/100) * row_qty;
+				
+					total_discount = (total_discount - old_pr_discount) + new_pr_discount;
+
+				
+				}else{
+					var row_qty = parseInt($(qty).val());
+					var product_price = (row_price /  row_qty );
+
+					var before_dsc = parseInt(keyboard.originalContent);
+					var row_dsc = parseFloat(el.value);
+
+					var old_pr_discount = ((product_price * before_dsc)/100) * row_qty;
+								;
+					var new_pr_discount = ((product_price * row_dsc)/100) * row_qty;
+				
+					total_discount = (total_discount - old_pr_discount) + new_pr_discount;
+
+				
+				
+				}
+			
+			
+
+				var gross_total = row_qty * product_price; 
+			
+				total = (total - row_price) + gross_total;
+			
+				gross_total = parseFloat(gross_total).toFixed(2);
+				$(pr).val(gross_total);
+
+				current = parseFloat(total).toFixed(2);
+
+
+
+				var current_discount = parseFloat(total_discount).toFixed(2);
+		
+			
+				 var g_total = total - total_discount;
+				 grand_total = parseFloat(g_total).toFixed(2);
+			
+				 $("#count").empty();
+				 $("#total").empty();
+				 $("#ds").empty(); 
+				 $("#total-payable").empty();
+
+				 $("#count").append(count-1);
+				 $("#total").append(current);
+				 $("#ds").append(current_discount);
+				 $("#total-payable").append(grand_total);
+			 
+			 
+			 
+			}
+		});
+		
+	}	
+
+	/*get customer suggestion<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+	$( "#customer" ).autocomplete({
+		source: function(request, response) {
+			$.ajax({ url: "<?php echo site_url('module=customers&view=suggestions'); ?>",
 				data: { <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash() ?>", term: $("#customer").val()},
 				dataType: "json",
 				type: "get",
 				success: function(data){
-					
+			
 					response(data);
 				}
 			});
 		},
 		minLength: 2,
 		error: function(){
-       			bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
+			bootbox.alert('<?php echo $this->lang->line('ajax_error'); ?>');
 				$('.ui-autocomplete-loading').removeClass("ui-autocomplete-loading");
-    	}
-});
+		}
+	});
+	/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 
-$('#scancode').keydown(function(e){
-			if(e.keyCode == 13){
+	$('#scancode').keydown(function(e){
+		if(e.keyCode == 13){
 				
 			if(count>=1000) {
 				 bootbox.alert("<?php echo $this->lang->line('qty_limit'); ?>");
@@ -1155,7 +899,7 @@ $('#scancode').keydown(function(e){
 			if(an >= 51){
 				  bootbox.alert("<?php echo $this->lang->line('max_pro_reached'); ?>");
 				  $('#gmail_loading').hide();
-					
+				
 					var divElement = document.getElementById('protbldiv');
 					 divElement.scrollTop = divElement.scrollHeight;
 				  return false;
@@ -1164,7 +908,7 @@ $('#scancode').keydown(function(e){
 			
 				
 			$('#gmail_loading').show();
-		  
+			  
 			var v = $(this).val();
 			
 			
@@ -1184,242 +928,242 @@ $('#scancode').keydown(function(e){
 					item_price = null;
 				}
 				},
-			error: function(){
-       			bootbox.alert('<?php echo $this->lang->line('code_error'); ?>');
-				item_price = false;
-    		}
+				error: function(){
+	       				bootbox.alert('<?php echo $this->lang->line('code_error'); ?>');
+					item_price = false;
+    				}
 			  
 			});
 			
-			if(item_price == false) { $(this).val(''); $('#gmail_loading').hide(); return false; }
-			if(item_price == null) { $(this).val(''); bootbox.alert('<?php echo $this->lang->line('code_error'); ?>'); $('#gmail_loading').hide(); return false; }
+				if(item_price == false) { $(this).val(''); $('#gmail_loading').hide(); return false; }
+				if(item_price == null) { $(this).val(''); bootbox.alert('<?php echo $this->lang->line('code_error'); ?>'); $('#gmail_loading').hide(); return false; }
 			
-			var newTr = $('<tr id="row_'+ count + slast +'"></tr>');
-			newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + slast +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ sproduct_code +'" id="product-'+ count + slast +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + slast +'"><a href="#" id="model-'+ count + slast +'" class="code">'+ sproduct_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="dsctxt'+ count +'" type="text" value="0" autocomplete="off" id="dsctxt-'+ count + slast +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + slast +'"></td>');
+				var newTr = $('<tr id="row_'+ count + slast +'"></tr>');
+				newTr.html('<td id="satu" style="text-align:center; width: 27px;"><button type="button" class="del_row" id="del-'+ count + slast +'" value="'+ item_price +'"><i class="icon-trash"></i></button></td><td><input type="hidden" name="product'+ count +'" value="'+ sproduct_code +'" id="product-'+ count + slast +'"><input type="hidden" name="serial'+ count +'" value="" id="serial-'+ count + slast +'"><a href="#" id="model-'+ count + slast +'" class="code">'+ sproduct_name +'</a><input type="hidden" name="price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="oprice-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="quantity'+ count +'" type="text" value="1" autocomplete="off" id="quantity-'+ count + slast +'"></td><td style="text-align:center;"><input class="keyboard" onClick="this.select();" name="discount'+ count +'" type="text" value="0" autocomplete="off" id="discount-'+ count + slast +'"></td><td style="padding-right: 10px; text-align:right;"><input type="text" class="price" name="unit_price'+ count +'" value="'+ parseFloat(item_price).toFixed(2) +'" id="price-'+ count + slast +'"></td>');
 			
-			newTr.appendTo("#saletbl");
-		 
-		 	total += parseFloat(item_price);
-			current = parseFloat(total).toFixed(2);
+				newTr.appendTo("#saletbl");
+			 
+			 	total += parseFloat(item_price);
+				current = parseFloat(total).toFixed(2);
 			
-			<?php if(TAX1) { ?>
-			if(tax_type == 2){ new_tax_value = tax_rate; }
-			if(tax_type == 1){ new_tax_value = (item_price*tax_rate)/100; }
-			tax_value += new_tax_value;
-			current_tax = parseFloat(tax_value).toFixed(2);
-			<?php } ?>
-			<?php if(TAX2) { ?>
-			if(tax_type2 == 2){ tax_value2 = tax_rate2; }
-			if(tax_type2 == 1){ tax_value2 = (total*tax_rate2)/100; }
-			current_tax2 = parseFloat(tax_value2).toFixed(2);
-			<?php } ?>
+				<?php if(TAX1) { ?>
+				if(tax_type == 2){ new_tax_value = tax_rate; }
+				if(tax_type == 1){ new_tax_value = (item_price*tax_rate)/100; }
+				tax_value += new_tax_value;
+				current_tax = parseFloat(tax_value).toFixed(2);
+				<?php } ?>
+				<?php if(TAX2) { ?>
+				if(tax_type2 == 2){ tax_value2 = tax_rate2; }
+				if(tax_type2 == 1){ tax_value2 = (total*tax_rate2)/100; }
+				current_tax2 = parseFloat(tax_value2).toFixed(2);
+				<?php } ?>
 			
-			<?php if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount1; }
-			if(discount_type == 1){ new_discount_value = (total*discount)/100; }
-			total_discount = new_discount_value;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) { ?>
-			if(discount_type == 2){ new_discount_value = discount1; }
-			if(discount_type == 1){ new_discount_value = ((total + tax_value + tax_value2) * discount)/100; }
-			total_discount = new_discount_value;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } ?>
+				<?php if(DISCOUNT_METHOD == 1 && DISCOUNT_OPTION == 1) { ?>
+				if(discount_type == 2){ new_discount_value = discount1; }
+				if(discount_type == 1){ new_discount_value = (total*discount)/100; }
+				total_discount = new_discount_value;
+				current_discount = parseFloat(total_discount).toFixed(2);
+				<?php } elseif(DISCOUNT_METHOD == 2 && DISCOUNT_OPTION == 1) { ?>
+				if(discount_type == 2){ new_discount_value = discount1; }
+				if(discount_type == 1){ new_discount_value = ((total + tax_value + tax_value2) * discount)/100; }
+				total_discount = new_discount_value;
+				current_discount = parseFloat(total_discount).toFixed(2);
+				<?php } ?>
 			
-			<?php if(DISCOUNT_OPTION == 2 && DISCOUNT_METHOD == 1) { ?>
-			if(discount_type2 == 2){ new_discount_value2 = discount2; }
-			if(discount_type2 == 1){ new_discount_value2 = (parseFloat(item_price)*discount2)/100; }
-			total_discount += new_discount_value2;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } elseif(DISCOUNT_OPTION == 2 && DISCOUNT_METHOD == 2) { ?>
-			if(discount_type2 == 2){ new_discount_value2 = discount2; }
-			if(discount_type2 == 1){ new_discount_value2 = ((parseFloat(item_price) + new_tax_value) * discount2)/100; }
-			total_discount += new_discount_value2;
-			current_discount = parseFloat(total_discount).toFixed(2);
-			<?php } ?>
-		 var g_total = total + tax_value + tax_value2 - total_discount;
-		 grand_total = parseFloat(g_total).toFixed(2);
+				<?php if(DISCOUNT_OPTION == 2 && DISCOUNT_METHOD == 1) { ?>
+				if(discount_type2 == 2){ new_discount_value2 = discount2; }
+				if(discount_type2 == 1){ new_discount_value2 = (parseFloat(item_price)*discount2)/100; }
+				total_discount += new_discount_value2;
+				current_discount = parseFloat(total_discount).toFixed(2);
+				<?php } elseif(DISCOUNT_OPTION == 2 && DISCOUNT_METHOD == 2) { ?>
+				if(discount_type2 == 2){ new_discount_value2 = discount2; }
+				if(discount_type2 == 1){ new_discount_value2 = ((parseFloat(item_price) + new_tax_value) * discount2)/100; }
+				total_discount += new_discount_value2;
+				current_discount = parseFloat(total_discount).toFixed(2);
+				<?php } ?>
+			 var g_total = total + tax_value + tax_value2 - total_discount;
+			 grand_total = parseFloat(g_total).toFixed(2);
 			
-		 $("#total-payable").empty(); $("#total-payable").append(grand_total);
-		 $("#total").empty(); $("#total").append(current);
-		 $("#count").empty(); $("#count").append(count);
-		 <?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax);<?php } ?>
-		 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax2);<?php } ?>
-		 <?php if(DISCOUNT_OPTION == 1 || DISCOUNT_OPTION == 2) { ?> $("#ds").empty(); $("#ds").append(current_discount); <?php } ?>
-		 
+			 $("#total-payable").empty(); $("#total-payable").append(grand_total);
+			 $("#total").empty(); $("#total").append(current);
+			 $("#count").empty(); $("#count").append(count);
+			 <?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax);<?php } ?>
+			 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax2);<?php } ?>
+			 <?php if(DISCOUNT_OPTION == 1 || DISCOUNT_OPTION == 2) { ?> $("#ds").empty(); $("#ds").append(current_discount); <?php } ?>
+			 
 	
-		count++;
-		an++;
+			count++;
+			an++;
 			
-		var divElement = document.getElementById('protbldiv');
-		divElement.scrollTop = divElement.scrollHeight;
+			var divElement = document.getElementById('protbldiv');
+			divElement.scrollTop = divElement.scrollHeight;
 
-		$(this).val('');	
-		$('#gmail_loading').hide(); 
-		e.preventDefault();
-		return false;
-		}
+			$(this).val('');	
+			$('#gmail_loading').hide(); 
+			e.preventDefault();
+			return false;
+			}
 			
 			
-});
-
-$('#scancode').bind('keypress', function(e) {
-	if(e.keyCode == 13) {
-		e.preventDefault();
-		return false;
-	}
-});	
-
-$("#cancel").click(function() {
-	if(count <= 1) { 
-		bootbox.alert('<?php echo $this->lang->line('x_cancel'); ?>');  
-		return false;
-	}
-	
-	bootbox.confirm("<?php echo $this->lang->line('sure_to_cancel_sale'); ?>", function(gotit) {
-	if(gotit) {
-		
-	$("#saletbl").empty();
-	count =1;
-	total = 0;
-	tax_value = 0;
-	tax_value2 = 0;
-	an = 1;
-	total_discount = 0;
-	current = parseFloat(total).toFixed(2);
-	 current_tax = parseFloat(tax_value).toFixed(2);
-	 
-	var g_total = total + tax_value;
-	grand_total = parseFloat(g_total).toFixed(2);
-			
-		 $("#total-payable").empty();
-		 $("#total").empty();
-		 $("#count").empty();
-		<?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax);<?php } ?>
-		 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax);<?php } ?>
-		 <?php if(DISCOUNT_OPTION == 1 || DISCOUNT_OPTION == 2) { ?> $("#ds").empty(); $("#ds").append(current_tax); <?php } ?>	  
-		 $("#total-payable").append(grand_total);
-		 $("#total").append(current);
-		 $("#count").append(count-1);
-		 
-	} 	
-	
 	});
-});
 
-$("#payment").click(function() {
+	$('#scancode').bind('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			return false;
+		}
+	});	
+
+	$("#cancel").click(function() {
+		if(count <= 1) { 
+			bootbox.alert('<?php echo $this->lang->line('x_cancel'); ?>');  
+			return false;
+		}
 	
-	$("#paymentdiv").empty();
-	var twt = total - total_discount;
-	count = count - 1;
-	if(isNaN(twt) || twt == 0) {  
-		bootbox.alert('<?php echo $this->lang->line('x_total'); ?>');  
-		return false; 
-	}
-	twt = parseFloat(twt).toFixed(2);
-	newPTDiv = $('<div style="padding: 10px;"></div>');
-	newPTDiv.html('<div class="well form-horizontal" style="margin-bottom:0;"><div class="control-group" style="font-weight:bold;"><div class="control-label" style="padding-top:0;font-weight:bold;"><?php echo $this->lang->line("total_payable"); ?>:</div><div class="controls"><span style="background: #FFFF99; border-radius:5px; padding: 5px 10px; color: #000;">'+ twt +'</span></div></div> <div class="control-group" style="font-weight:bold;"><div class="control-label" style="padding-top:0;font-weight:bold;"><?php echo $this->lang->line("total_items"); ?>:</div><div class="controls"><span style="background: #FFFF99; border-radius:5px; padding: 5px 10px; color: #000;">'+ count +'</span></div></div> <div class="control-group"><label class="control-label" for="paid_by"><?php echo $this->lang->line("paid_by"); ?></label><div class="controls"><select name="paid_by" id="paid_by"><option value="cash">Cash</option><option value="CC">Credit Card</option><option value="Cheque">Cheque</option></select></div></div> <div id="pcash"><div class="control-group"><label class="control-label" for="paid-amount"><?php echo $this->lang->line("paid"); ?></label><div class="controls"><input type="text" id="paid-amount" /></div></div> <div class="control-group" style="font-weight:bold;"><div class="control-label" style="padding-top:0;font-weight:bold;"><?php echo $this->lang->line("change"); ?>:</div><div class="controls"><span style="background: #FFFF99; border-radius:5px; padding: 5px 10px; color: #000;" id="balance"></span></div></div></div> </div></div>');
-	newPTDiv.appendTo("#paymentdiv");
-	$('#ptclick').trigger('click');
-	count = count + 1;
-	$('#paymentModal').modal();
-	$("#paid_by").change(function () {
-	var p_val = $(this).val();
-	if(p_val == 'cash') {
-	$('#pcash').show();
-	$('input[id^="paid-amount"]').keydown(function(e){		
-			paid = $(this).val();
-			if(e.keyCode == 13){
-				if(paid < total) { 
-				bootbox.alert('<?php echo $this->lang->line('paid_l_t_payable'); ?>'); 
-				return false; }
+		bootbox.confirm("<?php echo $this->lang->line('sure_to_cancel_sale'); ?>", function(gotit) {
+		if(gotit) {
+		
+		$("#saletbl").empty();
+		count =1;
+		total = 0;
+		tax_value = 0;
+		tax_value2 = 0;
+		an = 1;
+		total_discount = 0;
+		current = parseFloat(total).toFixed(2);
+		 current_tax = parseFloat(tax_value).toFixed(2);
+		 
+		var g_total = total + tax_value;
+		grand_total = parseFloat(g_total).toFixed(2);
+			
+			 $("#total-payable").empty();
+			 $("#total").empty();
+			 $("#count").empty();
+			<?php if(TAX1) { ?>$("#tax").empty(); $("#tax").append(current_tax);<?php } ?>
+			 <?php if(TAX2) { ?>$("#tax2").empty(); $("#tax2").append(current_tax);<?php } ?>
+			 <?php if(DISCOUNT_OPTION == 1 || DISCOUNT_OPTION == 2) { ?> $("#ds").empty(); $("#ds").append(current_tax); <?php } ?>	  
+			 $("#total-payable").append(grand_total);
+			 $("#total").append(current);
+			 $("#count").append(count-1);
+			 
+		} 	
+	
+		});
+	});
+
+	$("#payment").click(function() {
+	
+		$("#paymentdiv").empty();
+		var twt = total - total_discount;
+		count = count - 1;
+		if(isNaN(twt) || twt == 0) {  
+			bootbox.alert('<?php echo $this->lang->line('x_total'); ?>');  
+			return false; 
+		}
+		twt = parseFloat(twt).toFixed(2);
+		newPTDiv = $('<div style="padding: 10px;"></div>');
+		newPTDiv.html('<div class="well form-horizontal" style="margin-bottom:0;"><div class="control-group" style="font-weight:bold;"><div class="control-label" style="padding-top:0;font-weight:bold;"><?php echo $this->lang->line("total_payable"); ?>:</div><div class="controls"><span style="background: #FFFF99; border-radius:5px; padding: 5px 10px; color: #000;">'+ twt +'</span></div></div> <div class="control-group" style="font-weight:bold;"><div class="control-label" style="padding-top:0;font-weight:bold;"><?php echo $this->lang->line("total_items"); ?>:</div><div class="controls"><span style="background: #FFFF99; border-radius:5px; padding: 5px 10px; color: #000;">'+ count +'</span></div></div> <div class="control-group"><label class="control-label" for="paid_by"><?php echo $this->lang->line("paid_by"); ?></label><div class="controls"><select name="paid_by" id="paid_by"><option value="cash">Cash</option><option value="CC">Credit Card</option><option value="Cheque">Cheque</option></select></div></div> <div id="pcash"><div class="control-group"><label class="control-label" for="paid-amount"><?php echo $this->lang->line("paid"); ?></label><div class="controls"><input type="text" id="paid-amount" /></div></div> <div class="control-group" style="font-weight:bold;"><div class="control-label" style="padding-top:0;font-weight:bold;"><?php echo $this->lang->line("change"); ?>:</div><div class="controls"><span style="background: #FFFF99; border-radius:5px; padding: 5px 10px; color: #000;" id="balance"></span></div></div></div> </div></div>');
+		newPTDiv.appendTo("#paymentdiv");
+		$('#ptclick').trigger('click');
+		count = count + 1;
+		$('#paymentModal').modal();
+		$("#paid_by").change(function () {
+		var p_val = $(this).val();
+		if(p_val == 'cash') {
+		$('#pcash').show();
+		$('input[id^="paid-amount"]').keydown(function(e){		
+				paid = $(this).val();
+				if(e.keyCode == 13){
+					if(paid < total) { 
+					bootbox.alert('<?php echo $this->lang->line('paid_l_t_payable'); ?>'); 
+					return false; }
+					$("#balance").empty();
+					var balance = paid - twt;
+					balance = parseFloat(balance).toFixed(2);
+					$("#balance").append(balance);
+				
+					e.preventDefault();
+					return false;
+				}
+		});
+		} else { 
+			$('#pcash').hide();
+		}
+	
+	$('#rpaidby').val(p_val);
+
+	});
+
+	$('#paid-amount').keyboard({
+			restrictInput: true,
+			preventPaste: true,
+			autoAccept: true,
+			alwaysOpen: false,
+			openOn       : 'click',
+			layout: 'costom',
+			display: {
+					'a'     : '\u2714:Accept (Shift-Enter)', 
+					'accept': 'Accept:Accept (Shift-Enter)',
+					'b'     : '\u2190:Backspace', 
+					'bksp'  : 'Bksp:Backspace',
+					'c'     : '\u2716:Cancel (Esc)', 
+					'cancel': 'Cancel:Cancel (Esc)',
+					'clear'  : 'C:Clear'
+			},
+			position     : {
+					of : null, 
+					my : 'center top',
+					at : 'center top',
+					at2: 'center bottom'
+			},
+			usePreview   : false,
+			customLayout: {
+					'default': [
+					  '1 2 3 {clear}',
+					  '4 5 6 .',
+					  '7 8 9 0',
+					  '{accept} {cancel}'
+						]
+			},
+			beforeClose : function(e, keyboard, el, accepted) {		
+				
+				var paid = parseFloat(el.value);
+				if(paid < twt) { 
+					bootbox.alert('<?php echo $this->lang->line('paid_l_t_payable'); ?>'); 
+					$(this).val('');
+					return false;
+				}
 				$("#balance").empty();
 				var balance = paid - twt;
 				balance = parseFloat(balance).toFixed(2);
-				$("#balance").append(balance);
-				
-				e.preventDefault();
-				return false;
+				if(balance != "NaN") {
+					$("#balance").append(balance);
+				}
 			}
 	});
-	} else { 
-		$('#pcash').hide();
-	}
+
+	});
+
+	$("#paymentModal").on("click", '#submit-sale', function() {	
+		<?php if($sid) { ?>
+		suspend = $('<span></span>');	
+		suspend.html('<input type="hidden" name="delete_id" value="<?php echo $sid; ?>" />');
+		suspend.appendTo("#hidesuspend");
+		<?php } ?>
+		$('#total_item').val(count);
+			bootbox.confirm("<?php echo $this->lang->line('sure_to_submit_sale'); ?>", function(gotit) {
+			if(gotit) {
+				$('#submit').trigger('click');
+			} 
+		});	
+		$('#bootbox-modal').on('shown', function() {
+			$('#paymentModal').css('opacity', .4);
+		});
+		$('#bootbox-modal').on('hidden', function() {
+			$('#paymentModal').css('opacity', 1);
+		});
 	
-$('#rpaidby').val(p_val);
-
-});
-
-$('#paid-amount').keyboard({
-		restrictInput: true,
-		preventPaste: true,
-		autoAccept: true,
-		alwaysOpen: false,
-		openOn       : 'click',
-		layout: 'costom',
-		display: {
-				'a'     : '\u2714:Accept (Shift-Enter)', 
-				'accept': 'Accept:Accept (Shift-Enter)',
-				'b'     : '\u2190:Backspace', 
-				'bksp'  : 'Bksp:Backspace',
-				'c'     : '\u2716:Cancel (Esc)', 
-				'cancel': 'Cancel:Cancel (Esc)',
-				'clear'  : 'C:Clear'
-		},
-		position     : {
-				of : null, 
-				my : 'center top',
-				at : 'center top',
-				at2: 'center bottom'
-		},
-		usePreview   : false,
-		customLayout: {
-				'default': [
-				  '1 2 3 {clear}',
-				  '4 5 6 .',
-				  '7 8 9 0',
-				  '{accept} {cancel}'
-					]
-		},
-		beforeClose : function(e, keyboard, el, accepted) {		
-				
-			var paid = parseFloat(el.value);
-			if(paid < twt) { 
-				bootbox.alert('<?php echo $this->lang->line('paid_l_t_payable'); ?>'); 
-				$(this).val('');
-				return false;
-			}
-			$("#balance").empty();
-			var balance = paid - twt;
-			balance = parseFloat(balance).toFixed(2);
-			if(balance != "NaN") {
-				$("#balance").append(balance);
-			}
-		}
-});
-
-});
-
-$("#paymentModal").on("click", '#submit-sale', function() {	
-	<?php if($sid) { ?>
-	suspend = $('<span></span>');	
-	suspend.html('<input type="hidden" name="delete_id" value="<?php echo $sid; ?>" />');
-	suspend.appendTo("#hidesuspend");
-	<?php } ?>
-	$('#total_item').val(count);
-		bootbox.confirm("<?php echo $this->lang->line('sure_to_submit_sale'); ?>", function(gotit) {
-		if(gotit) {
-			$('#submit').trigger('click');
-		} 
-	});	
-	$('#bootbox-modal').on('shown', function() {
-		$('#paymentModal').css('opacity', .4);
 	});
-	$('#bootbox-modal').on('hidden', function() {
-		$('#paymentModal').css('opacity', 1);
-	});
-	
-});
 
 /* -------------------------------------- */
 

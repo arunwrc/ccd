@@ -68,7 +68,7 @@ class Pos extends MX_Controller {
 		$this->form_validation->set_rules('customer', $this->lang->line("customer"), 'trim|required|xss_clean');
 
 		$quantity = "quantity";
-		$discount = "dsctxt";
+		$discount = "discount";
 		$product = "product";
 		$unit_price = "price";		
 
@@ -236,13 +236,13 @@ class Pos extends MX_Controller {
 		$data['tax_name2'] = $tax_rate2_details->name;
 		$data['tax_type2'] = $tax_rate2_details->type;
 		}
-		$data['products'] = "";
+
 		$data['categories'] = $this->poscategories();
+		$data['products'] = "";
 		
 		
 
 		$data['page_title'] = $this->lang->line("pos_module");
-
 		$this->load->view('add', $data);
 
 	}
@@ -485,22 +485,14 @@ class Pos extends MX_Controller {
 
 
 /* -------------------------------------------------------------------------------------------------------------------------------- */
-
-function total_cp() {
+	//echo count products with category id
+	function total_cp() {
 	   
-	   $category_id = $this->input->get('category_id'); 
-		
-	
-	   if($result = $this->pos_model->products_count($category_id)) {
-
-		} else {
-			$result = 0;	
-		}
-		echo $result;
-
+		$category_id = $this->input->get('category_id'); 
+		$count = $this->pos_model->products_count($category_id);
+		echo $count;
 		exit;
-
-   }
+  	 }
    
 function products() {
 	   
