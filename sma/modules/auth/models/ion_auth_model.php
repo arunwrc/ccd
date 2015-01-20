@@ -858,7 +858,7 @@ class Ion_auth_model extends CI_Model
 					return FALSE;
 				}
 
-
+				
 				$session_data = array(
 				    'identity'             => $user->{$this->identity_column},
 				    'username'             => $user->username,
@@ -867,8 +867,14 @@ class Ion_auth_model extends CI_Model
 				    'old_last_login'       => $user->last_login,
 				    'default_warehouse'	   => $user->default_warehouse,
 				    'salesman'	   	   => $user->salesman_code,
-				    'warehouse_name'	   => ''
+				    'warehouse_name'	   => '',
+				    'coy'		   => $coy
 				);
+
+				$coy = $this->getCompanyPrefs();
+				if($coy){
+					$session_data['pos_customer']= $coy['pos_customer'];
+				}
 
 				//print_r($session_data);exit;
 				$warehouse = $this->getWarehouse($user->default_warehouse);

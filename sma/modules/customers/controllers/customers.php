@@ -426,7 +426,7 @@ class Customers extends MX_Controller {
 	
 		if (strlen($term) < 2) break;
 	
-		$rows = $this->customers_model->getCustomerNames1($term);
+		$rows = $this->customers_model->getCustomerNames($term);
 	
 		/*$json_array = array();
 		foreach ($rows as $row)

@@ -164,21 +164,9 @@ class Customers_model extends CI_Model
 	return FALSE;
 	}
 	
-	public function getCustomerNames($term)
-   	 {
-	   	$this->db->select('name');
-	    $this->db->like('name', $term, 'both');
-   		$q = $this->db->get('customers');
-		if($q->num_rows() > 0) {
-			foreach (($q->result()) as $row) {
-				$data[] = $row;
-			}
-				
-			return $data; 
-		}
-   	 }
+	
 
-	public function getCustomerNames1($term)
+	public function getCustomerNames($term)
 	{
 		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
 		$action = isset($_GET['a']) ? $_GET['a'] : 'customername'; 
@@ -188,6 +176,8 @@ class Customers_model extends CI_Model
 
 		return $names;
 	}
+
+	
 
 
 

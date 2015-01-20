@@ -1023,6 +1023,36 @@ class Pos_model extends CI_Model
 	}
 
 
+	//get product categories from fa
+	public function getCategories()
+	{
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$category = $this->fabridge->open($method, $action, $record, $filter, $data); 
+		if($category)
+			return $category;
+		else
+			return false;
+	}
+
+
+	public function getPOSCustomer($id)
+	{
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'customers'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : $id;
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$names = $this->fabridge->open($method, $action, $record, $filter, array());
+
+		if($names)
+			return $names['name']." (ID:".$names['debtor_no'].")";
+		else
+			return "";
+	}
+
+
 	/**********************************
 	**********************************/
 

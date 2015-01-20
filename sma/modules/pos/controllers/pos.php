@@ -207,7 +207,7 @@ class Pos extends MX_Controller {
 		$data['success_message'] = $this->session->flashdata('success_message');
 			
 
-		$data['customer'] = $this->pos_model->getCustomerById(DCUS);
+		//$data['customer'] = $this->pos_model->getCustomerById(DCUS);
 		$data['biller'] = $this->pos_model->getBillerByID(DBILLER);
 		$data['discounts'] = $this->pos_model->getAllDiscounts();
 		$data['tax_rates'] = $this->pos_model->getAllTaxRates();
@@ -239,8 +239,10 @@ class Pos extends MX_Controller {
 		$data['tax_name2'] = $tax_rate2_details->name;
 		$data['tax_type2'] = $tax_rate2_details->type;
 		}
-		$data['products'] = $this->ajaxproducts(DCAT);
+		$data['products'] = "";//$this->ajaxproducts(DCAT);
 		$data['categories'] = $this->poscategories();
+		
+		$data['pos_customer'] = $this->pos_model->getPOSCustomer($this->session->userdata('pos_customer'));
 
 		$data['page_title'] = $this->lang->line("pos_module");
 
@@ -350,57 +352,35 @@ class Pos extends MX_Controller {
 		   
    }
    
-   function poscategories($category_id = NULL) {
+	//get categories list
+	function poscategories($category_id = NULL) {
 	   
-	   if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } //else { $category_id = DCAT; }
-	   if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
+		if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } 
+		if($this->input->get('per_page') == 'n' ) { $page = 0; } else { $page = $this->input->get('per_page'); }
 	   
-        //$categories = $this->pos_model->getAllCategories();
-		//$count = 1;
 		$cats = "";
 
-		
-		/*foreach($categories as $category) {
-	
-			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category->id."' class=\"gray\">
-			".$category->name."</button></li>";
-			$count++;
-			
-		}*/
-
-		/***********************
-		 API FOR FRONTACCOUNTING
-		************************/
-		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
-		$action = isset($_GET['a']) ? $_GET['a'] : 'category'; 
-		$record = isset($_GET['r']) ? $_GET['r'] : '';
-		$filter = isset($_GET['f']) ? $_GET['f'] : false;
-		$category = $this->fabridge->open($method, $action, $record, $filter, $data); 
-		//echo "<pre>"; print_r($category); echo "</pre>";
-		/***********************
-		************************/
-
-		//////////////////////////////////////
-		for ($count=0; $count < count($category); $count++) { 
+		$category = $this->pos_model->getCategories();
+		if($category){
+			for ($count=0; $count < count($category); $count++) { 
                  
 			$cats .= "<li><button id=\"category\" type=\"button\" value='".$category[$count]['category_id']."' class=\"gray\">
 			".$category[$count]['description']."</button></li>";
+
+        		}
+		}
 			
+		if($this->input->get('per_page')) {
 
-        }
-		//////////////////////////////////////	
-		
-	if($this->input->get('per_page')) {
-
-		echo $cats ;
-	} else {
-		return $cats;
-	}
+			echo $cats ;
+		} else {
+			return $cats;
+		}
     
 		
-   }
+   	}
    
-   function ajaxproducts() {
+   	function ajaxproducts() {
 
    		if($this->input->get('category_id')) { $category_id = $this->input->get('category_id'); } 
    		//else { $category_id = DCAT; }

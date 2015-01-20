@@ -77,7 +77,7 @@
         </div>
         <div id="lefttop">
           <div style="clear:left;"></div>
-          <input value="<?php echo $customer->name; ?>" id="customer" name="customer" class="customer" style="width:330px;float: left;" placeholder="Customer - Type 2 char for suggestions">
+          <input value="<?php echo $pos_customer; ?>" id="customer" name="customer" class="customer" style="width:330px;float: left;" placeholder="Customer - Type 2 char for suggestions">
           <a href="#" id="showCustomerModal" role="button" data-toggle="modal" style="float: right;width:22px;height:22px; margin-top:-1px; border: 0;"><img src="assets/pos/images/plus-icon.png" alt="+"></a>
           
           <div style="clear:left;"></div>
@@ -116,31 +116,7 @@
               <td style="padding-left:10px; text-align:left;"><?php echo $this->lang->line('total_x_tax'); ?></td>
               <td style="text-align:right; padding-right:10px; font-size: 14px; font-weight:bold;"><span id="total">0.00</span></td>
             </tr>
-	<!--
-            <?php if(TAX1 || TAX2) { ?>
-            <tr>
-              <?php if(TAX1 && !TAX2) { ?>
-              <td></td>
-              <td></td>
-              <td style="padding-left:10px; text-align:left; font-weight:normal;"><?php echo $this->lang->line('tax1'); ?></td>
-              <td style="text-align:right; padding-right:10px; font-size: 14px; font-weight:bold;"><span id="tax">0.00</span></td>
-              <?php } ?>
-              <?php if(TAX2 && !TAX1) { ?>
-              <td></td>
-              <td></td>
-              <td style="padding-left:10px; text-align:left; font-weight:normal;"><?php echo $tax_name2; ?></td>
-              <td style="text-align:right; padding-right:10px; font-size: 14px; font-weight:bold;"><span id="tax2">0.00</span></td>
-              <?php } ?>
-              <?php if(TAX1 && TAX2) { ?>
-              <td style="padding-left:10px; text-align:left; font-weight:normal;"><?php echo $this->lang->line('tax1'); ?></td>
-              <td style="text-align:right; padding-right:10px; font-size: 14px; font-weight:bold;"><span id="tax">0.00</span></td>
-              <td style="padding-left:10px; text-align:left; font-weight:normal;"><?php echo $tax_name2; ?></td>
-              <td style="text-align:right; padding-right:10px; font-size: 14px; font-weight:bold;"><span id="tax2">0.00</span></td>
-              <?php } ?>
-            </tr>
-            <?php } ?>
-
-		-->
+	
             <tr>
               <td style="padding-left:10px; text-align:left; " colspan="2"><?php echo $this->lang->line('discount'); ?></td>
               <td style="text-align:right; padding-right:10px; font-weight:bold;" colspan="2"><span id="ds">0.00</span></td>
