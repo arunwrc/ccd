@@ -1332,7 +1332,7 @@ $("#cancel").click(function() {
 $("#payment").click(function() {
 	
 	$("#paymentdiv").empty();
-	var twt = (total + tax_value + tax_value2) - total_discount;
+	var twt = total - total_discount;
 	count = count - 1;
 	if(isNaN(twt) || twt == 0) {  
 		bootbox.alert('<?php echo $this->lang->line('x_total'); ?>');  
