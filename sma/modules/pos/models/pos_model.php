@@ -132,7 +132,7 @@ class Pos_model extends CI_Model
         return false;
    }
    
-   public function categories_count() {
+    public function categories_count() {
         return $this->db->count_all("categories");
     }
 
@@ -1035,6 +1035,19 @@ class Pos_model extends CI_Model
 			return $category;
 		else
 			return false;
+	}
+
+	public function getCategoriesCount()
+	{
+		$method = isset($_GET['m']) ? $_GET['m'] : 'g'; 
+		$action = isset($_GET['a']) ? $_GET['a'] : 'categorycount'; 
+		$record = isset($_GET['r']) ? $_GET['r'] : '';
+		$filter = isset($_GET['f']) ? $_GET['f'] : false;
+		$count = $this->fabridge->open($method, $action, $record, $filter, $data); 
+		if($count)
+			return $count[0];
+		else
+			return 0;
 	}
 
 

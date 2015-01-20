@@ -428,11 +428,6 @@ class Customers extends MX_Controller {
 	
 		$rows = $this->customers_model->getCustomerNames($term);
 	
-		/*$json_array = array();
-		foreach ($rows as $row)
-			 array_push($json_array, $row->name);
-	
-		echo json_encode($json_array);*/ 
 		echo json_encode($rows);
 	}
 	

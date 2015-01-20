@@ -318,39 +318,41 @@ echo "</div><button id=\"previous\" type=\"button\" class=\"blue\" style='z-inde
 <script type="text/javascript">
 $(document).ready(function(){
 	
-				var count = 1;
-				var total = 0; var total_discount = 0;
-				var an = 1; var discount_method = <?php echo DISCOUNT_METHOD; ?>;
-				<?php if(DISCOUNT_OPTION == 1) { ?>
-				var discount = <?php echo $discount_rate; ?>;
-				var discount_type = <?php echo $discount_type; ?>;
-				<?php } ?>
-				<?php if(DISCOUNT_OPTION == 2) { ?>
-				var discount2 = <?php echo $discount_rate2; ?>;
-				var discount_type2 = <?php echo $discount_type2; ?>;
-				<?php } ?>
-				<?php if(TAX1) { ?>
-				var tax_rate = <?php echo $tax_rate; ?>;
-				var tax_type = <?php echo $tax_type; ?>;
-				<?php } ?>
-				var tax_value = 0;
-				<?php if(TAX2) { ?>
-				var tax_rate2 = <?php echo $tax_rate2; ?>;
-				var tax_type2 = <?php echo $tax_type2; ?>;
-				<?php } ?>
-				var tax_value2 = 0;
-				var ids = new Array();
-				var p_page = 0;
-				var page = 0;
-				var cat_id = <?php echo DCAT; ?>;
-		   		var sproduct_name;
-				var slast; var old_val; var new_val;
-				var total_cp = <?php echo $total_cp; ?>;
-				var total_cats = <?php echo $total_cats; ?>;
-				var new_tax_rate; var new_tax_type; var old_tax_rate; var old_tax_type;
-				var new_discount_rate; var new_discount_type; var old_discount_rate; var old_discount_type;
-				add_row();
-				loadProducts();
+	var count = 1;
+	var total = 0; var total_discount = 0;
+	var an = 1; 
+
+	var discount_method = <?php echo DISCOUNT_METHOD; ?>;
+	<?php if(DISCOUNT_OPTION == 1) { ?>
+	var discount = <?php echo $discount_rate; ?>;
+	var discount_type = <?php echo $discount_type; ?>;
+	<?php } ?>
+	<?php if(DISCOUNT_OPTION == 2) { ?>
+	var discount2 = <?php echo $discount_rate2; ?>;
+	var discount_type2 = <?php echo $discount_type2; ?>;
+	<?php } ?>
+	<?php if(TAX1) { ?>
+	var tax_rate = <?php echo $tax_rate; ?>;
+	var tax_type = <?php echo $tax_type; ?>;
+	<?php } ?>
+	var tax_value = 0;
+	<?php if(TAX2) { ?>
+	var tax_rate2 = <?php echo $tax_rate2; ?>;
+	var tax_type2 = <?php echo $tax_type2; ?>;
+	<?php } ?>
+	var tax_value2 = 0;
+	var ids = new Array();
+	var p_page = 0;
+	var page = 0;
+	var cat_id = <?php echo DCAT; ?>;
+	var sproduct_name;
+	var slast; var old_val; var new_val;
+	var total_cp = 0;
+	var total_cats = <?php echo $total_cats; ?>;
+	var new_tax_rate; var new_tax_type; var old_tax_rate; var old_tax_type;
+	var new_discount_rate; var new_discount_type; var old_discount_rate; var old_discount_type;
+	add_row();
+	loadProducts();
 		 
 function loadProducts() {
 $('button[id^="category"]').click(function () {

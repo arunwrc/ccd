@@ -207,12 +207,9 @@ class Pos extends MX_Controller {
 		$data['success_message'] = $this->session->flashdata('success_message');
 			
 
-		//$data['customer'] = $this->pos_model->getCustomerById(DCUS);
-		$data['biller'] = $this->pos_model->getBillerByID(DBILLER);
-		$data['discounts'] = $this->pos_model->getAllDiscounts();
-		$data['tax_rates'] = $this->pos_model->getAllTaxRates();
-		$data["total_cats"] = $this->pos_model->categories_count();
-		$data["total_cp"] = $this->pos_model->products_count(DCAT);
+		$data['pos_customer'] = $this->pos_model->getPOSCustomer($this->session->userdata('pos_customer'));
+		$data["total_cats"] = $this->pos_model->getCategoriesCount();
+
 		if(DISCOUNT_OPTION == 1) { 
 			$discount_details = $this->pos_model->getDiscountByID(DEFAULT_DISCOUNT);
 
@@ -239,10 +236,10 @@ class Pos extends MX_Controller {
 		$data['tax_name2'] = $tax_rate2_details->name;
 		$data['tax_type2'] = $tax_rate2_details->type;
 		}
-		$data['products'] = "";//$this->ajaxproducts(DCAT);
+		$data['products'] = "";
 		$data['categories'] = $this->poscategories();
 		
-		$data['pos_customer'] = $this->pos_model->getPOSCustomer($this->session->userdata('pos_customer'));
+		
 
 		$data['page_title'] = $this->lang->line("pos_module");
 
